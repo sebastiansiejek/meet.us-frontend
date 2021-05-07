@@ -9,6 +9,8 @@
     "pre-commit": "lint-staged"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.6.2",
+    "antd": "^4.15.4",
     "next": "latest",
     "prettier": "^2.2.1",
     "react": "^17.0.1",
