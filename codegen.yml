@@ -1,0 +1,16 @@
+overwrite: true
+schema:
+  - ${API_ENDPOINT}:
+documents: './graphql/**/*.graphql'
+generates:
+  generated/gqlQueries.ts:
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-react-query'
+    config:
+      fetcher:
+        endpoint: ${API_ENDPOINT}
+        fetchParams:
+          headers:
+            'Content-Type': 'application/json'
