@@ -2,8 +2,8 @@
   "name": "meet.us",
   "version": "1.0.0",
   "scripts": {
-    "dev": "next -p 3001",
-    "build": "next build",
+    "dev": "yarn graphql:codegen && next -p 3001",
+    "build": "yarn graphql:codegen && next build",
     "start": "next start",
     "type-check": "tsc",
     "pre-commit": "lint-staged",
