@@ -4,6 +4,7 @@ import { Hydrate } from 'react-query/hydration';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { Provider } from 'react-redux';
 import store from 'store/store';
+import { appWithTranslation } from 'next-i18next';
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   const queryClient = new QueryClient();
@@ -20,4 +21,4 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   );
 };
 
-export default MyApp;
+export default appWithTranslation(MyApp);
