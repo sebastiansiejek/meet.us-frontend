@@ -10,7 +10,5 @@ generates:
       - 'typescript-react-query'
     config:
       fetcher:
-        endpoint: ${API_ENDPOINT}
-        fetchParams:
-          headers:
-            'Content-Type': 'application/json'
+        isReactHook: true
+        func: '../utils/useFetchData#useFetchData'
