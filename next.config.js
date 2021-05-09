@@ -15,4 +15,9 @@ module.exports = withPlugins([
       },
     }),
   ],
+  {
+    env: {
+      API_ENDPOINT: process.env.API_ENDPOINT,
+    },
+  },
 ]);
