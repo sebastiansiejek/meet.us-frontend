@@ -23,8 +23,11 @@ export const useFetchData = <TData, TVariables>(
     const json = await res.json();
 
     if (json.errors) {
-      const { message } = json.errors[0] || 'Error..';
-      throw new Error(message);
+      const error = new Error(json.errors[0].message);
+      throw {
+        error,
+        ...{ data: json.errors[0].extensions.exception.response },
+      };
     }
 
     return json.data;
