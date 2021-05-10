@@ -5,6 +5,7 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { Provider } from 'react-redux';
 import store from 'store/store';
 import { appWithTranslation } from 'next-i18next';
+import GlobalStyles from 'styles/GlobalStyles';
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   const queryClient = new QueryClient();
@@ -13,6 +14,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
+          <GlobalStyles />
           <Component {...pageProps} />
         </Hydrate>
         <ReactQueryDevtools />

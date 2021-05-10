@@ -8,7 +8,9 @@ module.exports = withPlugins([
     withCSS,
     withLess({
       lessLoaderOptions: {
-        modifyVars: {},
+        modifyVars: {
+          'primary-color': '#2A9D8F',
+        },
         javascriptEnabled: true,
       },
       webpack(config) {
