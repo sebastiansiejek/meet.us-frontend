@@ -1,0 +1,14 @@
+overwrite: true
+schema:
+  - ${API_ENDPOINT}:
+documents: './graphql/**/*.graphql'
+generates:
+  generated/gqlQueries.ts:
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-react-query'
+    config:
+      fetcher:
+        isReactHook: true
+        func: '../utils/useFetchData#useFetchData'
