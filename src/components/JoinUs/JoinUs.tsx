@@ -14,12 +14,12 @@ const JoinUs: React.FunctionComponent<JoinUsProps> = ({}) => {
 
   return (
     <Container>
-      <Row gutter={32}>
-        <Col span={12}>
+      <Row gutter={[32, 32]}>
+        <Col lg={12}>
           <Title level={2}>{t('Sign in')}</Title>
           <Login />
         </Col>
-        <Col span={12}>
+        <Col lg={12}>
           <Title level={2}>{t('Sign up')}</Title>
           <Register />
         </Col>
