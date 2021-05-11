@@ -10,9 +10,13 @@ const FormOutput: React.FunctionComponent<FormOutputProps> = ({ error }) => {
   return (
     <>
       {error?.data?.message &&
+        Array.isArray(error.data.message) &&
         error.data.message.map((error) => (
-          <Alert message={error} type="error" key={error}></Alert>
+          <Alert message={error} type="error" key={error} />
         ))}
+      {error?.data?.message && !Array.isArray(error.data.message) && (
+        <Alert message={error.data.message} type="error" />
+      )}
     </>
   );
 };

@@ -5,13 +5,15 @@ import { setToken } from 'src/store/slices/userSlice';
 import { Form, Input, Button } from 'antd';
 import { MailTwoTone, LockTwoTone } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
+import FormOutput from '../Form/FormOutput';
+import { IApiError } from 'src/types/IApiError';
 
 export interface LoginProps {}
 
 const Login: React.FunctionComponent<LoginProps> = ({}) => {
   const dispatch = useDispatch();
 
-  const { mutate, isLoading } = useLoginMutation({
+  const { mutate, isLoading, error } = useLoginMutation({
     onSuccess: ({ login }) => {
       dispatch(
         setToken({
@@ -52,6 +54,7 @@ const Login: React.FunctionComponent<LoginProps> = ({}) => {
       >
         <Input.Password placeholder={t('Password')} prefix={<LockTwoTone />} />
       </Form.Item>
+      <FormOutput error={error as IApiError} />
       <Button
         type="primary"
         htmlType="submit"
