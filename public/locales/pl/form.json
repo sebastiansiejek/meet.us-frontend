@@ -1,6 +1,8 @@
 {
-    "Please input your login": "Wpisz login",
-    "Please input your password": "Wpisz hasło",
+    "Please input your login": "Podaj login",
+    "Please input your password": "Podaj hasło",
     "Password": "Hasło",
-    "Sign in": "Zaloguj się"
+    "Sign in": "Zaloguj się",
+    "Sign up": "Zarejestruj się",
+    "Please input your email": "Podaj email"
 }

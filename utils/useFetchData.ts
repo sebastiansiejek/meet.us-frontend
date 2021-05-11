@@ -1,4 +1,3 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
 import { IStore } from 'store/store';
 
@@ -23,7 +22,7 @@ export const useFetchData = <TData, TVariables>(
     const json = await res.json();
 
     if (json.errors) {
-      const error = new Error(json.errors[0].message);
+      const error: Error = new Error(json.errors[0].message);
       throw {
         error,
         ...{ data: json.errors[0].extensions.exception.response },

@@ -1,9 +1,11 @@
 import Login from 'components/Login';
+import Register from 'components/Register';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 const IndexPage = () => (
   <>
     <Login />
+    <Register />
   </>
 );
 
