@@ -1,6 +1,11 @@
+import JoinUs from 'src/components/JoinUs/JoinUs';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-const IndexPage = () => <></>;
+const IndexPage = () => (
+  <>
+    <JoinUs />
+  </>
+);
 
 export const getStaticProps = async ({ locale }: any) => ({
   props: {

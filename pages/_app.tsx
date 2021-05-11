@@ -6,7 +6,6 @@ import { Provider } from 'react-redux';
 import store from 'src/store/store';
 import { appWithTranslation } from 'next-i18next';
 import GlobalStyles from 'src/styles/GlobalStyles';
-import SwitchTemplate from 'src/components/SwitchTemplate';
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   const queryClient = new QueryClient();
@@ -16,7 +15,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
           <GlobalStyles />
-          <SwitchTemplate Component={Component} pageProps={pageProps} />
+          <Component {...pageProps} />
         </Hydrate>
         <ReactQueryDevtools />
       </QueryClientProvider>
