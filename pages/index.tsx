@@ -1,4 +1,4 @@
-import JoinUs from 'components/JoinUs/JoinUs';
+import JoinUs from 'src/components/JoinUs/JoinUs';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 const IndexPage = () => (

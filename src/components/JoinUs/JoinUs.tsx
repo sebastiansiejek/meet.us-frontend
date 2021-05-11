@@ -1,8 +1,8 @@
-import Login from 'components/Login';
-import Register from 'components/Register';
+import Login from 'src/components/Login';
+import Register from 'src/components/Register';
 import React from 'react';
 import { Row, Col, Typography } from 'antd';
-import Container from 'components/Container';
+import Container from 'src/components/Container';
 import { useTranslation } from 'react-i18next';
 
 export interface JoinUsProps {}

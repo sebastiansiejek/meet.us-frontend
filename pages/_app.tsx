@@ -3,9 +3,9 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { Hydrate } from 'react-query/hydration';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { Provider } from 'react-redux';
-import store from 'store/store';
+import store from 'src/store/store';
 import { appWithTranslation } from 'next-i18next';
-import GlobalStyles from 'styles/GlobalStyles';
+import GlobalStyles from 'src/styles/GlobalStyles';
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   const queryClient = new QueryClient();

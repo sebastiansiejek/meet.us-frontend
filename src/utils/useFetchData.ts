@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { IStore } from 'store/store';
+import { IStore } from 'src/store/store';
 
 export const useFetchData = <TData, TVariables>(
   query: string,

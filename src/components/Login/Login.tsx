@@ -1,19 +1,28 @@
 import React from 'react';
-import { Form, Input, Button, Alert } from 'antd';
+import { useLoginMutation } from 'src/generated/gqlQueries';
+import { useDispatch } from 'react-redux';
+import { setToken } from 'src/store/slices/userSlice';
+import { Form, Input, Button } from 'antd';
 import { MailTwoTone, LockTwoTone } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
-import { useCreateUserMutation } from 'generated/gqlQueries';
-import FormOutput from 'components/Form/FormOutput';
-import { IApiError } from 'src/types/IApiError';
 
-export interface RegisterProps {}
+export interface LoginProps {}
 
-const Register: React.FunctionComponent<RegisterProps> = ({}) => {
-  const { t } = useTranslation('form');
+const Login: React.FunctionComponent<LoginProps> = ({}) => {
+  const dispatch = useDispatch();
 
-  const { mutate, error } = useCreateUserMutation({
-    onSuccess: () => {},
+  const { mutate } = useLoginMutation({
+    onSuccess: ({ login }) => {
+      dispatch(
+        setToken({
+          token: login.access_token,
+        }),
+      );
+    },
+    onError: (error) => console.log(error),
   });
+
+  const { t } = useTranslation('form');
 
   return (
     <Form
@@ -28,12 +37,12 @@ const Register: React.FunctionComponent<RegisterProps> = ({}) => {
     >
       <Form.Item
         name="login"
-        rules={[{ required: true, message: t('Please input your email') }]}
+        rules={[{ required: true, message: t('Please input your login') }]}
       >
         <Input
-          placeholder={t('E-mail')}
-          autoComplete="email"
-          type="email"
+          placeholder={t('Login')}
+          autoComplete="username"
+          type="text"
           prefix={<MailTwoTone />}
         />
       </Form.Item>
@@ -43,7 +52,6 @@ const Register: React.FunctionComponent<RegisterProps> = ({}) => {
       >
         <Input.Password placeholder={t('Password')} prefix={<LockTwoTone />} />
       </Form.Item>
-      <FormOutput error={error as IApiError} />
       <Button
         type="primary"
         htmlType="submit"
@@ -52,10 +60,10 @@ const Register: React.FunctionComponent<RegisterProps> = ({}) => {
           margin: '0 auto',
         }}
       >
-        {t('Sign up')}
+        {t('Sign in')}
       </Button>
     </Form>
   );
 };
 
-export default Register;
+export default Login;
