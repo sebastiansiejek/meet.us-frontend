@@ -1,14 +1,13 @@
 import React from 'react';
-import { Layout, Typography } from 'antd';
+import { Layout } from 'antd';
 import { Menu } from 'antd';
+import Logo from '../Logo';
 
 const { Header } = Layout;
 
 export interface NavbarProps {}
 
 const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
-  const { Title } = Typography;
-
   return (
     <Header
       style={{
@@ -16,34 +15,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
         alignItems: 'center',
       }}
     >
-      <Title
-        level={2}
-        style={{
-          marginRight: 'auto',
-        }}
-      >
-        <span
-          style={{
-            color: '#2A9D8F',
-          }}
-        >
-          meet
-        </span>
-        <span
-          style={{
-            color: '#E9C46A',
-          }}
-        >
-          .
-        </span>
-        <span
-          style={{
-            color: '#E76F51',
-          }}
-        >
-          us
-        </span>
-      </Title>
+      <Logo />
       <Menu
         style={{
           display: 'flex',
