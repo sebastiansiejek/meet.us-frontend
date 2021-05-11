@@ -23,6 +23,10 @@ const GlobalStyles = createGlobalStyle`
   form .anticon path {
     fill: #2A9D8F;
   }
+
+  form .anticon.anticon-loading path {
+    fill: #fff;
+  }
 `;
 
 export default GlobalStyles;

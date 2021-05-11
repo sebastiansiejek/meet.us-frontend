@@ -11,7 +11,7 @@ export interface RegisterProps {}
 const Register: React.FunctionComponent<RegisterProps> = ({}) => {
   const { t } = useTranslation('form');
 
-  const { mutate, error } = useCreateUserMutation({
+  const { mutate, error, isLoading } = useCreateUserMutation({
     onSuccess: () => {},
   });
 
@@ -47,6 +47,7 @@ const Register: React.FunctionComponent<RegisterProps> = ({}) => {
       <Button
         type="primary"
         htmlType="submit"
+        loading={isLoading}
         style={{
           display: 'block',
           margin: '0 auto',

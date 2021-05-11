@@ -11,7 +11,7 @@ export interface LoginProps {}
 const Login: React.FunctionComponent<LoginProps> = ({}) => {
   const dispatch = useDispatch();
 
-  const { mutate } = useLoginMutation({
+  const { mutate, isLoading } = useLoginMutation({
     onSuccess: ({ login }) => {
       dispatch(
         setToken({
@@ -55,6 +55,7 @@ const Login: React.FunctionComponent<LoginProps> = ({}) => {
       <Button
         type="primary"
         htmlType="submit"
+        loading={isLoading}
         style={{
           display: 'block',
           margin: '0 auto',
