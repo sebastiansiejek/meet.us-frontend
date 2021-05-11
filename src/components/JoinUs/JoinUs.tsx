@@ -14,7 +14,7 @@ const JoinUs: React.FunctionComponent<JoinUsProps> = ({}) => {
 
   return (
     <Container>
-      <Row gutter={[32, 32]}>
+      <Row gutter={[32, 32]} justify="center">
         <Col lg={12}>
           <Title level={2}>{t('Sign in')}</Title>
           <Login />
