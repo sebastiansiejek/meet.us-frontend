@@ -2,12 +2,16 @@ import React from 'react';
 import { Layout } from 'antd';
 import { Menu } from 'antd';
 import Logo from '../Logo';
+import Link from 'next/link';
+import { useTranslation } from 'react-i18next';
 
 const { Header } = Layout;
 
 export interface NavbarProps {}
 
 const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
+  const { t } = useTranslation();
+
   return (
     <Header
       style={{
@@ -22,9 +26,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
         }}
         theme="dark"
         mode="horizontal"
-      >
-        <Menu.Item>Menu item</Menu.Item>
-      </Menu>
+      ></Menu>
     </Header>
   );
 };
