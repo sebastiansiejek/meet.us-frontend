@@ -1,8 +1,8 @@
+import Link from 'next/link';
+import Logo from '../Logo';
 import React from 'react';
 import { Layout } from 'antd';
 import { Menu } from 'antd';
-import Logo from '../Logo';
-import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 
 const { Header } = Layout;
@@ -19,7 +19,17 @@ const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
         alignItems: 'center',
       }}
     >
-      <Logo />
+      <div
+        style={{
+          marginRight: 'auto',
+        }}
+      >
+        <Link href="/">
+          <div>
+            <Logo />
+          </div>
+        </Link>
+      </div>
       <Menu
         style={{
           display: 'flex',
