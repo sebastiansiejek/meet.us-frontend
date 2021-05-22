@@ -7,12 +7,7 @@ export interface LogoProps {}
 
 const Logo: React.FunctionComponent<LogoProps> = ({}) => {
   return (
-    <Title
-      level={2}
-      style={{
-        marginRight: 'auto',
-      }}
-    >
+    <Title level={2}>
       <span
         style={{
           color: '#2A9D8F',
