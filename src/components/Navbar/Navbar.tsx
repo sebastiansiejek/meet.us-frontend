@@ -26,7 +26,11 @@ const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
         }}
         theme="dark"
         mode="horizontal"
-      ></Menu>
+      >
+        <Menu.Item>
+          <Link href="/join-to-us">{t('Join to us')}</Link>
+        </Menu.Item>
+      </Menu>
     </Header>
   );
 };
