@@ -3,7 +3,7 @@ schema:
   - ${API_ENDPOINT}:
 documents: './src/graphql/**/*.graphql'
 generates:
-  generated/gqlQueries.ts:
+  src/generated/gqlQueries.ts:
     plugins:
       - 'typescript'
       - 'typescript-operations'
