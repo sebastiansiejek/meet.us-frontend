@@ -1,0 +1,7 @@
+query Events {
+  events {
+    id
+    title
+    description
+  }
+}
