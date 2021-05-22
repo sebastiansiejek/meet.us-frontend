@@ -1,6 +1,5 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
-import { IStore } from 'store/store';
+import { IStore } from 'src/store/store';
 
 export const useFetchData = <TData, TVariables>(
   query: string,
@@ -23,8 +22,11 @@ export const useFetchData = <TData, TVariables>(
     const json = await res.json();
 
     if (json.errors) {
-      const { message } = json.errors[0] || 'Error..';
-      throw new Error(message);
+      const error: Error = new Error(json.errors[0].message);
+      throw {
+        error,
+        ...{ data: json.errors[0].extensions.exception.response },
+      };
     }
 
     return json.data;

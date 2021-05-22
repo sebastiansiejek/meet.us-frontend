@@ -9,3 +9,9 @@ mutation Login($email: String!, $password: String!) {
     access_token
   }
 }
+
+mutation CreateUser($email: String!, $password: String!) {
+  createUser(createUserInput: { email: $email, password: $password }) {
+    id
+  }
+}

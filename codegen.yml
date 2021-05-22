@@ -1,7 +1,7 @@
 overwrite: true
 schema:
   - ${API_ENDPOINT}:
-documents: './graphql/**/*.graphql'
+documents: './src/graphql/**/*.graphql'
 generates:
   generated/gqlQueries.ts:
     plugins:
