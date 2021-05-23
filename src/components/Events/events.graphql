@@ -5,3 +5,18 @@ query Events {
     description
   }
 }
+
+query SingleEventPage($id: String!) {
+  event(id: $id) {
+    id
+    title
+    description
+    startDate
+    endDate
+    maxParticipants
+    user {
+      id
+      firstName
+    }
+  }
+}

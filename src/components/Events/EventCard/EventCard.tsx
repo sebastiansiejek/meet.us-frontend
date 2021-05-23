@@ -1,4 +1,5 @@
 import { Card } from 'antd';
+import Link from 'next/link';
 import React from 'react';
 import { Event } from 'src/generated/gqlQueries';
 import { getExcerpt } from 'src/utils/excerpt';
@@ -10,12 +11,18 @@ export interface EventCardProps {
 const { Meta } = Card;
 
 const EventCard: React.FunctionComponent<EventCardProps> = ({ event }) => {
-  const { title, description } = event;
+  const { title, description, id } = event;
 
   return (
-    <Card title={title}>
-      {description && <Meta description={getExcerpt(description, 50)}></Meta>}
-    </Card>
+    <Link href={`events/${id}`}>
+      <a>
+        <Card title={title}>
+          {description && (
+            <Meta description={getExcerpt(description, 50)}></Meta>
+          )}
+        </Card>
+      </a>
+    </Link>
   );
 };
 

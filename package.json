@@ -15,6 +15,7 @@
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-less": "^1.0.1",
     "antd": "^4.9.2",
+    "dayjs": "^1.10.4",
     "dotenv": "^9.0.0",
     "graphql": "^15.5.0",
     "less": "^4.1.1",
