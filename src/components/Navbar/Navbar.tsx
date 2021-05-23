@@ -25,9 +25,11 @@ const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
         }}
       >
         <Link href="/">
-          <div>
-            <Logo />
-          </div>
+          <a>
+            <div>
+              <Logo />
+            </div>
+          </a>
         </Link>
       </div>
       <Menu
