@@ -17,6 +17,8 @@ query SingleEventPage($id: String!) {
     user {
       id
       firstName
+      lastname
+      nickname
     }
   }
 }
