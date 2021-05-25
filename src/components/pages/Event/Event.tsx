@@ -1,11 +1,11 @@
 import Container from 'src/components/Container';
-import dayjs from 'dayjs';
-import { Typography } from 'antd';
-import { ClockCircleTwoTone, UsergroupAddOutlined } from '@ant-design/icons';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import UserCard from 'src/components/User/UserCard';
-import { useTranslation } from 'react-i18next';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import { ClockCircleTwoTone, UsergroupAddOutlined } from '@ant-design/icons';
 import { SingleEventPageQuery } from 'src/generated/gqlQueries';
+import { Typography } from 'antd';
+import { useTranslation } from 'react-i18next';
 
 export interface EventProps {
   data: SingleEventPageQuery;

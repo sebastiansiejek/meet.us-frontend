@@ -9,6 +9,7 @@ import GlobalStyles from 'src/styles/GlobalStyles';
 import Navbar from 'src/components/Navbar';
 import NProgress from 'nprogress';
 import Router from 'next/router';
+import Main from 'src/components/templates/Main';
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   NProgress.configure({ showSpinner: false });
@@ -24,7 +25,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
         <Hydrate state={pageProps.dehydratedState}>
           <GlobalStyles />
           <Navbar />
-          <Component {...pageProps} />
+          <Main Component={Component} pageProps={pageProps} />
         </Hydrate>
         <ReactQueryDevtools />
       </QueryClientProvider>

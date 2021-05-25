@@ -23,7 +23,7 @@ const EventCard: React.FunctionComponent<EventCardProps> = ({ event }) => {
   const { Meta } = Card;
 
   return (
-    <Link href={`events/${id}`}>
+    <Link href={`events/${id}`} passHref>
       <EventCardStyled>
         <Card title={title}>
           {description && (
