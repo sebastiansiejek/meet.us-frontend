@@ -1,19 +1,22 @@
 import React from 'react';
-import { Form, Input, Button, Alert } from 'antd';
+import { Form, Input, Button } from 'antd';
 import { MailTwoTone, LockTwoTone } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 import { useCreateUserMutation } from 'src/generated/gqlQueries';
 import FormOutput from 'src/components/Form/FormOutput';
 import { IApiError } from 'src/types/IApiError';
+import { useLogin } from 'src/hooks/useLogin';
 
 export interface RegisterProps {}
 
 const Register: React.FunctionComponent<RegisterProps> = ({}) => {
   const { t } = useTranslation('form');
 
-  const { mutate, error, isLoading } = useCreateUserMutation({
+  const { mutate, error, isLoading, data } = useCreateUserMutation({
     onSuccess: () => {},
   });
+
+  const loginMutation = useLogin();
 
   return (
     <Form
@@ -24,6 +27,13 @@ const Register: React.FunctionComponent<RegisterProps> = ({}) => {
           email: login,
           password,
         });
+
+        // data?.createUser.id {
+        //   loginMutation.mutate({
+        //     email: login,
+        //     password,
+        //   });
+        // }
       }}
     >
       <Form.Item
