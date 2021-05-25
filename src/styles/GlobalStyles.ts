@@ -1,5 +1,6 @@
 import 'antd/dist/antd.less';
 import 'antd/lib/style/themes/default.less';
+import 'nprogress/nprogress.css';
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
@@ -26,6 +27,12 @@ const GlobalStyles = createGlobalStyle`
 
   form .anticon.anticon-loading path {
     fill: #fff;
+  }
+
+  #nprogress {
+    .bar {
+      background: #2A9D8F;
+    }
   }
 `;
 

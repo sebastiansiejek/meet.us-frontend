@@ -7,8 +7,15 @@ import store from 'src/store/store';
 import { appWithTranslation } from 'next-i18next';
 import GlobalStyles from 'src/styles/GlobalStyles';
 import Navbar from 'src/components/Navbar';
+import NProgress from 'nprogress';
+import Router from 'next/router';
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
+  NProgress.configure({ showSpinner: false });
+  Router.events.on('routeChangeStart', () => NProgress.start());
+  Router.events.on('routeChangeComplete', () => NProgress.done());
+  Router.events.on('routeChangeError', () => NProgress.done());
+
   const queryClient = new QueryClient();
 
   return (
