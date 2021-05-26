@@ -21,12 +21,20 @@ const UserCard: React.FunctionComponent<UserCardProps> = ({
     <Link href={`/users/${id}`}>
       <a>
         <Card>
-          <Avatar
-            size={64}
-            icon={<UserOutlined />}
-            style={{ marginRight: '1rem' }}
-          />
-          <strong>{`${firstName} "${nickname}" ${lastName}`}</strong>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              width: '100%',
+            }}
+          >
+            <Avatar
+              size={64}
+              icon={<UserOutlined />}
+              style={{ marginRight: '1rem' }}
+            />
+            <strong>{`${firstName} "${nickname}" ${lastName}`}</strong>
+          </div>
         </Card>
       </a>
     </Link>
