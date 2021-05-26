@@ -58,10 +58,7 @@ const Register: React.FunctionComponent<RegisterProps> = ({}) => {
         type="primary"
         htmlType="submit"
         loading={isLoading}
-        style={{
-          display: 'block',
-          margin: '0 auto',
-        }}
+        className="block mx-auto"
       >
         {t('Sign up')}
       </Button>

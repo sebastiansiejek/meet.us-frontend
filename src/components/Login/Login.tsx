@@ -45,10 +45,7 @@ const Login: React.FunctionComponent<LoginProps> = ({}) => {
         type="primary"
         htmlType="submit"
         loading={isLoading}
-        style={{
-          display: 'block',
-          margin: '0 auto',
-        }}
+        className="block mx-auto"
       >
         {t('Sign in')}
       </Button>

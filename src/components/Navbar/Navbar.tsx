@@ -13,17 +13,8 @@ const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
   const { t } = useTranslation();
 
   return (
-    <Header
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-      }}
-    >
-      <div
-        style={{
-          marginRight: 'auto',
-        }}
-      >
+    <Header className="flex items-center">
+      <div className="mr-auto">
         <Link href="/">
           <a>
             <div>
@@ -32,13 +23,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
           </a>
         </Link>
       </div>
-      <Menu
-        style={{
-          display: 'flex',
-        }}
-        theme="dark"
-        mode="horizontal"
-      >
+      <Menu className="flex" theme="dark" mode="horizontal">
         <Menu.Item>
           <Link href="/join-to-us">{t('Join to us')}</Link>
         </Menu.Item>

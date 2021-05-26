@@ -10,6 +10,7 @@ import Navbar from 'src/components/Navbar';
 import NProgress from 'nprogress';
 import Router from 'next/router';
 import Main from 'src/components/templates/Main';
+import 'tailwindcss/tailwind.css';
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   NProgress.configure({ showSpinner: false });

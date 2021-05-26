@@ -41,59 +41,29 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
   return (
     <Container>
       <Row gutter={16}>
-        <Col
-          span={24}
-          md={16}
-          style={{
-            marginTop: '1.6rem',
-          }}
-        >
-          <Card
-            style={{
-              height: '100%',
-            }}
-          >
+        <Col span={24} md={16} className="mt-7">
+          <Card className="h-full">
             <Title>{title}</Title>
             <Paragraph>{description}</Paragraph>
           </Card>
         </Col>
-        <Col
-          span={24}
-          md={8}
-          style={{
-            marginTop: '1.6rem',
-          }}
-        >
-          <Card
-            style={{
-              height: '100%',
-            }}
-          >
-            <Paragraph>
-              <ClockCircleTwoTone
-                style={{
-                  marginRight: '0.6rem',
-                }}
-              />
+        <Col span={24} md={8} className="mt-7">
+          <Card className="w-full">
+            <Paragraph className="flex items-center">
+              <ClockCircleTwoTone className="mr-3" />
               {fromNow}
             </Paragraph>
-            <Paragraph>
-              <CalendarTwoTone
-                style={{
-                  marginRight: '0.6rem',
-                }}
-              />
-              <time>{startDateFormat}</time>
-              <span> - </span>
-              <time>{endDateFormat}</time>
+            <Paragraph className="flex items-center">
+              <CalendarTwoTone className="mr-3" />
+              <div>
+                <time>{startDateFormat}</time>
+                <span> - </span>
+                <time>{endDateFormat}</time>
+              </div>
             </Paragraph>
             {maxParticipants && (
-              <Paragraph>
-                <UsergroupAddOutlined
-                  style={{
-                    marginRight: '0.6rem',
-                  }}
-                />
+              <Paragraph className="flex items-center">
+                <UsergroupAddOutlined className="mr-3 mb-0" />
                 {t('Maximum members')}: {maxParticipants}
               </Paragraph>
             )}
@@ -101,12 +71,7 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
         </Col>
       </Row>
       <Row gutter={16}>
-        <Col
-          span={24}
-          style={{
-            marginTop: '1.6rem',
-          }}
-        >
+        <Col span={24} className="mt-7">
           <UserCard
             nickname={nickname}
             firstName={firstName}
