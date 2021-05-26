@@ -11,10 +11,12 @@ export interface EventCardProps {
 
 const EventCardStyled = styled.a`
   display: block;
-  transition: transform 0.3s;
+  transition-property: box-shadow, transform;
+  transition-duration: 0.3s;
 
   &:hover {
     transform: translateY(-0.5rem);
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   }
 `;
 
