@@ -12,9 +12,7 @@ export interface RegisterProps {}
 const Register: React.FunctionComponent<RegisterProps> = ({}) => {
   const { t } = useTranslation('form');
 
-  const { mutate, error, isLoading, data } = useCreateUserMutation({
-    onSuccess: () => {},
-  });
+  const { error, isLoading, mutateAsync } = useCreateUserMutation();
 
   const loginMutation = useLogin();
 
@@ -23,17 +21,15 @@ const Register: React.FunctionComponent<RegisterProps> = ({}) => {
       onFinish={(formData) => {
         const { login, password } = formData;
 
-        mutate({
+        mutateAsync({
           email: login,
           password,
+        }).then(() => {
+          loginMutation.mutateAsync({
+            email: login,
+            password,
+          });
         });
-
-        // data?.createUser.id {
-        //   loginMutation.mutate({
-        //     email: login,
-        //     password,
-        //   });
-        // }
       }}
     >
       <Form.Item
