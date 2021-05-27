@@ -1,2 +1,2 @@
 export { default } from './ActivateUser';
-export * from './ActivateUser.test';
+export * from './ActivateUser';
