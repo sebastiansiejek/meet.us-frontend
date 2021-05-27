@@ -10,16 +10,20 @@ export interface LoginProps {}
 
 const Login: React.FunctionComponent<LoginProps> = ({}) => {
   const { t } = useTranslation('form');
-  const { mutate, error, isLoading } = useLogin();
+  const { mutateAsync, error, isLoading } = useLogin();
+  const [form] = Form.useForm();
 
   return (
     <Form
+      form={form}
       onFinish={(formData) => {
         const { login, password } = formData;
 
-        mutate({
+        mutateAsync({
           email: login,
           password,
+        }).then(() => {
+          form.resetFields();
         });
       }}
     >
