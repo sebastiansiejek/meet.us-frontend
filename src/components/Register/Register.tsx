@@ -1,11 +1,11 @@
-import React from 'react';
-import { Form, Input, Button } from 'antd';
-import { MailTwoTone, LockTwoTone } from '@ant-design/icons';
-import { useTranslation } from 'react-i18next';
-import { useCreateUserMutation } from 'src/generated/gqlQueries';
 import FormOutput from 'src/components/Form/FormOutput';
+import React from 'react';
+import { Form, Input, Button, notification } from 'antd';
 import { IApiError } from 'src/types/IApiError';
+import { MailTwoTone, LockTwoTone } from '@ant-design/icons';
+import { useCreateUserMutation } from 'src/generated/gqlQueries';
 import { useLogin } from 'src/hooks/useLogin';
+import { useTranslation } from 'react-i18next';
 
 export interface RegisterProps {}
 
@@ -25,6 +25,9 @@ const Register: React.FunctionComponent<RegisterProps> = ({}) => {
           email: login,
           password,
         }).then(() => {
+          notification.success({
+            message: t('Your account has been created'),
+          });
           loginMutation
             .mutateAsync({
               email: login,
@@ -32,6 +35,9 @@ const Register: React.FunctionComponent<RegisterProps> = ({}) => {
             })
             .then(() => {
               form.resetFields();
+              notification.success({
+                message: t('You have been logged in'),
+              });
             });
         });
       }}
@@ -57,7 +63,7 @@ const Register: React.FunctionComponent<RegisterProps> = ({}) => {
       <Button
         type="primary"
         htmlType="submit"
-        loading={isLoading}
+        loading={isLoading || loginMutation.isLoading}
         className="block mx-auto"
       >
         {t('Sign up')}

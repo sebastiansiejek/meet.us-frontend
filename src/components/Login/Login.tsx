@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, notification } from 'antd';
 import { MailTwoTone, LockTwoTone } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 import FormOutput from '../Form/FormOutput';
@@ -24,6 +24,9 @@ const Login: React.FunctionComponent<LoginProps> = ({}) => {
           password,
         }).then(() => {
           form.resetFields();
+          notification.success({
+            message: t('You have been logged in'),
+          });
         });
       }}
     >

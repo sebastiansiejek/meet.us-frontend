@@ -15,3 +15,9 @@ mutation CreateUser($email: String!, $password: String!) {
     id
   }
 }
+
+mutation ActiveUser($token: String!) {
+  activateUser(activateUser: { token: $token }) {
+    firstName
+  }
+}
