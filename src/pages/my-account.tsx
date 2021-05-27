@@ -1,12 +1,12 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import ActiveUser from 'src/components/ActiveUser';
+import ActivateUser from 'src/components/ActivateUser';
 import Container from 'src/components/Container';
 
 const MyAccount = () => {
   return (
     <Container>
       <h1>My account</h1>
-      <ActiveUser />
+      <ActivateUser />
     </Container>
   );
 };

@@ -1,14 +1,17 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { useActiveUserMutation } from 'src/generated/gqlQueries';
-import { Spin } from 'antd';
+import { useActivateUserMutation } from 'src/generated/gqlQueries';
+import { Alert, Spin } from 'antd';
 import FormOutput from '../Form/FormOutput';
 import { IApiError } from 'src/types/IApiError';
+import { useTranslation } from 'react-i18next';
 
-export interface ActiveUserProps {}
+export interface ActivateUserProps {}
 
-const ActiveUser: React.FunctionComponent<ActiveUserProps> = ({}) => {
+const ActivateUser: React.FunctionComponent<ActivateUserProps> = ({}) => {
+  const { t } = useTranslation();
+
   const router = useRouter();
   const {
     mutateAsync,
@@ -16,7 +19,7 @@ const ActiveUser: React.FunctionComponent<ActiveUserProps> = ({}) => {
     error,
     data,
     isSuccess,
-  } = useActiveUserMutation();
+  } = useActivateUserMutation();
 
   const { token } = router.query;
 
@@ -29,10 +32,16 @@ const ActiveUser: React.FunctionComponent<ActiveUserProps> = ({}) => {
   return (
     <>
       {isLoading && <Spin />}
-      {isSuccess && console.log(data)}
+      {isSuccess && data && (
+        <Alert
+          message={`${data.activateUser.firstName} ${t(
+            'Your account is now active.',
+          )}`}
+        />
+      )}
       {<FormOutput error={error as IApiError} />}
     </>
   );
 };
 
-export default ActiveUser;
+export default ActivateUser;
