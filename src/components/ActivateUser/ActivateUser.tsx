@@ -25,7 +25,9 @@ const ActivateUser: React.FunctionComponent<ActivateUserProps> = ({}) => {
 
   useEffect(() => {
     if (token) {
-      mutateAsync({ token: token.toString().split(' ').join('+') });
+      mutateAsync({ token: token.toString().split(' ').join('+') }).then(() => {
+        router.replace('/my-account', undefined, { shallow: true });
+      });
     }
   }, [token]);
 
@@ -35,7 +37,7 @@ const ActivateUser: React.FunctionComponent<ActivateUserProps> = ({}) => {
       {isSuccess && data && (
         <Alert
           message={`${data.activateUser.firstName} ${t(
-            'Your account is now active.',
+            'Your account is active now.',
           )}`}
         />
       )}
