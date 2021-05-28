@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { QueryClient } from 'react-query';
+import AuthService from 'src/services/AuthService';
 
 interface IProps {
   token: string;
 }
 
-export const initialState: IProps = { token: '' };
+export const initialState: IProps = { token: `${AuthService.getToken()}` };
 
 const authorisationSlice = createSlice({
   name: 'authorisation',
