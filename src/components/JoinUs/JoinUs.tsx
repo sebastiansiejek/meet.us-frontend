@@ -10,7 +10,7 @@ export interface JoinUsProps {}
 const JoinUs: React.FunctionComponent<JoinUsProps> = ({}) => {
   const { Title } = Typography;
 
-  const { t } = useTranslation('form');
+  const { t } = useTranslation();
 
   return (
     <Container>

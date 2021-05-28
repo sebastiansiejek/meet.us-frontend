@@ -1,16 +1,16 @@
-import { AppProps } from 'next/dist/next-server/lib/router/router';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { Hydrate } from 'react-query/hydration';
-import { ReactQueryDevtools } from 'react-query/devtools';
-import { Provider } from 'react-redux';
-import store from 'src/store/store';
-import { appWithTranslation } from 'next-i18next';
-import GlobalStyles from 'src/styles/GlobalStyles';
-import Navbar from 'src/components/Navbar';
-import NProgress from 'nprogress';
-import Router from 'next/router';
-import Main from 'src/components/templates/Main';
 import 'tailwindcss/tailwind.css';
+import GlobalStyles from 'src/styles/GlobalStyles';
+import Main from 'src/components/templates/Main';
+import NProgress from 'nprogress';
+import Navbar from 'src/components/Navbar';
+import Router from 'next/router';
+import store from 'src/store/store';
+import { AppProps } from 'next/dist/next-server/lib/router/router';
+import { Hydrate } from 'react-query/hydration';
+import { Provider } from 'react-redux';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
+import { appWithTranslation } from 'next-i18next';
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   NProgress.configure({ showSpinner: false });

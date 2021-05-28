@@ -14,7 +14,7 @@ const JoinToUs = () => (
 
 export const getStaticProps = async ({ locale }: any) => ({
   props: {
-    ...(await serverSideTranslations(locale, ['common', 'form'])),
+    ...(await serverSideTranslations(locale, ['common'])),
   },
 });
 

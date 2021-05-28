@@ -13,5 +13,9 @@
     "Start": "Początek",
     "End": "Koniec",
     "See more": "Zobacz więcej",
-    "Created events": "Utworzone wydarzenia"
+    "Created events": "Utworzone wydarzenia",
+    "Please input your login": "Podaj login",
+    "Please input your password": "Podaj hasło",
+    "Password": "Hasło",
+    "Please input your email": "Podaj email"
 }

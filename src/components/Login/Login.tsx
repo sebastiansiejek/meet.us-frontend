@@ -9,7 +9,7 @@ import { useLogin } from 'src/hooks/useLogin';
 export interface LoginProps {}
 
 const Login: React.FunctionComponent<LoginProps> = ({}) => {
-  const { t } = useTranslation('form');
+  const { t } = useTranslation();
   const { mutateAsync, error, isLoading } = useLogin();
   const [form] = Form.useForm();
 

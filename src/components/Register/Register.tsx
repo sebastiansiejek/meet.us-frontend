@@ -13,7 +13,7 @@ const Register: React.FunctionComponent<RegisterProps> = ({}) => {
   const [form] = Form.useForm();
   const loginMutation = useLogin();
   const { error, isLoading, mutateAsync } = useCreateUserMutation();
-  const { t } = useTranslation('form');
+  const { t } = useTranslation();
 
   return (
     <Form
