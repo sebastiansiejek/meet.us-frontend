@@ -21,8 +21,12 @@ const GlobalStyles = createGlobalStyle`
     font-size: 1.6rem;
   }
 
-  form .anticon path {
+  .anticon path {
     fill: #2A9D8F;
+
+    &[fill="#e6f7ff"] {
+      fill: #beefe9;
+    }
   }
 
   form .anticon.anticon-loading path {
