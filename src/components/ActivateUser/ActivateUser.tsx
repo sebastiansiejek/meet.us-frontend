@@ -36,9 +36,9 @@ const ActivateUser: React.FunctionComponent<ActivateUserProps> = ({}) => {
       {isLoading && <Spin />}
       {isSuccess && data && (
         <Alert
-          message={`${data.activateUser.firstName} ${t(
-            'Your account is active now.',
-          )}`}
+          message={`${
+            data.activateUser.firstName || data.activateUser.email
+          } ${t('Your account is active now.')}`}
         />
       )}
       {<FormOutput error={error as IApiError} />}
