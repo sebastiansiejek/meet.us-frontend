@@ -10,10 +10,10 @@ import { useTranslation } from 'react-i18next';
 export interface RegisterProps {}
 
 const Register: React.FunctionComponent<RegisterProps> = ({}) => {
-  const { t } = useTranslation('form');
-  const { error, isLoading, mutateAsync } = useCreateUserMutation();
-  const loginMutation = useLogin();
   const [form] = Form.useForm();
+  const loginMutation = useLogin();
+  const { error, isLoading, mutateAsync } = useCreateUserMutation();
+  const { t } = useTranslation('form');
 
   return (
     <Form
