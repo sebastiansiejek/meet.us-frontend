@@ -3,7 +3,7 @@ interface IUserPage {
 }
 
 const User: React.FC<IUserPage> = ({ id }) => {
-  return <></>;
+  return <>{id}</>;
 };
 
 export const getServerSideProps = async ({
