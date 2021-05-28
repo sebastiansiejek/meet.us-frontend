@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "yarn graphql:codegen && next -p 3001",
-    "build": "yarn graphql:codegen && next build",
+    "build": "next build",
     "start": "next start",
     "type-check": "tsc",
     "pre-commit": "lint-staged",
