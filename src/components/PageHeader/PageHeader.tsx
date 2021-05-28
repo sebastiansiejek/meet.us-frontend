@@ -9,7 +9,12 @@ export interface PageHeaderProps {
 const PageHeader: React.FunctionComponent<PageHeaderProps> = ({ title }) => {
   const { t } = useTranslation();
 
-  return <AntdHeader title={<h1 className="text-5xl">{t(title)}</h1>} />;
+  return (
+    <AntdHeader
+      className="mb-14"
+      title={<h1 className="text-6xl">{t(title)}</h1>}
+    />
+  );
 };
 
 export default PageHeader;
