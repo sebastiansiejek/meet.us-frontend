@@ -11,13 +11,14 @@ import {
 } from '@ant-design/icons';
 import { SingleEventPageQuery } from 'src/generated/gqlQueries';
 import { useTranslation } from 'react-i18next';
+import { getDateReadableFormat } from 'src/utils/date';
 export interface EventProps {
   data: SingleEventPageQuery;
 }
 
 const Event: React.FunctionComponent<EventProps> = ({ data }) => {
   const { Title, Paragraph } = Typography;
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const { event } = data;
 
@@ -32,11 +33,11 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
 
   const { firstName, lastname, nickname, id } = user;
 
-  const startDateFormat = dayjs(startDate).format('D MMMM YYYY HH:MM');
-  const endDateFormat = dayjs(endDate).format('D MMMM YYYY HH:MM');
+  const startDateFormat = getDateReadableFormat(startDate, i18n.language);
+  const endDateFormat = getDateReadableFormat(endDate, i18n.language);
   dayjs.extend(relativeTime);
 
-  const fromNow = dayjs(startDate).fromNow();
+  const fromNow = dayjs(startDate).locale(i18n.language).fromNow();
 
   return (
     <Container>
