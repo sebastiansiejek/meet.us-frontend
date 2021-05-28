@@ -13,7 +13,7 @@ const EventsCard: React.FunctionComponent<EventCardProps> = ({ events }) => {
     <Container>
       <Row gutter={16}>
         {events.map((event) => (
-          <Col key={event.id} span={8}>
+          <Col key={event.id} span={24} sm={12} lg={8}>
             <Space direction={'vertical'} size={8} className="w-full">
               <EventCard event={event} />
             </Space>
