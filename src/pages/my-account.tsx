@@ -1,11 +1,12 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import ActivateUser from 'src/components/ActivateUser';
 import Container from 'src/components/Container';
+import PageHeader from 'src/PageHeader';
 
 const MyAccount = () => {
   return (
     <Container>
-      <h1>My account</h1>
+      <PageHeader title="My account" />
       <ActivateUser />
     </Container>
   );
