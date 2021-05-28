@@ -22,3 +22,13 @@ mutation ActivateUser($token: String!) {
     firstName
   }
 }
+
+query FindUserEvents {
+  findUserEvents {
+    id
+    title
+    description
+    startDate
+    endDate
+  }
+}

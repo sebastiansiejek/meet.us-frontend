@@ -6,5 +6,12 @@
     "Maximum members": "Maksymalna liczba osób",
     "You have been logged in": "Zostałeś zalogowany",
     "Your account has been created": "Twoje konto zostało utworzone",
-    "Your account is active now.": "Twoje konto zostało aktywowane."
+    "Your account is active now.": "Twoje konto zostało aktywowane.",
+    "Event name": "Nazwa wydarzenia",
+    "Description": "Opis",
+    "Date": "Data",
+    "Start": "Początek",
+    "End": "Koniec",
+    "See more": "Zobacz więcej",
+    "Created events": "Utworzone wydarzenia"
 }
