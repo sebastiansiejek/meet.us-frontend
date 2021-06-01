@@ -10,12 +10,12 @@ import { getExcerpt } from 'src/utils/excerpt';
 export interface UserEventsProps {}
 
 const UserEvents: React.FunctionComponent<UserEventsProps> = ({}) => {
-  const { isLoading, data } = useFindUserEventsQuery();
+  const { isLoading, data, isError } = useFindUserEventsQuery();
   const { t, i18n } = useTranslation();
 
   return (
     <>
-      {isLoading && <Spin />}
+      {isError && isLoading && <Spin />}
       {data && (
         <>
           <Typography.Title level={2}>{t('Created events')}</Typography.Title>

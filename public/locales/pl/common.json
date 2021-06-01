@@ -14,8 +14,15 @@
     "End": "Koniec",
     "See more": "Zobacz więcej",
     "Created events": "Utworzone wydarzenia",
-    "Please input your login": "Podaj login",
-    "Please input your password": "Podaj hasło",
+    "Please input your login": "Wpisz login",
+    "Please input your password": "Wpisz hasło",
+    "Please input your email": "Wpisz email",
+    "Please input your first name": "Wpisz imię",
+    "Please input your last name": "Wpisz nazwisko",
+    "Please input your nickname": "Wpisz pseudonim",
     "Password": "Hasło",
-    "Please input your email": "Podaj email"
+    "Save": "Zapisz",
+    "First name": "Imię",
+    "Last name": "Nazwisko",
+    "Nickname": "Pseudonim"
 }
