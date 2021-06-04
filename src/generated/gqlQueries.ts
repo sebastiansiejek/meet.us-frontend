@@ -128,7 +128,7 @@ export type QuerySearchBarArgs = {
 };
 
 export type QueryUserArgs = {
-  id: Scalars['String'];
+  id?: Maybe<Scalars['String']>;
 };
 
 export type UpdateEventInput = {
@@ -150,11 +150,11 @@ export type UpdateUserInput = {
 export type User = {
   __typename?: 'User';
   email: Scalars['String'];
-  firstName: Scalars['String'];
+  firstName?: Maybe<Scalars['String']>;
   id: Scalars['String'];
   isActive: Scalars['Boolean'];
-  lastname: Scalars['String'];
-  nickname: Scalars['String'];
+  lastname?: Maybe<Scalars['String']>;
+  nickname?: Maybe<Scalars['String']>;
 };
 
 export type EventsQueryVariables = Exact<{ [key: string]: never }>;
@@ -221,6 +221,15 @@ export type FindUserEventsQuery = { __typename?: 'Query' } & {
       Event,
       'id' | 'title' | 'description' | 'startDate' | 'endDate'
     >
+  >;
+};
+
+export type CurrentUserDataQueryVariables = Exact<{ [key: string]: never }>;
+
+export type CurrentUserDataQuery = { __typename?: 'Query' } & {
+  user: { __typename?: 'User' } & Pick<
+    User,
+    'lastname' | 'firstName' | 'email' | 'nickname'
   >;
 };
 
@@ -390,6 +399,30 @@ export const useFindUserEventsQuery = <
     ['FindUserEvents', variables],
     useFetchData<FindUserEventsQuery, FindUserEventsQueryVariables>(
       FindUserEventsDocument,
+    ).bind(null, variables),
+    options,
+  );
+export const CurrentUserDataDocument = `
+    query CurrentUserData {
+  user {
+    lastname
+    firstName
+    email
+    nickname
+  }
+}
+    `;
+export const useCurrentUserDataQuery = <
+  TData = CurrentUserDataQuery,
+  TError = unknown
+>(
+  variables?: CurrentUserDataQueryVariables,
+  options?: UseQueryOptions<CurrentUserDataQuery, TError, TData>,
+) =>
+  useQuery<CurrentUserDataQuery, TError, TData>(
+    ['CurrentUserData', variables],
+    useFetchData<CurrentUserDataQuery, CurrentUserDataQueryVariables>(
+      CurrentUserDataDocument,
     ).bind(null, variables),
     options,
   );

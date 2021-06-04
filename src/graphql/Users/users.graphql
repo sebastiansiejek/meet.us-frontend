@@ -32,3 +32,12 @@ query FindUserEvents {
     endDate
   }
 }
+
+query CurrentUserData {
+  user {
+    lastname
+    firstName
+    email
+    nickname
+  }
+}
