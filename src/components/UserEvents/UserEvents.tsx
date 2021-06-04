@@ -16,7 +16,7 @@ const UserEvents: React.FunctionComponent<UserEventsProps> = ({}) => {
   return (
     <>
       {isError && isLoading && <Spin />}
-      {data && (
+      {data && data.findUserEvents.length > 0 && (
         <>
           <Typography.Title level={2}>{t('Created events')}</Typography.Title>
           <Table
