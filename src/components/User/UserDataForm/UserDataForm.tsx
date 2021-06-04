@@ -1,14 +1,22 @@
 import React from 'react';
 import { Form, Input, Button, Spin } from 'antd';
 import { LockTwoTone, MailTwoTone } from '@ant-design/icons';
-import { useCurrentUserDataQuery } from 'src/generated/gqlQueries';
+import {
+  useCurrentUserDataQuery,
+  useUpdateUserMutation,
+} from 'src/generated/gqlQueries';
 import { useTranslation } from 'react-i18next';
+import pickBy from 'lodash/pickBy';
+import identity from 'lodash/identity';
+import FormOutput from 'src/components/Form/FormOutput';
+import { IApiError } from 'src/types/IApiError';
 
 export interface UserDataFormProps {}
 
 const UserDataForm: React.FunctionComponent<UserDataFormProps> = ({}) => {
   const { t } = useTranslation();
   const { isLoading, data } = useCurrentUserDataQuery();
+  const updateUserMutation = useUpdateUserMutation();
 
   return (
     <>
@@ -20,6 +28,14 @@ const UserDataForm: React.FunctionComponent<UserDataFormProps> = ({}) => {
             firstName: data.user.firstName || '',
             lastname: data.user.lastname || '',
             nickname: data.user.nickname || '',
+          }}
+          onFinish={(formData) => {
+            updateUserMutation
+              .mutateAsync({
+                ...pickBy(formData, identity),
+              })
+              .then((res) => console.log(res))
+              .catch((error) => console.log(error));
           }}
         >
           <Form.Item
@@ -34,9 +50,7 @@ const UserDataForm: React.FunctionComponent<UserDataFormProps> = ({}) => {
           </Form.Item>
           <Form.Item
             name="password"
-            rules={[
-              { required: true, message: t('Please input your password') },
-            ]}
+            rules={[{ message: t('Please input your password') }]}
           >
             <Input.Password
               placeholder={t('Password')}
@@ -60,14 +74,20 @@ const UserDataForm: React.FunctionComponent<UserDataFormProps> = ({}) => {
             <Input placeholder={t('Last name')} />
           </Form.Item>
           <Form.Item
-            name="nickanme"
+            name="nickname"
             rules={[
-              { required: true, message: t('Please input your nickname') },
+              { required: false, message: t('Please input your nickname') },
             ]}
           >
             <Input placeholder={t('Nickname')} />
           </Form.Item>
-          <Button type="primary" htmlType="submit" className="block mx-auto">
+          <FormOutput error={updateUserMutation.error as IApiError} />
+          <Button
+            loading={updateUserMutation.isLoading}
+            type="primary"
+            htmlType="submit"
+            className="block mx-auto"
+          >
             {t('Save')}
           </Button>
         </Form>
