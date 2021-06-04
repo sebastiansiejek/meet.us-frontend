@@ -41,3 +41,23 @@ query CurrentUserData {
     nickname
   }
 }
+
+mutation UpdateUser(
+  $password: String
+  $email: String
+  $firstName: String
+  $lastname: String
+  $nickname: String
+) {
+  updateUser(
+    updateUserInput: {
+      password: $password
+      email: $email
+      firstName: $firstName
+      lastname: $lastname
+      nickname: $nickname
+    }
+  ) {
+    id
+  }
+}

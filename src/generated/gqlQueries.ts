@@ -143,7 +143,10 @@ export type UpdateEventInput = {
 
 export type UpdateUserInput = {
   email?: Maybe<Scalars['String']>;
-  id: Scalars['String'];
+  firstName?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
+  lastname?: Maybe<Scalars['String']>;
+  nickname?: Maybe<Scalars['String']>;
   password?: Maybe<Scalars['String']>;
 };
 
@@ -231,6 +234,18 @@ export type CurrentUserDataQuery = { __typename?: 'Query' } & {
     User,
     'lastname' | 'firstName' | 'email' | 'nickname'
   >;
+};
+
+export type UpdateUserMutationVariables = Exact<{
+  password?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
+  lastname?: Maybe<Scalars['String']>;
+  nickname?: Maybe<Scalars['String']>;
+}>;
+
+export type UpdateUserMutation = { __typename?: 'Mutation' } & {
+  updateUser: { __typename?: 'User' } & Pick<User, 'id'>;
 };
 
 export const EventsDocument = `
@@ -424,5 +439,33 @@ export const useCurrentUserDataQuery = <
     useFetchData<CurrentUserDataQuery, CurrentUserDataQueryVariables>(
       CurrentUserDataDocument,
     ).bind(null, variables),
+    options,
+  );
+export const UpdateUserDocument = `
+    mutation UpdateUser($password: String, $email: String, $firstName: String, $lastname: String, $nickname: String) {
+  updateUser(
+    updateUserInput: {password: $password, email: $email, firstName: $firstName, lastname: $lastname, nickname: $nickname}
+  ) {
+    id
+  }
+}
+    `;
+export const useUpdateUserMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    UpdateUserMutation,
+    TError,
+    UpdateUserMutationVariables,
+    TContext
+  >,
+) =>
+  useMutation<
+    UpdateUserMutation,
+    TError,
+    UpdateUserMutationVariables,
+    TContext
+  >(
+    useFetchData<UpdateUserMutation, UpdateUserMutationVariables>(
+      UpdateUserDocument,
+    ),
     options,
   );
