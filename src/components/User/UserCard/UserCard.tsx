@@ -30,7 +30,9 @@ const UserCard: React.FunctionComponent<UserCardProps> = ({
             className="flex items-center justify-center"
           />
         </div>
-        <strong>{`${firstName} "${nickname}" ${lastName}`}</strong>
+        <strong>{`${firstName} ${
+          nickname && '"' + nickname + '"'
+        } ${lastName}`}</strong>
       </div>
     </CardLink>
   );
