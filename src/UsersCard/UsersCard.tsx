@@ -1,16 +1,18 @@
-import { Col, Row } from 'antd';
+import { Col, Row, Spin } from 'antd';
 import React from 'react';
 import Container from 'src/components/Container';
 import UserCard from 'src/components/User/UserCard';
-import { User } from 'src/generated/gqlQueries';
+import { useUsersQuery } from 'src/generated/gqlQueries';
 
-export interface UsersCardProps {
-  users: Array<User>;
-}
+export interface UsersCardProps {}
 
-const UsersCard: React.FunctionComponent<UsersCardProps> = ({ users }) => {
+const UsersCard: React.FunctionComponent<UsersCardProps> = () => {
+  const { data, isLoading } = useUsersQuery();
+  const users = data?.users;
+
   return (
     <>
+      {isLoading && <Spin />}
       {users && (
         <Container>
           <Row gutter={16}>
