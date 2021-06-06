@@ -1,8 +1,7 @@
 import Avatar from 'antd/lib/avatar/avatar';
-import Link from 'next/link';
 import React from 'react';
-import { Card } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
+import CardLink from 'src/components/CardLink';
 
 export interface UserCardProps {
   firstName: string;
@@ -18,20 +17,22 @@ const UserCard: React.FunctionComponent<UserCardProps> = ({
   id,
 }) => {
   return (
-    <Link href={`/users/${id}`}>
-      <a>
-        <Card>
-          <div className="flex items-center w-full">
-            <Avatar
-              size={64}
-              icon={<UserOutlined />}
-              className="mr-5 flex items-center justify-center"
-            />
-            <strong>{`${firstName} "${nickname}" ${lastName}`}</strong>
-          </div>
-        </Card>
-      </a>
-    </Link>
+    <CardLink
+      linkProps={{
+        href: `/users/${id}`,
+      }}
+    >
+      <div className="flex items-center w-full">
+        <div className="mr-5">
+          <Avatar
+            size={64}
+            icon={<UserOutlined />}
+            className="flex items-center justify-center"
+          />
+        </div>
+        <strong>{`${firstName} "${nickname}" ${lastName}`}</strong>
+      </div>
+    </CardLink>
   );
 };
 
