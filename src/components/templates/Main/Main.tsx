@@ -1,7 +1,8 @@
 import React, { ComponentType } from 'react';
-import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
-import dynamic from 'next/dynamic';
+import localePl from 'antd/lib/locale/pl_PL';
+import localeEn from 'antd/lib/locale/en_GB';
+import { ConfigProvider } from 'antd';
 
 export interface MainProps {
   Component: ComponentType<{}>;
@@ -11,17 +12,13 @@ export interface MainProps {
 const Main: React.FunctionComponent<MainProps> = ({ Component, pageProps }) => {
   const { i18n } = useTranslation();
 
-  const { language } = i18n;
-  if (language) {
-    dynamic(() =>
-      import(`dayjs/locale/${language}.js`).then((mod) => {
-        dayjs.locale(language);
-        return mod;
-      }),
-    );
-  }
-
-  return <Component {...pageProps} />;
+  return (
+    <ConfigProvider locale={i18n.language === 'pl' ? localePl : localeEn}>
+      <>
+        <Component {...pageProps} />;
+      </>
+    </ConfigProvider>
+  );
 };
 
 export default Main;
