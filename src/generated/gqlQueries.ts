@@ -52,7 +52,7 @@ export type Event = {
   description: Scalars['String'];
   endDate: Scalars['DateTime'];
   id: Scalars['String'];
-  maxParticipants: Scalars['Float'];
+  maxParticipants?: Maybe<Scalars['Float']>;
   startDate: Scalars['DateTime'];
   state: Scalars['Float'];
   title: Scalars['String'];

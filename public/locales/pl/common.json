@@ -20,10 +20,16 @@
     "Please input your first name": "Wpisz imię",
     "Please input your last name": "Wpisz nazwisko",
     "Please input your nickname": "Wpisz pseudonim",
+    "Description is required": "Opis jest wymagany",
+    "Title is required": "Tytuł jest wymagany",
+    "Date is required": "Data jest wymagana",
+    "Input the maximum number of participants": "Wpisz maksymalną liczbę uczestników",
     "Password": "Hasło",
     "Save": "Zapisz",
     "First name": "Imię",
     "Last name": "Nazwisko",
     "Nickname": "Pseudonim",
-    "Personal data": "Dane osobowe"
+    "Personal data": "Dane osobowe",
+    "Title": "Tytuł",
+    "Maximum number of participants": "Maksymalna ilość uczestników"
 }
