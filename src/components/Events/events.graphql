@@ -22,3 +22,23 @@ query SingleEventPage($id: String!) {
     }
   }
 }
+
+mutation CreateEvent(
+  $title: String!
+  $description: String!
+  $startDate: DateTime!
+  $endDate: DateTime!
+  $maxParticipants: Int!
+) {
+  createEvent(
+    createEventInput: {
+      title: $title
+      description: $description
+      startDate: $startDate
+      endDate: $endDate
+      maxParticipants: $maxParticipants
+    }
+  ) {
+    id
+  }
+}

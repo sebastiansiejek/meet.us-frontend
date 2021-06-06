@@ -1,20 +1,37 @@
-import { Form, Input, Button, DatePicker } from 'antd';
+import { Form, Input, Button, DatePicker, notification } from 'antd';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import FormOutput from 'src/components/Form/FormOutput';
+import { useCreateEventMutation } from 'src/generated/gqlQueries';
+import { IApiError } from 'src/types/IApiError';
+import {} from 'react-query';
 
 export interface EventFormProps {}
 
 const EventForm: React.FunctionComponent<EventFormProps> = ({}) => {
-  const { t } = useTranslation();
   const [form] = Form.useForm();
-
+  const createEventMutation = useCreateEventMutation();
   const { TextArea } = Input;
+  const { t } = useTranslation();
 
   return (
     <Form
       form={form}
-      onFinish={(formData) => {
-        console.log(formData);
+      onFinish={({ title, description, dates, maxParticipants }) => {
+        createEventMutation
+          .mutateAsync({
+            title,
+            description,
+            startDate: dates[0].format('YYYY-MM-DD HH:mm'),
+            endDate: dates[1].format('YYYY-MM-DD HH:mm'),
+            maxParticipants: parseInt(maxParticipants, 10),
+          })
+          .then(() => {
+            notification.success({
+              message: t('Event has been created'),
+            });
+            form.resetFields();
+          });
       }}
     >
       <Form.Item
@@ -36,7 +53,7 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({}) => {
         <DatePicker.RangePicker
           showTime
           placeholder={[t('Start'), t('End')]}
-          format="DD MMMM YYYY"
+          format="DD MMMM YYYY HH:mm"
           className="w-full"
         />
       </Form.Item>
@@ -55,7 +72,12 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({}) => {
           placeholder={t('Maximum number of participants')}
         />
       </Form.Item>
-      <Button type="primary" htmlType="submit">
+      <FormOutput error={createEventMutation.error as IApiError} />
+      <Button
+        type="primary"
+        htmlType="submit"
+        loading={createEventMutation.isLoading}
+      >
         {t('Save')}
       </Button>
     </Form>

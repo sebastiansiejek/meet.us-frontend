@@ -36,6 +36,7 @@ export type ActivateUserInput = {
 export type CreateEventInput = {
   description: Scalars['String'];
   endDate: Scalars['DateTime'];
+  maxParticipants?: Maybe<Scalars['Int']>;
   startDate: Scalars['DateTime'];
   state?: Maybe<Scalars['Float']>;
   title: Scalars['String'];
@@ -52,7 +53,7 @@ export type Event = {
   description: Scalars['String'];
   endDate: Scalars['DateTime'];
   id: Scalars['String'];
-  maxParticipants?: Maybe<Scalars['Float']>;
+  maxParticipants?: Maybe<Scalars['Int']>;
   startDate: Scalars['DateTime'];
   state: Scalars['Float'];
   title: Scalars['String'];
@@ -135,6 +136,7 @@ export type UpdateEventInput = {
   description?: Maybe<Scalars['String']>;
   endDate?: Maybe<Scalars['DateTime']>;
   id: Scalars['String'];
+  maxParticipants?: Maybe<Scalars['Int']>;
   startDate?: Maybe<Scalars['DateTime']>;
   state?: Maybe<Scalars['Float']>;
   title?: Maybe<Scalars['String']>;
@@ -182,6 +184,18 @@ export type SingleEventPageQuery = { __typename?: 'Query' } & {
         'id' | 'firstName' | 'lastname' | 'nickname'
       >;
     };
+};
+
+export type CreateEventMutationVariables = Exact<{
+  title: Scalars['String'];
+  description: Scalars['String'];
+  startDate: Scalars['DateTime'];
+  endDate: Scalars['DateTime'];
+  maxParticipants: Scalars['Int'];
+}>;
+
+export type CreateEventMutation = { __typename?: 'Mutation' } & {
+  createEvent: { __typename?: 'Event' } & Pick<Event, 'id'>;
 };
 
 export type UsersQueryVariables = Exact<{ [key: string]: never }>;
@@ -299,6 +313,34 @@ export const useSingleEventPageQuery = <
     useFetchData<SingleEventPageQuery, SingleEventPageQueryVariables>(
       SingleEventPageDocument,
     ).bind(null, variables),
+    options,
+  );
+export const CreateEventDocument = `
+    mutation CreateEvent($title: String!, $description: String!, $startDate: DateTime!, $endDate: DateTime!, $maxParticipants: Int!) {
+  createEvent(
+    createEventInput: {title: $title, description: $description, startDate: $startDate, endDate: $endDate, maxParticipants: $maxParticipants}
+  ) {
+    id
+  }
+}
+    `;
+export const useCreateEventMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    CreateEventMutation,
+    TError,
+    CreateEventMutationVariables,
+    TContext
+  >,
+) =>
+  useMutation<
+    CreateEventMutation,
+    TError,
+    CreateEventMutationVariables,
+    TContext
+  >(
+    useFetchData<CreateEventMutation, CreateEventMutationVariables>(
+      CreateEventDocument,
+    ),
     options,
   );
 export const UsersDocument = `
