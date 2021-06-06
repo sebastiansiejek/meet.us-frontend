@@ -5,6 +5,7 @@ import { Layout } from 'antd';
 import { Menu } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { paths } from 'src/data/paths';
+import UserSettings from '../UserSettings';
 
 const { Header } = Layout;
 
@@ -30,6 +31,11 @@ const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
             <Link href={href}>{t(title)}</Link>
           </Menu.Item>
         ))}
+        <Menu.Item
+          style={{ marginLeft: 'auto', padding: '0', display: 'flex' }}
+        >
+          <UserSettings />
+        </Menu.Item>
       </Menu>
     </Header>
   );
