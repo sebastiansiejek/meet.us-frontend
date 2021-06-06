@@ -1,6 +1,9 @@
 query Users {
   users {
     id
+    lastname
+    firstName
+    nickname
   }
 }
 

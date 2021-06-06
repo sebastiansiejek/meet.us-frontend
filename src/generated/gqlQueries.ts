@@ -201,7 +201,12 @@ export type CreateEventMutation = { __typename?: 'Mutation' } & {
 export type UsersQueryVariables = Exact<{ [key: string]: never }>;
 
 export type UsersQuery = { __typename?: 'Query' } & {
-  users: Array<{ __typename?: 'User' } & Pick<User, 'id'>>;
+  users: Array<
+    { __typename?: 'User' } & Pick<
+      User,
+      'id' | 'lastname' | 'firstName' | 'nickname'
+    >
+  >;
 };
 
 export type LoginMutationVariables = Exact<{
@@ -347,6 +352,9 @@ export const UsersDocument = `
     query Users {
   users {
     id
+    lastname
+    firstName
+    nickname
   }
 }
     `;
