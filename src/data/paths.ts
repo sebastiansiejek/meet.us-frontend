@@ -7,8 +7,12 @@ export const paths: Array<{
     title: 'Join to us',
   },
   {
+    href: '/events',
+    title: 'Events',
+  },
+  {
     href: '/users',
-    title: 'Użytkownicy',
+    title: 'Users',
   },
   {
     href: '/my-account',
