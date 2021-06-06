@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import localePl from 'antd/lib/locale/pl_PL';
 import localeEn from 'antd/lib/locale/en_GB';
 import { ConfigProvider } from 'antd';
+import SiteFooter from 'src/components/SiteFooter';
 
 export interface MainProps {
   Component: ComponentType<{}>;
@@ -14,9 +15,8 @@ const Main: React.FunctionComponent<MainProps> = ({ Component, pageProps }) => {
 
   return (
     <ConfigProvider locale={i18n.language === 'pl' ? localePl : localeEn}>
-      <>
-        <Component {...pageProps} />;
-      </>
+      <Component {...pageProps} />
+      <SiteFooter />
     </ConfigProvider>
   );
 };
