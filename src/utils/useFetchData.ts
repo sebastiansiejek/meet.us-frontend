@@ -1,22 +1,16 @@
-import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
-import { IStore } from 'src/store/store';
+import AuthService from 'src/services/AuthService';
 
 export const useFetchData = <TData, TVariables>(
   query: string,
 ): (() => Promise<TData>) => {
-  const {
-    i18n: { language },
-  } = useTranslation();
-
-  const token = useSelector((state: IStore) => state.user.token);
   return async (variables?: TVariables) => {
     const res = await fetch(process.env.API_ENDPOINT, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-        'Accept-Language': language,
+        Authorization: `Bearer ${AuthService.getToken()}`,
+        'Accept-Language':
+          document.querySelector('html')?.getAttribute('lang') || 'en',
       },
       body: JSON.stringify({
         query,
