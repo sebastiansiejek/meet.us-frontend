@@ -1,8 +1,14 @@
 query Events {
   events {
-    id
-    title
-    description
+    page {
+      edges {
+        node {
+          id
+          title
+          description
+        }
+      }
+    }
   }
 }
 
@@ -40,5 +46,29 @@ mutation CreateEvent(
     }
   ) {
     id
+  }
+}
+
+query SearchEvents($first: Float!, $query: String!) {
+  searchBar(first: $first, query: $query) {
+    page {
+      edges {
+        node {
+          id
+          title
+          description
+        }
+        cursor
+      }
+      pageInfo {
+        startCursor
+        endCursor
+      }
+    }
+    pageData {
+      count
+      offset
+      limit
+    }
   }
 }

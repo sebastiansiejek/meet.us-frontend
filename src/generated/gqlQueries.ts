@@ -61,6 +61,32 @@ export type Event = {
   user: User;
 };
 
+export type EventConnection = {
+  __typename?: 'EventConnection';
+  edges?: Maybe<Array<EventEdge>>;
+  pageInfo?: Maybe<EventPageInfo>;
+};
+
+export type EventEdge = {
+  __typename?: 'EventEdge';
+  cursor?: Maybe<Scalars['String']>;
+  node?: Maybe<Event>;
+};
+
+export type EventPageInfo = {
+  __typename?: 'EventPageInfo';
+  endCursor?: Maybe<Scalars['String']>;
+  hasNextPage: Scalars['Boolean'];
+  hasPreviousPage: Scalars['Boolean'];
+  startCursor?: Maybe<Scalars['String']>;
+};
+
+export type EventResponse = {
+  __typename?: 'EventResponse';
+  page: EventConnection;
+  pageData?: Maybe<PageData>;
+};
+
 export type LoginUserInput = {
   email: Scalars['String'];
   password: Scalars['String'];
@@ -110,26 +136,66 @@ export type MutationUpdateUserArgs = {
   updateUserInput: UpdateUserInput;
 };
 
+export type PageData = {
+  __typename?: 'PageData';
+  count: Scalars['Float'];
+  limit: Scalars['Float'];
+  offset: Scalars['Float'];
+};
+
 export type Query = {
   __typename?: 'Query';
   event: Event;
-  events: Array<Event>;
-  findUserEvents: Array<Event>;
-  searchBar: Array<Event>;
+  events: EventResponse;
+  searchBar: EventResponse;
   user: User;
-  users: Array<User>;
+  userEvents: EventResponse;
+  users: UserResponse;
 };
 
 export type QueryEventArgs = {
   id: Scalars['String'];
 };
 
+export type QueryEventsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Float']>;
+  last?: Maybe<Scalars['Float']>;
+  orderField?: Maybe<Scalars['String']>;
+  orderSort?: Maybe<Scalars['String']>;
+};
+
 export type QuerySearchBarArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Float']>;
+  last?: Maybe<Scalars['Float']>;
+  orderField?: Maybe<Scalars['String']>;
+  orderSort?: Maybe<Scalars['String']>;
   query: Scalars['String'];
 };
 
 export type QueryUserArgs = {
   id?: Maybe<Scalars['String']>;
+};
+
+export type QueryUserEventsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Float']>;
+  last?: Maybe<Scalars['Float']>;
+  orderField?: Maybe<Scalars['String']>;
+  orderSort?: Maybe<Scalars['String']>;
+};
+
+export type QueryUsersArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Float']>;
+  last?: Maybe<Scalars['Float']>;
+  orderField?: Maybe<Scalars['String']>;
+  orderSort?: Maybe<Scalars['String']>;
 };
 
 export type UpdateEventInput = {
@@ -162,12 +228,51 @@ export type User = {
   nickname?: Maybe<Scalars['String']>;
 };
 
+export type UserConnection = {
+  __typename?: 'UserConnection';
+  edges?: Maybe<Array<UserEdge>>;
+  pageInfo?: Maybe<UserPageInfo>;
+};
+
+export type UserEdge = {
+  __typename?: 'UserEdge';
+  cursor?: Maybe<Scalars['String']>;
+  node?: Maybe<User>;
+};
+
+export type UserPageInfo = {
+  __typename?: 'UserPageInfo';
+  endCursor?: Maybe<Scalars['String']>;
+  hasNextPage: Scalars['Boolean'];
+  hasPreviousPage: Scalars['Boolean'];
+  startCursor?: Maybe<Scalars['String']>;
+};
+
+export type UserResponse = {
+  __typename?: 'UserResponse';
+  page: UserConnection;
+  pageData?: Maybe<PageData>;
+};
+
 export type EventsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type EventsQuery = { __typename?: 'Query' } & {
-  events: Array<
-    { __typename?: 'Event' } & Pick<Event, 'id' | 'title' | 'description'>
-  >;
+  events: { __typename?: 'EventResponse' } & {
+    page: { __typename?: 'EventConnection' } & {
+      edges?: Maybe<
+        Array<
+          { __typename?: 'EventEdge' } & {
+            node?: Maybe<
+              { __typename?: 'Event' } & Pick<
+                Event,
+                'id' | 'title' | 'description'
+              >
+            >;
+          }
+        >
+      >;
+    };
+  };
 };
 
 export type SingleEventPageQueryVariables = Exact<{
@@ -198,15 +303,58 @@ export type CreateEventMutation = { __typename?: 'Mutation' } & {
   createEvent: { __typename?: 'Event' } & Pick<Event, 'id'>;
 };
 
+export type SearchEventsQueryVariables = Exact<{
+  first: Scalars['Float'];
+  query: Scalars['String'];
+}>;
+
+export type SearchEventsQuery = { __typename?: 'Query' } & {
+  searchBar: { __typename?: 'EventResponse' } & {
+    page: { __typename?: 'EventConnection' } & {
+      edges?: Maybe<
+        Array<
+          { __typename?: 'EventEdge' } & Pick<EventEdge, 'cursor'> & {
+              node?: Maybe<
+                { __typename?: 'Event' } & Pick<
+                  Event,
+                  'id' | 'title' | 'description'
+                >
+              >;
+            }
+        >
+      >;
+      pageInfo?: Maybe<
+        { __typename?: 'EventPageInfo' } & Pick<
+          EventPageInfo,
+          'startCursor' | 'endCursor'
+        >
+      >;
+    };
+    pageData?: Maybe<
+      { __typename?: 'PageData' } & Pick<PageData, 'count' | 'offset' | 'limit'>
+    >;
+  };
+};
+
 export type UsersQueryVariables = Exact<{ [key: string]: never }>;
 
 export type UsersQuery = { __typename?: 'Query' } & {
-  users: Array<
-    { __typename?: 'User' } & Pick<
-      User,
-      'id' | 'lastname' | 'firstName' | 'nickname'
-    >
-  >;
+  users: { __typename?: 'UserResponse' } & {
+    page: { __typename?: 'UserConnection' } & {
+      edges?: Maybe<
+        Array<
+          { __typename?: 'UserEdge' } & {
+            node?: Maybe<
+              { __typename?: 'User' } & Pick<
+                User,
+                'id' | 'lastname' | 'firstName' | 'nickname'
+              >
+            >;
+          }
+        >
+      >;
+    };
+  };
 };
 
 export type LoginMutationVariables = Exact<{
@@ -238,12 +386,22 @@ export type ActivateUserMutation = { __typename?: 'Mutation' } & {
 export type FindUserEventsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type FindUserEventsQuery = { __typename?: 'Query' } & {
-  findUserEvents: Array<
-    { __typename?: 'Event' } & Pick<
-      Event,
-      'id' | 'title' | 'description' | 'startDate' | 'endDate'
-    >
-  >;
+  userEvents: { __typename?: 'EventResponse' } & {
+    page: { __typename?: 'EventConnection' } & {
+      edges?: Maybe<
+        Array<
+          { __typename?: 'EventEdge' } & {
+            node?: Maybe<
+              { __typename?: 'Event' } & Pick<
+                Event,
+                'id' | 'title' | 'description' | 'startDate' | 'endDate'
+              >
+            >;
+          }
+        >
+      >;
+    };
+  };
 };
 
 export type CurrentUserDataQueryVariables = Exact<{ [key: string]: never }>;
@@ -270,9 +428,15 @@ export type UpdateUserMutation = { __typename?: 'Mutation' } & {
 export const EventsDocument = `
     query Events {
   events {
-    id
-    title
-    description
+    page {
+      edges {
+        node {
+          id
+          title
+          description
+        }
+      }
+    }
   }
 }
     `;
@@ -348,13 +512,58 @@ export const useCreateEventMutation = <TError = unknown, TContext = unknown>(
     ),
     options,
   );
+export const SearchEventsDocument = `
+    query SearchEvents($first: Float!, $query: String!) {
+  searchBar(first: $first, query: $query) {
+    page {
+      edges {
+        node {
+          id
+          title
+          description
+        }
+        cursor
+      }
+      pageInfo {
+        startCursor
+        endCursor
+      }
+    }
+    pageData {
+      count
+      offset
+      limit
+    }
+  }
+}
+    `;
+export const useSearchEventsQuery = <
+  TData = SearchEventsQuery,
+  TError = unknown
+>(
+  variables: SearchEventsQueryVariables,
+  options?: UseQueryOptions<SearchEventsQuery, TError, TData>,
+) =>
+  useQuery<SearchEventsQuery, TError, TData>(
+    ['SearchEvents', variables],
+    useFetchData<SearchEventsQuery, SearchEventsQueryVariables>(
+      SearchEventsDocument,
+    ).bind(null, variables),
+    options,
+  );
 export const UsersDocument = `
     query Users {
   users {
-    id
-    lastname
-    firstName
-    nickname
+    page {
+      edges {
+        node {
+          id
+          lastname
+          firstName
+          nickname
+        }
+      }
+    }
   }
 }
     `;
@@ -444,12 +653,18 @@ export const useActivateUserMutation = <TError = unknown, TContext = unknown>(
   );
 export const FindUserEventsDocument = `
     query FindUserEvents {
-  findUserEvents {
-    id
-    title
-    description
-    startDate
-    endDate
+  userEvents {
+    page {
+      edges {
+        node {
+          id
+          title
+          description
+          startDate
+          endDate
+        }
+      }
+    }
   }
 }
     `;

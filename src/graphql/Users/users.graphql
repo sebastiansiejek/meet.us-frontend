@@ -1,9 +1,15 @@
 query Users {
   users {
-    id
-    lastname
-    firstName
-    nickname
+    page {
+      edges {
+        node {
+          id
+          lastname
+          firstName
+          nickname
+        }
+      }
+    }
   }
 }
 
@@ -27,12 +33,18 @@ mutation ActivateUser($token: String!) {
 }
 
 query FindUserEvents {
-  findUserEvents {
-    id
-    title
-    description
-    startDate
-    endDate
+  userEvents {
+    page {
+      edges {
+        node {
+          id
+          title
+          description
+          startDate
+          endDate
+        }
+      }
+    }
   }
 }
 

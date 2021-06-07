@@ -39,7 +39,7 @@ const UserSettings: React.FunctionComponent<UserSettingsProps> = ({}) => {
           <Menu.Item key="my-account">
             <Link href="/my-account">{t('My account')}</Link>
           </Menu.Item>
-          <Menu.ItemGroup title={t('languages')}>
+          <Menu.ItemGroup title={t('Languages')}>
             {Object.keys(availableLanguages).map((key) => (
               <Menu.Item key={key}>
                 <Link href={`${pathname}`} locale={key}>
