@@ -10,7 +10,9 @@ const IndexPage = () => {
   return (
     <Container>
       <PageHeader title="Events" />
-      {data && <EventCards events={data.events as Array<Event>} />}
+      {data?.events.page.edges && (
+        <EventCards events={data.events.page.edges as [{ node: Event }]} />
+      )}
     </Container>
   );
 };
