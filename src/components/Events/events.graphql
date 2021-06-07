@@ -1,11 +1,12 @@
-query Events {
-  events {
+query Events($first: Float, $orderField: String, $orderSort: String) {
+  events(first: $first, orderField: $orderField, orderSort: $orderSort) {
     page {
       edges {
         node {
           id
           title
           description
+          startDate
         }
       }
     }
@@ -57,6 +58,7 @@ query SearchEvents($first: Float!, $query: String!) {
           id
           title
           description
+          startDate
         }
         cursor
       }

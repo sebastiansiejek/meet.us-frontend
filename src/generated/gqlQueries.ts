@@ -254,7 +254,11 @@ export type UserResponse = {
   pageData?: Maybe<PageData>;
 };
 
-export type EventsQueryVariables = Exact<{ [key: string]: never }>;
+export type EventsQueryVariables = Exact<{
+  first?: Maybe<Scalars['Float']>;
+  orderField?: Maybe<Scalars['String']>;
+  orderSort?: Maybe<Scalars['String']>;
+}>;
 
 export type EventsQuery = { __typename?: 'Query' } & {
   events: { __typename?: 'EventResponse' } & {
@@ -265,7 +269,7 @@ export type EventsQuery = { __typename?: 'Query' } & {
             node?: Maybe<
               { __typename?: 'Event' } & Pick<
                 Event,
-                'id' | 'title' | 'description'
+                'id' | 'title' | 'description' | 'startDate'
               >
             >;
           }
@@ -317,7 +321,7 @@ export type SearchEventsQuery = { __typename?: 'Query' } & {
               node?: Maybe<
                 { __typename?: 'Event' } & Pick<
                   Event,
-                  'id' | 'title' | 'description'
+                  'id' | 'title' | 'description' | 'startDate'
                 >
               >;
             }
@@ -426,14 +430,15 @@ export type UpdateUserMutation = { __typename?: 'Mutation' } & {
 };
 
 export const EventsDocument = `
-    query Events {
-  events {
+    query Events($first: Float, $orderField: String, $orderSort: String) {
+  events(first: $first, orderField: $orderField, orderSort: $orderSort) {
     page {
       edges {
         node {
           id
           title
           description
+          startDate
         }
       }
     }
@@ -521,6 +526,7 @@ export const SearchEventsDocument = `
           id
           title
           description
+          startDate
         }
         cursor
       }

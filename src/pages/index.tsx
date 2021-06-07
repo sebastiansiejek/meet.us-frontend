@@ -5,7 +5,11 @@ import SearchBar from 'src/components/SearchBar';
 import { Event, useEventsQuery } from 'src/generated/gqlQueries';
 
 const IndexPage = () => {
-  const { data } = useEventsQuery();
+  const { data } = useEventsQuery({
+    first: 6,
+    orderField: 'startDate',
+    orderSort: 'DESC',
+  });
 
   return (
     <>

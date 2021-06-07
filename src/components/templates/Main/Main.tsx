@@ -4,6 +4,7 @@ import localePl from 'antd/lib/locale/pl_PL';
 import localeEn from 'antd/lib/locale/en_GB';
 import { ConfigProvider } from 'antd';
 import SiteFooter from 'src/components/SiteFooter';
+import 'dayjs/locale/pl';
 
 export interface MainProps {
   Component: ComponentType<{}>;
