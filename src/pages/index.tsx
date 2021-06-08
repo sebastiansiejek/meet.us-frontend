@@ -1,7 +1,6 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import Container from 'src/components/Container';
 import EventCards from 'src/components/Events/EventCards';
-import SearchBar from 'src/components/SearchBar';
+import HeroSearchBanner from 'src/components/HeroSearchBanner';
 import { Event, useEventsQuery } from 'src/generated/gqlQueries';
 
 const IndexPage = () => {
@@ -13,9 +12,7 @@ const IndexPage = () => {
 
   return (
     <>
-      <Container>
-        <SearchBar />
-      </Container>
+      <HeroSearchBanner />
       {data && (
         <EventCards events={data.events.page.edges as [{ node: Event }]} />
       )}

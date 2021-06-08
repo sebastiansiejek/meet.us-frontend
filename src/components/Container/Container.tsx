@@ -11,10 +11,15 @@ const ContainerStyled = styled.div`
   }
 `;
 
-export interface ContainerProps {}
+export interface ContainerProps {
+  className?: string;
+}
 
-const Container: React.FunctionComponent<ContainerProps> = ({ children }) => {
-  return <ContainerStyled>{children}</ContainerStyled>;
+const Container: React.FunctionComponent<ContainerProps> = ({
+  children,
+  className,
+}) => {
+  return <ContainerStyled className={className}>{children}</ContainerStyled>;
 };
 
 export default Container;
