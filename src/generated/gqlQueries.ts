@@ -1,18 +1,9 @@
-import {
-  useQuery,
-  UseQueryOptions,
-  useMutation,
-  UseMutationOptions,
-} from 'react-query';
+import { useQuery, UseQueryOptions, useMutation, UseMutationOptions } from 'react-query';
 import { useFetchData } from '../utils/useFetchData';
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
-  { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
-  { [SubKey in K]: Maybe<T[SubKey]> };
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -47,6 +38,7 @@ export type CreateUserInput = {
   email: Scalars['String'];
   password: Scalars['String'];
 };
+
 
 export type Event = {
   __typename?: 'Event';
@@ -104,33 +96,41 @@ export type Mutation = {
   updateUser: User;
 };
 
+
 export type MutationActivateUserArgs = {
   activateUser: ActivateUserInput;
 };
+
 
 export type MutationCreateEventArgs = {
   createEventInput: CreateEventInput;
 };
 
+
 export type MutationCreateUserArgs = {
   createUserInput: CreateUserInput;
 };
+
 
 export type MutationLoginArgs = {
   loginUserInput: LoginUserInput;
 };
 
+
 export type MutationRemoveEventArgs = {
   id: Scalars['String'];
 };
+
 
 export type MutationRemoveUserArgs = {
   id: Scalars['String'];
 };
 
+
 export type MutationUpdateEventArgs = {
   updateEventInput: UpdateEventInput;
 };
+
 
 export type MutationUpdateUserArgs = {
   updateUserInput: UpdateUserInput;
@@ -153,9 +153,11 @@ export type Query = {
   users: UserResponse;
 };
 
+
 export type QueryEventArgs = {
   id: Scalars['String'];
 };
+
 
 export type QueryEventsArgs = {
   after?: Maybe<Scalars['String']>;
@@ -165,6 +167,7 @@ export type QueryEventsArgs = {
   orderField?: Maybe<Scalars['String']>;
   orderSort?: Maybe<Scalars['String']>;
 };
+
 
 export type QuerySearchBarArgs = {
   after?: Maybe<Scalars['String']>;
@@ -176,9 +179,11 @@ export type QuerySearchBarArgs = {
   query: Scalars['String'];
 };
 
+
 export type QueryUserArgs = {
   id?: Maybe<Scalars['String']>;
 };
+
 
 export type QueryUserEventsArgs = {
   after?: Maybe<Scalars['String']>;
@@ -188,6 +193,7 @@ export type QueryUserEventsArgs = {
   orderField?: Maybe<Scalars['String']>;
   orderSort?: Maybe<Scalars['String']>;
 };
+
 
 export type QueryUsersArgs = {
   after?: Maybe<Scalars['String']>;
@@ -260,40 +266,40 @@ export type EventsQueryVariables = Exact<{
   orderSort?: Maybe<Scalars['String']>;
 }>;
 
-export type EventsQuery = { __typename?: 'Query' } & {
-  events: { __typename?: 'EventResponse' } & {
-    page: { __typename?: 'EventConnection' } & {
-      edges?: Maybe<
-        Array<
-          { __typename?: 'EventEdge' } & {
-            node?: Maybe<
-              { __typename?: 'Event' } & Pick<
-                Event,
-                'id' | 'title' | 'description' | 'startDate'
-              >
-            >;
-          }
-        >
-      >;
-    };
-  };
-};
+
+export type EventsQuery = (
+  { __typename?: 'Query' }
+  & { events: (
+    { __typename?: 'EventResponse' }
+    & { page: (
+      { __typename?: 'EventConnection' }
+      & { edges?: Maybe<Array<(
+        { __typename?: 'EventEdge' }
+        & { node?: Maybe<(
+          { __typename?: 'Event' }
+          & Pick<Event, 'id' | 'title' | 'description' | 'startDate'>
+        )> }
+      )>> }
+    ) }
+  ) }
+);
 
 export type SingleEventPageQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
 
-export type SingleEventPageQuery = { __typename?: 'Query' } & {
-  event: { __typename?: 'Event' } & Pick<
-    Event,
-    'id' | 'title' | 'description' | 'startDate' | 'endDate' | 'maxParticipants'
-  > & {
-      user: { __typename?: 'User' } & Pick<
-        User,
-        'id' | 'firstName' | 'lastname' | 'nickname'
-      >;
-    };
-};
+
+export type SingleEventPageQuery = (
+  { __typename?: 'Query' }
+  & { event: (
+    { __typename?: 'Event' }
+    & Pick<Event, 'id' | 'title' | 'description' | 'startDate' | 'endDate' | 'maxParticipants'>
+    & { user: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'firstName' | 'lastname' | 'nickname'>
+    ) }
+  ) }
+);
 
 export type CreateEventMutationVariables = Exact<{
   title: Scalars['String'];
@@ -303,119 +309,149 @@ export type CreateEventMutationVariables = Exact<{
   maxParticipants: Scalars['Int'];
 }>;
 
-export type CreateEventMutation = { __typename?: 'Mutation' } & {
-  createEvent: { __typename?: 'Event' } & Pick<Event, 'id'>;
-};
+
+export type CreateEventMutation = (
+  { __typename?: 'Mutation' }
+  & { createEvent: (
+    { __typename?: 'Event' }
+    & Pick<Event, 'id'>
+  ) }
+);
 
 export type SearchEventsQueryVariables = Exact<{
   first: Scalars['Float'];
   query: Scalars['String'];
 }>;
 
-export type SearchEventsQuery = { __typename?: 'Query' } & {
-  searchBar: { __typename?: 'EventResponse' } & {
-    page: { __typename?: 'EventConnection' } & {
-      edges?: Maybe<
-        Array<
-          { __typename?: 'EventEdge' } & Pick<EventEdge, 'cursor'> & {
-              node?: Maybe<
-                { __typename?: 'Event' } & Pick<
-                  Event,
-                  'id' | 'title' | 'description' | 'startDate'
-                >
-              >;
-            }
-        >
-      >;
-      pageInfo?: Maybe<
-        { __typename?: 'EventPageInfo' } & Pick<
-          EventPageInfo,
-          'startCursor' | 'endCursor'
-        >
-      >;
-    };
-    pageData?: Maybe<
-      { __typename?: 'PageData' } & Pick<PageData, 'count' | 'offset' | 'limit'>
-    >;
-  };
-};
 
-export type UsersQueryVariables = Exact<{ [key: string]: never }>;
+export type SearchEventsQuery = (
+  { __typename?: 'Query' }
+  & { searchBar: (
+    { __typename?: 'EventResponse' }
+    & { page: (
+      { __typename?: 'EventConnection' }
+      & { edges?: Maybe<Array<(
+        { __typename?: 'EventEdge' }
+        & Pick<EventEdge, 'cursor'>
+        & { node?: Maybe<(
+          { __typename?: 'Event' }
+          & Pick<Event, 'id' | 'title' | 'description' | 'startDate'>
+        )> }
+      )>>, pageInfo?: Maybe<(
+        { __typename?: 'EventPageInfo' }
+        & Pick<EventPageInfo, 'startCursor' | 'endCursor'>
+      )> }
+    ), pageData?: Maybe<(
+      { __typename?: 'PageData' }
+      & Pick<PageData, 'count' | 'offset' | 'limit'>
+    )> }
+  ) }
+);
 
-export type UsersQuery = { __typename?: 'Query' } & {
-  users: { __typename?: 'UserResponse' } & {
-    page: { __typename?: 'UserConnection' } & {
-      edges?: Maybe<
-        Array<
-          { __typename?: 'UserEdge' } & {
-            node?: Maybe<
-              { __typename?: 'User' } & Pick<
-                User,
-                'id' | 'lastname' | 'firstName' | 'nickname'
-              >
-            >;
-          }
-        >
-      >;
-    };
-  };
-};
+export type SingleUserQueryVariables = Exact<{
+  id?: Maybe<Scalars['String']>;
+}>;
+
+
+export type SingleUserQuery = (
+  { __typename?: 'Query' }
+  & { user: (
+    { __typename?: 'User' }
+    & Pick<User, 'lastname' | 'firstName' | 'email' | 'nickname'>
+  ) }
+);
+
+export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UsersQuery = (
+  { __typename?: 'Query' }
+  & { users: (
+    { __typename?: 'UserResponse' }
+    & { page: (
+      { __typename?: 'UserConnection' }
+      & { edges?: Maybe<Array<(
+        { __typename?: 'UserEdge' }
+        & { node?: Maybe<(
+          { __typename?: 'User' }
+          & Pick<User, 'id' | 'lastname' | 'firstName' | 'nickname'>
+        )> }
+      )>> }
+    ) }
+  ) }
+);
 
 export type LoginMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
 }>;
 
-export type LoginMutation = { __typename?: 'Mutation' } & {
-  login: { __typename?: 'AccessToken' } & Pick<AccessToken, 'accessToken'>;
-};
+
+export type LoginMutation = (
+  { __typename?: 'Mutation' }
+  & { login: (
+    { __typename?: 'AccessToken' }
+    & Pick<AccessToken, 'accessToken'>
+  ) }
+);
 
 export type CreateUserMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
 }>;
 
-export type CreateUserMutation = { __typename?: 'Mutation' } & {
-  createUser: { __typename?: 'User' } & Pick<User, 'id'>;
-};
+
+export type CreateUserMutation = (
+  { __typename?: 'Mutation' }
+  & { createUser: (
+    { __typename?: 'User' }
+    & Pick<User, 'id'>
+  ) }
+);
 
 export type ActivateUserMutationVariables = Exact<{
   token: Scalars['String'];
 }>;
 
-export type ActivateUserMutation = { __typename?: 'Mutation' } & {
-  activateUser: { __typename?: 'User' } & Pick<User, 'email' | 'firstName'>;
-};
 
-export type FindUserEventsQueryVariables = Exact<{ [key: string]: never }>;
+export type ActivateUserMutation = (
+  { __typename?: 'Mutation' }
+  & { activateUser: (
+    { __typename?: 'User' }
+    & Pick<User, 'email' | 'firstName'>
+  ) }
+);
 
-export type FindUserEventsQuery = { __typename?: 'Query' } & {
-  userEvents: { __typename?: 'EventResponse' } & {
-    page: { __typename?: 'EventConnection' } & {
-      edges?: Maybe<
-        Array<
-          { __typename?: 'EventEdge' } & {
-            node?: Maybe<
-              { __typename?: 'Event' } & Pick<
-                Event,
-                'id' | 'title' | 'description' | 'startDate' | 'endDate'
-              >
-            >;
-          }
-        >
-      >;
-    };
-  };
-};
+export type FindUserEventsQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type CurrentUserDataQueryVariables = Exact<{ [key: string]: never }>;
 
-export type CurrentUserDataQuery = { __typename?: 'Query' } & {
-  user: { __typename?: 'User' } & Pick<
-    User,
-    'lastname' | 'firstName' | 'email' | 'nickname'
-  >;
-};
+export type FindUserEventsQuery = (
+  { __typename?: 'Query' }
+  & { userEvents: (
+    { __typename?: 'EventResponse' }
+    & { page: (
+      { __typename?: 'EventConnection' }
+      & { edges?: Maybe<Array<(
+        { __typename?: 'EventEdge' }
+        & { node?: Maybe<(
+          { __typename?: 'Event' }
+          & Pick<Event, 'id' | 'title' | 'description' | 'startDate' | 'endDate'>
+        )> }
+      )>> }
+    ) }
+  ) }
+);
+
+export type CurrentUserDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CurrentUserDataQuery = (
+  { __typename?: 'Query' }
+  & { user: (
+    { __typename?: 'User' }
+    & Pick<User, 'lastname' | 'firstName' | 'email' | 'nickname'>
+  ) }
+);
 
 export type UpdateUserMutationVariables = Exact<{
   password?: Maybe<Scalars['String']>;
@@ -425,9 +461,15 @@ export type UpdateUserMutationVariables = Exact<{
   nickname?: Maybe<Scalars['String']>;
 }>;
 
-export type UpdateUserMutation = { __typename?: 'Mutation' } & {
-  updateUser: { __typename?: 'User' } & Pick<User, 'id'>;
-};
+
+export type UpdateUserMutation = (
+  { __typename?: 'Mutation' }
+  & { updateUser: (
+    { __typename?: 'User' }
+    & Pick<User, 'id'>
+  ) }
+);
+
 
 export const EventsDocument = `
     query Events($first: Float, $orderField: String, $orderSort: String) {
@@ -445,18 +487,18 @@ export const EventsDocument = `
   }
 }
     `;
-export const useEventsQuery = <TData = EventsQuery, TError = unknown>(
-  variables?: EventsQueryVariables,
-  options?: UseQueryOptions<EventsQuery, TError, TData>,
-) =>
-  useQuery<EventsQuery, TError, TData>(
-    ['Events', variables],
-    useFetchData<EventsQuery, EventsQueryVariables>(EventsDocument).bind(
-      null,
-      variables,
-    ),
-    options,
-  );
+export const useEventsQuery = <
+      TData = EventsQuery,
+      TError = unknown
+    >(
+      variables?: EventsQueryVariables, 
+      options?: UseQueryOptions<EventsQuery, TError, TData>
+    ) => 
+    useQuery<EventsQuery, TError, TData>(
+      ['Events', variables],
+      useFetchData<EventsQuery, EventsQueryVariables>(EventsDocument).bind(null, variables),
+      options
+    );
 export const SingleEventPageDocument = `
     query SingleEventPage($id: String!) {
   event(id: $id) {
@@ -476,19 +518,17 @@ export const SingleEventPageDocument = `
 }
     `;
 export const useSingleEventPageQuery = <
-  TData = SingleEventPageQuery,
-  TError = unknown
->(
-  variables: SingleEventPageQueryVariables,
-  options?: UseQueryOptions<SingleEventPageQuery, TError, TData>,
-) =>
-  useQuery<SingleEventPageQuery, TError, TData>(
-    ['SingleEventPage', variables],
-    useFetchData<SingleEventPageQuery, SingleEventPageQueryVariables>(
-      SingleEventPageDocument,
-    ).bind(null, variables),
-    options,
-  );
+      TData = SingleEventPageQuery,
+      TError = unknown
+    >(
+      variables: SingleEventPageQueryVariables, 
+      options?: UseQueryOptions<SingleEventPageQuery, TError, TData>
+    ) => 
+    useQuery<SingleEventPageQuery, TError, TData>(
+      ['SingleEventPage', variables],
+      useFetchData<SingleEventPageQuery, SingleEventPageQueryVariables>(SingleEventPageDocument).bind(null, variables),
+      options
+    );
 export const CreateEventDocument = `
     mutation CreateEvent($title: String!, $description: String!, $startDate: DateTime!, $endDate: DateTime!, $maxParticipants: Int!) {
   createEvent(
@@ -498,25 +538,14 @@ export const CreateEventDocument = `
   }
 }
     `;
-export const useCreateEventMutation = <TError = unknown, TContext = unknown>(
-  options?: UseMutationOptions<
-    CreateEventMutation,
-    TError,
-    CreateEventMutationVariables,
-    TContext
-  >,
-) =>
-  useMutation<
-    CreateEventMutation,
-    TError,
-    CreateEventMutationVariables,
-    TContext
-  >(
-    useFetchData<CreateEventMutation, CreateEventMutationVariables>(
-      CreateEventDocument,
-    ),
-    options,
-  );
+export const useCreateEventMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<CreateEventMutation, TError, CreateEventMutationVariables, TContext>) => 
+    useMutation<CreateEventMutation, TError, CreateEventMutationVariables, TContext>(
+      useFetchData<CreateEventMutation, CreateEventMutationVariables>(CreateEventDocument),
+      options
+    );
 export const SearchEventsDocument = `
     query SearchEvents($first: Float!, $query: String!) {
   searchBar(first: $first, query: $query) {
@@ -544,19 +573,39 @@ export const SearchEventsDocument = `
 }
     `;
 export const useSearchEventsQuery = <
-  TData = SearchEventsQuery,
-  TError = unknown
->(
-  variables: SearchEventsQueryVariables,
-  options?: UseQueryOptions<SearchEventsQuery, TError, TData>,
-) =>
-  useQuery<SearchEventsQuery, TError, TData>(
-    ['SearchEvents', variables],
-    useFetchData<SearchEventsQuery, SearchEventsQueryVariables>(
-      SearchEventsDocument,
-    ).bind(null, variables),
-    options,
-  );
+      TData = SearchEventsQuery,
+      TError = unknown
+    >(
+      variables: SearchEventsQueryVariables, 
+      options?: UseQueryOptions<SearchEventsQuery, TError, TData>
+    ) => 
+    useQuery<SearchEventsQuery, TError, TData>(
+      ['SearchEvents', variables],
+      useFetchData<SearchEventsQuery, SearchEventsQueryVariables>(SearchEventsDocument).bind(null, variables),
+      options
+    );
+export const SingleUserDocument = `
+    query singleUser($id: String) {
+  user(id: $id) {
+    lastname
+    firstName
+    email
+    nickname
+  }
+}
+    `;
+export const useSingleUserQuery = <
+      TData = SingleUserQuery,
+      TError = unknown
+    >(
+      variables?: SingleUserQueryVariables, 
+      options?: UseQueryOptions<SingleUserQuery, TError, TData>
+    ) => 
+    useQuery<SingleUserQuery, TError, TData>(
+      ['singleUser', variables],
+      useFetchData<SingleUserQuery, SingleUserQueryVariables>(SingleUserDocument).bind(null, variables),
+      options
+    );
 export const UsersDocument = `
     query Users {
   users {
@@ -573,18 +622,18 @@ export const UsersDocument = `
   }
 }
     `;
-export const useUsersQuery = <TData = UsersQuery, TError = unknown>(
-  variables?: UsersQueryVariables,
-  options?: UseQueryOptions<UsersQuery, TError, TData>,
-) =>
-  useQuery<UsersQuery, TError, TData>(
-    ['Users', variables],
-    useFetchData<UsersQuery, UsersQueryVariables>(UsersDocument).bind(
-      null,
-      variables,
-    ),
-    options,
-  );
+export const useUsersQuery = <
+      TData = UsersQuery,
+      TError = unknown
+    >(
+      variables?: UsersQueryVariables, 
+      options?: UseQueryOptions<UsersQuery, TError, TData>
+    ) => 
+    useQuery<UsersQuery, TError, TData>(
+      ['Users', variables],
+      useFetchData<UsersQuery, UsersQueryVariables>(UsersDocument).bind(null, variables),
+      options
+    );
 export const LoginDocument = `
     mutation Login($email: String!, $password: String!) {
   login(loginUserInput: {email: $email, password: $password}) {
@@ -592,18 +641,14 @@ export const LoginDocument = `
   }
 }
     `;
-export const useLoginMutation = <TError = unknown, TContext = unknown>(
-  options?: UseMutationOptions<
-    LoginMutation,
-    TError,
-    LoginMutationVariables,
-    TContext
-  >,
-) =>
-  useMutation<LoginMutation, TError, LoginMutationVariables, TContext>(
-    useFetchData<LoginMutation, LoginMutationVariables>(LoginDocument),
-    options,
-  );
+export const useLoginMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<LoginMutation, TError, LoginMutationVariables, TContext>) => 
+    useMutation<LoginMutation, TError, LoginMutationVariables, TContext>(
+      useFetchData<LoginMutation, LoginMutationVariables>(LoginDocument),
+      options
+    );
 export const CreateUserDocument = `
     mutation CreateUser($email: String!, $password: String!) {
   createUser(createUserInput: {email: $email, password: $password}) {
@@ -611,25 +656,14 @@ export const CreateUserDocument = `
   }
 }
     `;
-export const useCreateUserMutation = <TError = unknown, TContext = unknown>(
-  options?: UseMutationOptions<
-    CreateUserMutation,
-    TError,
-    CreateUserMutationVariables,
-    TContext
-  >,
-) =>
-  useMutation<
-    CreateUserMutation,
-    TError,
-    CreateUserMutationVariables,
-    TContext
-  >(
-    useFetchData<CreateUserMutation, CreateUserMutationVariables>(
-      CreateUserDocument,
-    ),
-    options,
-  );
+export const useCreateUserMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<CreateUserMutation, TError, CreateUserMutationVariables, TContext>) => 
+    useMutation<CreateUserMutation, TError, CreateUserMutationVariables, TContext>(
+      useFetchData<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument),
+      options
+    );
 export const ActivateUserDocument = `
     mutation ActivateUser($token: String!) {
   activateUser(activateUser: {token: $token}) {
@@ -638,25 +672,14 @@ export const ActivateUserDocument = `
   }
 }
     `;
-export const useActivateUserMutation = <TError = unknown, TContext = unknown>(
-  options?: UseMutationOptions<
-    ActivateUserMutation,
-    TError,
-    ActivateUserMutationVariables,
-    TContext
-  >,
-) =>
-  useMutation<
-    ActivateUserMutation,
-    TError,
-    ActivateUserMutationVariables,
-    TContext
-  >(
-    useFetchData<ActivateUserMutation, ActivateUserMutationVariables>(
-      ActivateUserDocument,
-    ),
-    options,
-  );
+export const useActivateUserMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<ActivateUserMutation, TError, ActivateUserMutationVariables, TContext>) => 
+    useMutation<ActivateUserMutation, TError, ActivateUserMutationVariables, TContext>(
+      useFetchData<ActivateUserMutation, ActivateUserMutationVariables>(ActivateUserDocument),
+      options
+    );
 export const FindUserEventsDocument = `
     query FindUserEvents {
   userEvents {
@@ -675,19 +698,17 @@ export const FindUserEventsDocument = `
 }
     `;
 export const useFindUserEventsQuery = <
-  TData = FindUserEventsQuery,
-  TError = unknown
->(
-  variables?: FindUserEventsQueryVariables,
-  options?: UseQueryOptions<FindUserEventsQuery, TError, TData>,
-) =>
-  useQuery<FindUserEventsQuery, TError, TData>(
-    ['FindUserEvents', variables],
-    useFetchData<FindUserEventsQuery, FindUserEventsQueryVariables>(
-      FindUserEventsDocument,
-    ).bind(null, variables),
-    options,
-  );
+      TData = FindUserEventsQuery,
+      TError = unknown
+    >(
+      variables?: FindUserEventsQueryVariables, 
+      options?: UseQueryOptions<FindUserEventsQuery, TError, TData>
+    ) => 
+    useQuery<FindUserEventsQuery, TError, TData>(
+      ['FindUserEvents', variables],
+      useFetchData<FindUserEventsQuery, FindUserEventsQueryVariables>(FindUserEventsDocument).bind(null, variables),
+      options
+    );
 export const CurrentUserDataDocument = `
     query CurrentUserData {
   user {
@@ -699,19 +720,17 @@ export const CurrentUserDataDocument = `
 }
     `;
 export const useCurrentUserDataQuery = <
-  TData = CurrentUserDataQuery,
-  TError = unknown
->(
-  variables?: CurrentUserDataQueryVariables,
-  options?: UseQueryOptions<CurrentUserDataQuery, TError, TData>,
-) =>
-  useQuery<CurrentUserDataQuery, TError, TData>(
-    ['CurrentUserData', variables],
-    useFetchData<CurrentUserDataQuery, CurrentUserDataQueryVariables>(
-      CurrentUserDataDocument,
-    ).bind(null, variables),
-    options,
-  );
+      TData = CurrentUserDataQuery,
+      TError = unknown
+    >(
+      variables?: CurrentUserDataQueryVariables, 
+      options?: UseQueryOptions<CurrentUserDataQuery, TError, TData>
+    ) => 
+    useQuery<CurrentUserDataQuery, TError, TData>(
+      ['CurrentUserData', variables],
+      useFetchData<CurrentUserDataQuery, CurrentUserDataQueryVariables>(CurrentUserDataDocument).bind(null, variables),
+      options
+    );
 export const UpdateUserDocument = `
     mutation UpdateUser($password: String, $email: String, $firstName: String, $lastname: String, $nickname: String) {
   updateUser(
@@ -721,22 +740,11 @@ export const UpdateUserDocument = `
   }
 }
     `;
-export const useUpdateUserMutation = <TError = unknown, TContext = unknown>(
-  options?: UseMutationOptions<
-    UpdateUserMutation,
-    TError,
-    UpdateUserMutationVariables,
-    TContext
-  >,
-) =>
-  useMutation<
-    UpdateUserMutation,
-    TError,
-    UpdateUserMutationVariables,
-    TContext
-  >(
-    useFetchData<UpdateUserMutation, UpdateUserMutationVariables>(
-      UpdateUserDocument,
-    ),
-    options,
-  );
+export const useUpdateUserMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<UpdateUserMutation, TError, UpdateUserMutationVariables, TContext>) => 
+    useMutation<UpdateUserMutation, TError, UpdateUserMutationVariables, TContext>(
+      useFetchData<UpdateUserMutation, UpdateUserMutationVariables>(UpdateUserDocument),
+      options
+    );
