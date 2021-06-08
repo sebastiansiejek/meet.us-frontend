@@ -1,11 +1,11 @@
-import { CalendarTwoTone } from '@ant-design/icons';
-import { Button, Spin, Table, Typography } from 'antd';
 import Link from 'next/link';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { useFindUserEventsQuery } from 'src/generated/gqlQueries';
+import { Button, Spin, Table, Typography } from 'antd';
+import { CalendarTwoTone } from '@ant-design/icons';
 import { getDateReadableFormat } from 'src/utils/date';
 import { getExcerpt } from 'src/utils/excerpt';
+import { useFindUserEventsQuery } from 'src/generated/gqlQueries';
+import { useTranslation } from 'react-i18next';
 
 export interface UserEventsProps {}
 
@@ -13,14 +13,16 @@ const UserEvents: React.FunctionComponent<UserEventsProps> = ({}) => {
   const { isLoading, data, isError } = useFindUserEventsQuery();
   const { t, i18n } = useTranslation();
 
+  const events = data && data.userEvents.page.edges?.map((edge) => edge.node);
+
   return (
     <>
       {isError && isLoading && <Spin />}
-      {data && data.findUserEvents.length > 0 && (
+      {events && (
         <>
           <Typography.Title level={2}>{t('Created events')}</Typography.Title>
           <Table
-            dataSource={data.findUserEvents}
+            dataSource={events as []}
             rowKey="id"
             columns={[
               {

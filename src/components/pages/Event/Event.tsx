@@ -71,16 +71,18 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
           </Card>
         </Col>
       </Row>
-      <Row gutter={16}>
-        <Col span={24} className="mt-7">
-          <UserCard
-            nickname={nickname}
-            firstName={firstName}
-            lastName={lastname}
-            id={id}
-          />
-        </Col>
-      </Row>
+      {firstName && lastname && nickname && (
+        <Row gutter={16}>
+          <Col span={24} className="mt-7">
+            <UserCard
+              nickname={nickname}
+              firstName={firstName}
+              lastName={lastname}
+              id={id}
+            />
+          </Col>
+        </Row>
+      )}
     </Container>
   );
 };

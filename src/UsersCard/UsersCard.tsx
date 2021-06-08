@@ -8,7 +8,7 @@ export interface UsersCardProps {}
 
 const UsersCard: React.FunctionComponent<UsersCardProps> = () => {
   const { data, isLoading } = useUsersQuery();
-  const users = data?.users;
+  const users = data?.users.page.edges?.map((edge) => edge.node);
 
   return (
     <>
@@ -17,27 +17,29 @@ const UsersCard: React.FunctionComponent<UsersCardProps> = () => {
         <Container>
           <Row gutter={16}>
             {users.map((user) => {
-              const { nickname, firstName, lastname, id } = user;
+              if (user) {
+                const { nickname, firstName, lastname, id } = user;
 
-              if (nickname && firstName && lastname && id)
-                return (
-                  <Col
-                    key={id}
-                    span={24}
-                    sm={12}
-                    lg={8}
-                    style={{
-                      marginTop: 8,
-                    }}
-                  >
-                    <UserCard
-                      id={id}
-                      nickname={nickname}
-                      firstName={firstName}
-                      lastName={lastname}
-                    />
-                  </Col>
-                );
+                if (nickname && firstName && lastname && id)
+                  return (
+                    <Col
+                      key={id}
+                      span={24}
+                      sm={12}
+                      lg={8}
+                      style={{
+                        marginTop: 8,
+                      }}
+                    >
+                      <UserCard
+                        id={id}
+                        nickname={nickname}
+                        firstName={firstName}
+                        lastName={lastname}
+                      />
+                    </Col>
+                  );
+              }
             })}
           </Row>
         </Container>
