@@ -4,6 +4,8 @@ import React from 'react';
 import { Layout } from 'antd';
 import { Menu } from 'antd';
 import { useTranslation } from 'react-i18next';
+import { paths } from 'src/data/paths';
+import UserSettings from '../UserSettings';
 
 const { Header } = Layout;
 
@@ -24,11 +26,15 @@ const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
         </Link>
       </div>
       <Menu className="flex" theme="dark" mode="horizontal">
-        <Menu.Item>
-          <Link href="/join-to-us">{t('Join to us')}</Link>
-        </Menu.Item>
-        <Menu.Item>
-          <Link href="/my-account">{t('My account')}</Link>
+        {paths.map(({ href, title }) => (
+          <Menu.Item key={href}>
+            <Link href={href}>{t(title)}</Link>
+          </Menu.Item>
+        ))}
+        <Menu.Item
+          style={{ marginLeft: 'auto', padding: '0', display: 'flex' }}
+        >
+          <UserSettings />
         </Menu.Item>
       </Menu>
     </Header>

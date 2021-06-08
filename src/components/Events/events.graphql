@@ -1,8 +1,15 @@
-query Events {
-  events {
-    id
-    title
-    description
+query Events($first: Float, $orderField: String, $orderSort: String) {
+  events(first: $first, orderField: $orderField, orderSort: $orderSort) {
+    page {
+      edges {
+        node {
+          id
+          title
+          description
+          startDate
+        }
+      }
+    }
   }
 }
 
@@ -19,6 +26,51 @@ query SingleEventPage($id: String!) {
       firstName
       lastname
       nickname
+    }
+  }
+}
+
+mutation CreateEvent(
+  $title: String!
+  $description: String!
+  $startDate: DateTime!
+  $endDate: DateTime!
+  $maxParticipants: Int!
+) {
+  createEvent(
+    createEventInput: {
+      title: $title
+      description: $description
+      startDate: $startDate
+      endDate: $endDate
+      maxParticipants: $maxParticipants
+    }
+  ) {
+    id
+  }
+}
+
+query SearchEvents($first: Float!, $query: String!) {
+  searchBar(first: $first, query: $query) {
+    page {
+      edges {
+        node {
+          id
+          title
+          description
+          startDate
+        }
+        cursor
+      }
+      pageInfo {
+        startCursor
+        endCursor
+      }
+    }
+    pageData {
+      count
+      offset
+      limit
     }
   }
 }

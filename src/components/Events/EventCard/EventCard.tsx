@@ -1,39 +1,47 @@
-import { Card } from 'antd';
-import Link from 'next/link';
+import CardLink from 'src/components/CardLink';
 import React from 'react';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import { CalendarTwoTone } from '@ant-design/icons';
+import { Card, Divider } from 'antd';
 import { Event } from 'src/generated/gqlQueries';
 import { getExcerpt } from 'src/utils/excerpt';
-import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 
 export interface EventCardProps {
   event: Partial<Event>;
 }
 
-const EventCardStyled = styled.a`
-  display: block;
-  transition-property: box-shadow, transform;
-  transition-duration: 0.3s;
-
-  &:hover {
-    transform: translateY(-0.5rem);
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  }
-`;
-
 const EventCard: React.FunctionComponent<EventCardProps> = ({ event }) => {
-  const { title, description, id } = event;
+  const { title, description, id, startDate } = event;
   const { Meta } = Card;
+  const { i18n } = useTranslation();
+
+  dayjs.extend(relativeTime);
+
+  const fromNow = dayjs(startDate).locale(i18n.language).fromNow();
 
   return (
-    <Link href={`events/${id}`} passHref>
-      <EventCardStyled>
-        <Card title={title}>
-          {description && (
-            <Meta description={getExcerpt(description, 50)}></Meta>
-          )}
-        </Card>
-      </EventCardStyled>
-    </Link>
+    <CardLink
+      linkProps={{
+        href: `events/${id}`,
+        passHref: true,
+      }}
+      cardProps={{
+        title,
+      }}
+    >
+      {description && <Meta description={getExcerpt(description, 50)}></Meta>}
+      {fromNow && (
+        <div>
+          <Divider />
+          <div className="flex items-center">
+            <CalendarTwoTone className="mr-3" />
+            <time>{fromNow}</time>
+          </div>
+        </div>
+      )}
+    </CardLink>
   );
 };
 

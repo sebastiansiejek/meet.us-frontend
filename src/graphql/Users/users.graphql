@@ -1,6 +1,15 @@
 query Users {
   users {
-    id
+    page {
+      edges {
+        node {
+          id
+          lastname
+          firstName
+          nickname
+        }
+      }
+    }
   }
 }
 
@@ -24,11 +33,46 @@ mutation ActivateUser($token: String!) {
 }
 
 query FindUserEvents {
-  findUserEvents {
+  userEvents {
+    page {
+      edges {
+        node {
+          id
+          title
+          description
+          startDate
+          endDate
+        }
+      }
+    }
+  }
+}
+
+query CurrentUserData {
+  user {
+    lastname
+    firstName
+    email
+    nickname
+  }
+}
+
+mutation UpdateUser(
+  $password: String
+  $email: String
+  $firstName: String
+  $lastname: String
+  $nickname: String
+) {
+  updateUser(
+    updateUserInput: {
+      password: $password
+      email: $email
+      firstName: $firstName
+      lastname: $lastname
+      nickname: $nickname
+    }
+  ) {
     id
-    title
-    description
-    startDate
-    endDate
   }
 }

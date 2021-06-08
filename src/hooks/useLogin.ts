@@ -13,7 +13,7 @@ export const useLogin = () => {
         }),
       );
     },
-    onError: (error) => console.log(error),
+    onError: (error) => console.warn(error),
   });
 
   return mutate;
