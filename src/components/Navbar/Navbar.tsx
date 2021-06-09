@@ -6,16 +6,36 @@ import { Menu } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { paths } from 'src/data/paths';
 import UserSettings from '../UserSettings';
+import MobileMenu from '../MobileMenu';
+import styled from 'styled-components';
 
 const { Header } = Layout;
 
 export interface NavbarProps {}
 
+const NavbarStyled = styled(Header)`
+  @media (max-width: 992px) {
+    padding: 0 2rem;
+  }
+
+  .navbar__desktop-navigation {
+    @media (max-width: 992px) {
+      display: none;
+    }
+  }
+
+  .hamburger-react {
+    @media (min-width: 992px) {
+      display: none;
+    }
+  }
+`;
+
 const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
   const { t } = useTranslation();
 
   return (
-    <Header className="flex items-center">
+    <NavbarStyled className="flex items-center">
       <div className="mr-auto">
         <Link href="/">
           <a>
@@ -25,7 +45,11 @@ const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
           </a>
         </Link>
       </div>
-      <Menu className="flex" theme="dark" mode="horizontal">
+      <Menu
+        className="flex navbar__desktop-navigation"
+        theme="dark"
+        mode="horizontal"
+      >
         {paths.map(({ href, title }) => (
           <Menu.Item key={href}>
             <Link href={href}>{t(title)}</Link>
@@ -37,7 +61,8 @@ const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
           <UserSettings />
         </Menu.Item>
       </Menu>
-    </Header>
+      <MobileMenu />
+    </NavbarStyled>
   );
 };
 
