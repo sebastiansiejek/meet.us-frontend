@@ -37,7 +37,7 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
 
   const sortChangeHandler = (value: string) => {
     if (value === 'latest') {
-      setOrderField('startDate');
+      setOrderField('createdAt');
       setOrderSort('DESC');
       setArchive(true);
     }
