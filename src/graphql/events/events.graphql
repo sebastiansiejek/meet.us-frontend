@@ -63,9 +63,17 @@ mutation CreateEvent(
 query SearchEvents(
   $first: Float!
   $query: String!
+  $orderField: String
+  $orderSort: String
   $isArchive: Boolean! = false
 ) {
-  searchBar(first: $first, query: $query, isArchive: $isArchive) {
+  searchBar(
+    first: $first
+    query: $query
+    orderField: $orderField
+    orderSort: $orderSort
+    isArchive: $isArchive
+  ) {
     page {
       edges {
         node {

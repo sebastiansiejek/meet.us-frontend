@@ -326,6 +326,8 @@ export type CreateEventMutation = (
 export type SearchEventsQueryVariables = Exact<{
   first: Scalars['Float'];
   query: Scalars['String'];
+  orderField?: Maybe<Scalars['String']>;
+  orderSort?: Maybe<Scalars['String']>;
   isArchive?: Scalars['Boolean'];
 }>;
 
@@ -560,8 +562,14 @@ export const useCreateEventMutation = <
       options
     );
 export const SearchEventsDocument = `
-    query SearchEvents($first: Float!, $query: String!, $isArchive: Boolean! = false) {
-  searchBar(first: $first, query: $query, isArchive: $isArchive) {
+    query SearchEvents($first: Float!, $query: String!, $orderField: String, $orderSort: String, $isArchive: Boolean! = false) {
+  searchBar(
+    first: $first
+    query: $query
+    orderField: $orderField
+    orderSort: $orderSort
+    isArchive: $isArchive
+  ) {
     page {
       edges {
         node {
