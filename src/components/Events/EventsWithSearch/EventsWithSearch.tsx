@@ -76,38 +76,36 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
 
   return (
     <>
-      {events && (
-        <div>
-          <SearchBar value={`${initSearchQuery}`} />
-          <div className="flex flex-col mt-12">
-            <Select
-              onChange={sortChangeHandler}
-              style={{ width: 200 }}
-              placeholder={t('Sortuj')}
-              className="ml-auto"
-              loading={isLoading}
-              defaultValue="closest"
+      <SearchBar value={`${initSearchQuery}`} />
+      {events && events.length >= 1 && (
+        <div className="flex flex-col mt-12">
+          <Select
+            onChange={sortChangeHandler}
+            style={{ width: 200 }}
+            placeholder={t('Sortuj')}
+            className="ml-auto"
+            loading={isLoading}
+            defaultValue="closest"
+          >
+            <Option value="latest">{t('Latest events')}</Option>
+            <Option value="closest">{t('Upcoming events')}</Option>
+          </Select>
+          <div>
+            <InfiniteScroll
+              style={{
+                overflow: 'hidden',
+              }}
+              loader={
+                <div className="flex justify-center mt-10">
+                  <Spin />
+                </div>
+              }
+              next={getMoreEvents}
+              hasMore={isNextPage}
+              dataLength={events.length}
             >
-              <Option value="latest">{t('Latest events')}</Option>
-              <Option value="closest">{t('Upcoming events')}</Option>
-            </Select>
-            <div>
-              <InfiniteScroll
-                style={{
-                  overflow: 'hidden',
-                }}
-                loader={
-                  <div className="flex justify-center mt-10">
-                    <Spin />
-                  </div>
-                }
-                next={getMoreEvents}
-                hasMore={isNextPage}
-                dataLength={events.length}
-              >
-                <EventCards events={events as [{ node: Event }]} />
-              </InfiniteScroll>
-            </div>
+              <EventCards events={events as [{ node: Event }]} />
+            </InfiniteScroll>
           </div>
         </div>
       )}
