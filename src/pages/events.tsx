@@ -1,11 +1,10 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRouter } from 'next/router';
 import Container from 'src/components/Container';
-import EventCards from 'src/components/Events/EventCards';
 import PageHeader from 'src/components/PageHeader';
-import SearchBar from 'src/components/SearchBar';
-import { Event, useSearchEventsQuery } from 'src/generated/gqlQueries';
+import { useSearchEventsQuery } from 'src/generated/gqlQueries';
 import isUndefined from 'lodash/isUndefined';
+import EventsWithSearch from 'src/components/Events/EventsWithSearch';
 
 const IndexPage = () => {
   const { query } = useRouter();
@@ -20,10 +19,7 @@ const IndexPage = () => {
   return (
     <Container>
       <PageHeader title="Events" />
-      <SearchBar value={`${q}`} />
-      {data?.searchBar.page.edges && (
-        <EventCards events={data.searchBar.page.edges as [{ node: Event }]} />
-      )}
+      {data && <EventsWithSearch data={data} initSearchQuery={`${q}`} />}
     </Container>
   );
 };
