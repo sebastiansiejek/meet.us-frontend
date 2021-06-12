@@ -19,7 +19,7 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
   const { t } = useTranslation();
 
   const [orderField, setOrderField] = useState('startDate');
-  const [orderSort, setOrderSort] = useState('ASC');
+  const [orderSort, setOrderSort] = useState('DESC');
   const [isArchive, setArchive] = useState(false);
 
   const [endCursor, setEndCursor] = useState('');
@@ -44,7 +44,7 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
 
     if (value === 'closest') {
       setOrderField('startDate');
-      setOrderSort('ASC');
+      setOrderSort('DESC');
       setArchive(false);
     }
 
