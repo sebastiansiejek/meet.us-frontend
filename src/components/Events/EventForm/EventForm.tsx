@@ -1,4 +1,5 @@
 import { Form, Input, Button, DatePicker, notification, Select } from 'antd';
+import dayjs from 'dayjs';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { QueryClient } from 'react-query';
@@ -67,6 +68,9 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({ setOpen }) => {
           placeholder={[t('Start'), t('End')]}
           format="DD MMMM YYYY HH:mm"
           className="w-full"
+          disabledDate={(d) =>
+            d.isBefore(dayjs().add(1, 'day').format('YYYY-MM-DD'))
+          }
         />
       </Form.Item>
       <Form.Item
