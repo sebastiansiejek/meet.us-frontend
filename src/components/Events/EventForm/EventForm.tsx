@@ -1,18 +1,21 @@
 import { Form, Input, Button, DatePicker, notification } from 'antd';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { QueryClient } from 'react-query';
 import FormOutput from 'src/components/Form/FormOutput';
 import { useCreateEventMutation } from 'src/generated/gqlQueries';
 import { IApiError } from 'src/types/IApiError';
-import {} from 'react-query';
 
-export interface EventFormProps {}
+export interface EventFormProps {
+  setOpen: Function;
+}
 
-const EventForm: React.FunctionComponent<EventFormProps> = ({}) => {
+const EventForm: React.FunctionComponent<EventFormProps> = ({ setOpen }) => {
   const [form] = Form.useForm();
   const createEventMutation = useCreateEventMutation();
   const { TextArea } = Input;
   const { t } = useTranslation();
+  const queryClient = new QueryClient();
 
   return (
     <Form
@@ -26,11 +29,13 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({}) => {
             endDate: dates[1].format('YYYY-MM-DD HH:mm'),
             maxParticipants: parseInt(maxParticipants, 10),
           })
-          .then(() => {
+          .then((res) => {
             notification.success({
               message: t('Event has been created'),
             });
             form.resetFields();
+            queryClient.refetchQueries('SearchEvents');
+            setOpen(false);
           });
       }}
     >

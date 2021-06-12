@@ -319,7 +319,7 @@ export type CreateEventMutation = (
   { __typename?: 'Mutation' }
   & { createEvent: (
     { __typename?: 'Event' }
-    & Pick<Event, 'id'>
+    & Pick<Event, 'id' | 'title' | 'description' | 'startDate' | 'type'>
   ) }
 );
 
@@ -552,6 +552,10 @@ export const CreateEventDocument = `
     createEventInput: {title: $title, description: $description, startDate: $startDate, endDate: $endDate, maxParticipants: $maxParticipants}
   ) {
     id
+    title
+    description
+    startDate
+    type
   }
 }
     `;

@@ -58,6 +58,10 @@ mutation CreateEvent(
     }
   ) {
     id
+    title
+    description
+    startDate
+    type
   }
 }
 

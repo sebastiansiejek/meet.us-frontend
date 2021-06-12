@@ -4,10 +4,9 @@ import Container from 'src/components/Container';
 import UserEvents from 'src/components/UserEvents';
 import PageHeader from 'src/components/PageHeader';
 import UserDataForm from 'src/components/User/UserDataForm';
-import { Collapse } from 'antd';
+import { Button, Collapse } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { ContactsTwoTone } from '@ant-design/icons';
-import EventForm from 'src/components/Events/EventForm';
 
 export interface MyAccountProps {}
 
@@ -33,7 +32,6 @@ const MyAccount: React.FunctionComponent<MyAccountProps> = ({}) => {
           </Panel>
         </Collapse>
       </div>
-      <EventForm />
       <ActivateUser />
       <UserEvents />
     </Container>
