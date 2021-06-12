@@ -47,15 +47,25 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
       setOrderSort('ASC');
       setArchive(false);
     }
+
+    setEndCursor('');
   };
 
   useEffect(() => {
-    if (data)
-      setEvents([
-        ...events,
-        ...(data.searchBar.page.edges as [{ node: Event }]),
-      ]);
-  }, [data]);
+    if (data) {
+      if (endCursor === '') {
+        setEvents([...(data.searchBar.page.edges as [{ node: Event }])]);
+        setIsNextPage(data.searchBar.page.pageInfo?.hasNextPage || false);
+      }
+
+      if (endCursor !== '') {
+        setEvents([
+          ...events,
+          ...(data.searchBar.page.edges as [{ node: Event }]),
+        ]);
+      }
+    }
+  }, [data, endCursor]);
 
   const getMoreEvents = () => {
     if (data) {
