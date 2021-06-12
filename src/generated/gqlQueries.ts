@@ -312,6 +312,7 @@ export type CreateEventMutationVariables = Exact<{
   startDate: Scalars['DateTime'];
   endDate: Scalars['DateTime'];
   maxParticipants: Scalars['Int'];
+  type?: Maybe<Scalars['Float']>;
 }>;
 
 
@@ -547,9 +548,9 @@ export const useSingleEventPageQuery = <
       options
     );
 export const CreateEventDocument = `
-    mutation CreateEvent($title: String!, $description: String!, $startDate: DateTime!, $endDate: DateTime!, $maxParticipants: Int!) {
+    mutation CreateEvent($title: String!, $description: String!, $startDate: DateTime!, $endDate: DateTime!, $maxParticipants: Int!, $type: Float) {
   createEvent(
-    createEventInput: {title: $title, description: $description, startDate: $startDate, endDate: $endDate, maxParticipants: $maxParticipants}
+    createEventInput: {title: $title, description: $description, startDate: $startDate, endDate: $endDate, maxParticipants: $maxParticipants, type: $type}
   ) {
     id
     title
