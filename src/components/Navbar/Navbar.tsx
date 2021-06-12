@@ -8,6 +8,8 @@ import { paths } from 'src/data/paths';
 import UserSettings from '../UserSettings';
 import MobileMenu from '../MobileMenu';
 import styled from 'styled-components';
+import useIsLogged from 'src/hooks/useIsLogged';
+import { useSelector } from 'react-redux';
 
 const { Header } = Layout;
 
@@ -33,6 +35,7 @@ const NavbarStyled = styled(Header)`
 
 const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
   const { t } = useTranslation();
+  const isLogged = useSelector((state: any) => state.user.token);
 
   return (
     <NavbarStyled className="flex items-center">
@@ -58,7 +61,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
         <Menu.Item
           style={{ marginLeft: 'auto', padding: '0', display: 'flex' }}
         >
-          <UserSettings />
+          {isLogged && <UserSettings />}
         </Menu.Item>
       </Menu>
       <MobileMenu />
