@@ -54,8 +54,10 @@ const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
       >
         {paths.map(({ href, title, display }) => (
           <Menu.Item key={href}>
-            {isLogged && display.logged && <Link href={href}>{t(title)}</Link>}
-            {!isLogged && display.unLogged && (
+            {isLogged !== 'null' && display.logged && (
+              <Link href={href}>{t(title)}</Link>
+            )}
+            {isLogged === 'null' && display.unLogged && (
               <Link href={href}>{t(title)}</Link>
             )}
           </Menu.Item>
@@ -63,7 +65,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
         <Menu.Item
           style={{ marginLeft: 'auto', padding: '0', display: 'flex' }}
         >
-          {isLogged && <UserSettings />}
+          {isLogged !== 'null' && <UserSettings />}
         </Menu.Item>
       </Menu>
       <MobileMenu />

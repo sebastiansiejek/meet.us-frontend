@@ -19,7 +19,7 @@ const IndexPage = () => {
       <AntdHeader className="mb-14 w-full">
         <div className="items-center justify-between flex flex-col md:flex-row w-full">
           <h1 className="text-6xl mb-8 md:mb-0">{t('Events')}</h1>
-          {isLogged && <EventModal />}
+          {isLogged !== 'null' && <EventModal />}
         </div>
       </AntdHeader>
       <EventsWithSearch initSearchQuery={`${q}`} />
