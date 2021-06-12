@@ -8,7 +8,6 @@ import { paths } from 'src/data/paths';
 import UserSettings from '../UserSettings';
 import MobileMenu from '../MobileMenu';
 import styled from 'styled-components';
-import useIsLogged from 'src/hooks/useIsLogged';
 import { useSelector } from 'react-redux';
 
 const { Header } = Layout;

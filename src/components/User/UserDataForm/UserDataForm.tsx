@@ -2,7 +2,6 @@ import React from 'react';
 import { Form, Input, Button, Spin } from 'antd';
 import { LockTwoTone, MailTwoTone } from '@ant-design/icons';
 import {
-  useCurrentUserDataQuery,
   useCurrentUserQuery,
   useUpdateUserMutation,
 } from 'src/generated/gqlQueries';
