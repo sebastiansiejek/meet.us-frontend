@@ -45,6 +45,7 @@ export type Event = {
   description: Scalars['String'];
   endDate: Scalars['DateTime'];
   id: Scalars['String'];
+  isArchive: Scalars['Boolean'];
   maxParticipants?: Maybe<Scalars['Int']>;
   startDate: Scalars['DateTime'];
   state: Scalars['Float'];
@@ -163,6 +164,7 @@ export type QueryEventsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Float']>;
+  isArchive: Scalars['Boolean'];
   last?: Maybe<Scalars['Float']>;
   orderField?: Maybe<Scalars['String']>;
   orderSort?: Maybe<Scalars['String']>;
@@ -173,6 +175,7 @@ export type QuerySearchBarArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Float']>;
+  isArchive: Scalars['Boolean'];
   last?: Maybe<Scalars['Float']>;
   orderField?: Maybe<Scalars['String']>;
   orderSort?: Maybe<Scalars['String']>;
@@ -189,6 +192,7 @@ export type QueryUserEventsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Float']>;
+  isArchive: Scalars['Boolean'];
   last?: Maybe<Scalars['Float']>;
   orderField?: Maybe<Scalars['String']>;
   orderSort?: Maybe<Scalars['String']>;
@@ -264,6 +268,7 @@ export type EventsQueryVariables = Exact<{
   first?: Maybe<Scalars['Float']>;
   orderField?: Maybe<Scalars['String']>;
   orderSort?: Maybe<Scalars['String']>;
+  isArchive?: Scalars['Boolean'];
 }>;
 
 
@@ -321,6 +326,7 @@ export type CreateEventMutation = (
 export type SearchEventsQueryVariables = Exact<{
   first: Scalars['Float'];
   query: Scalars['String'];
+  isArchive?: Scalars['Boolean'];
 }>;
 
 
@@ -422,7 +428,9 @@ export type ActivateUserMutation = (
   ) }
 );
 
-export type FindUserEventsQueryVariables = Exact<{ [key: string]: never; }>;
+export type FindUserEventsQueryVariables = Exact<{
+  isArchive?: Scalars['Boolean'];
+}>;
 
 
 export type FindUserEventsQuery = (
@@ -472,8 +480,13 @@ export type UpdateUserMutation = (
 
 
 export const EventsDocument = `
-    query Events($first: Float, $orderField: String, $orderSort: String) {
-  events(first: $first, orderField: $orderField, orderSort: $orderSort) {
+    query Events($first: Float, $orderField: String, $orderSort: String, $isArchive: Boolean! = false) {
+  events(
+    first: $first
+    orderField: $orderField
+    orderSort: $orderSort
+    isArchive: $isArchive
+  ) {
     page {
       edges {
         node {
@@ -547,8 +560,8 @@ export const useCreateEventMutation = <
       options
     );
 export const SearchEventsDocument = `
-    query SearchEvents($first: Float!, $query: String!) {
-  searchBar(first: $first, query: $query) {
+    query SearchEvents($first: Float!, $query: String!, $isArchive: Boolean! = false) {
+  searchBar(first: $first, query: $query, isArchive: $isArchive) {
     page {
       edges {
         node {
@@ -681,8 +694,8 @@ export const useActivateUserMutation = <
       options
     );
 export const FindUserEventsDocument = `
-    query FindUserEvents {
-  userEvents {
+    query FindUserEvents($isArchive: Boolean! = true) {
+  userEvents(isArchive: $isArchive) {
     page {
       edges {
         node {
