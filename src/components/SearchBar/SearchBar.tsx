@@ -18,13 +18,12 @@ const SearchBar: React.FunctionComponent<SearchBarProps> = ({ value = '' }) => {
         placeholder={t('Search')}
         size="large"
         onSearch={(q) => {
-          if (q)
-            router.push({
-              pathname: 'events',
-              query: {
-                q,
-              },
-            });
+          router.push({
+            pathname: 'events',
+            query: {
+              q: q || '',
+            },
+          });
         }}
       />
     </AutoComplete>
