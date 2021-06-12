@@ -1,5 +1,14 @@
-query singleUser($id: String) {
+query singleUser($id: String!) {
   user(id: $id) {
+    lastname
+    firstName
+    email
+    nickname
+  }
+}
+
+query CurrentUser {
+  currentUser {
     lastname
     firstName
     email

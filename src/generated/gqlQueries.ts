@@ -146,6 +146,7 @@ export type PageData = {
 
 export type Query = {
   __typename?: 'Query';
+  currentUser: User;
   event: Event;
   events: EventResponse;
   searchBar: EventResponse;
@@ -164,7 +165,7 @@ export type QueryEventsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Float']>;
-  isArchive: Scalars['Boolean'];
+  isArchive?: Maybe<Scalars['Boolean']>;
   last?: Maybe<Scalars['Float']>;
   orderField?: Maybe<Scalars['String']>;
   orderSort?: Maybe<Scalars['String']>;
@@ -175,7 +176,7 @@ export type QuerySearchBarArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Float']>;
-  isArchive: Scalars['Boolean'];
+  isArchive?: Maybe<Scalars['Boolean']>;
   last?: Maybe<Scalars['Float']>;
   orderField?: Maybe<Scalars['String']>;
   orderSort?: Maybe<Scalars['String']>;
@@ -184,7 +185,7 @@ export type QuerySearchBarArgs = {
 
 
 export type QueryUserArgs = {
-  id?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
 };
 
 
@@ -192,7 +193,7 @@ export type QueryUserEventsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Float']>;
-  isArchive: Scalars['Boolean'];
+  isArchive?: Maybe<Scalars['Boolean']>;
   last?: Maybe<Scalars['Float']>;
   orderField?: Maybe<Scalars['String']>;
   orderSort?: Maybe<Scalars['String']>;
@@ -359,13 +360,24 @@ export type SearchEventsQuery = (
 );
 
 export type SingleUserQueryVariables = Exact<{
-  id?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
 }>;
 
 
 export type SingleUserQuery = (
   { __typename?: 'Query' }
   & { user: (
+    { __typename?: 'User' }
+    & Pick<User, 'lastname' | 'firstName' | 'email' | 'nickname'>
+  ) }
+);
+
+export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CurrentUserQuery = (
+  { __typename?: 'Query' }
+  & { currentUser: (
     { __typename?: 'User' }
     & Pick<User, 'lastname' | 'firstName' | 'email' | 'nickname'>
   ) }
@@ -451,17 +463,6 @@ export type FindUserEventsQuery = (
         )> }
       )>> }
     ) }
-  ) }
-);
-
-export type CurrentUserDataQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type CurrentUserDataQuery = (
-  { __typename?: 'Query' }
-  & { user: (
-    { __typename?: 'User' }
-    & Pick<User, 'lastname' | 'firstName' | 'email' | 'nickname'>
   ) }
 );
 
@@ -616,7 +617,7 @@ export const useSearchEventsQuery = <
       options
     );
 export const SingleUserDocument = `
-    query singleUser($id: String) {
+    query singleUser($id: String!) {
   user(id: $id) {
     lastname
     firstName
@@ -629,12 +630,34 @@ export const useSingleUserQuery = <
       TData = SingleUserQuery,
       TError = unknown
     >(
-      variables?: SingleUserQueryVariables, 
+      variables: SingleUserQueryVariables, 
       options?: UseQueryOptions<SingleUserQuery, TError, TData>
     ) => 
     useQuery<SingleUserQuery, TError, TData>(
       ['singleUser', variables],
       useFetchData<SingleUserQuery, SingleUserQueryVariables>(SingleUserDocument).bind(null, variables),
+      options
+    );
+export const CurrentUserDocument = `
+    query CurrentUser {
+  currentUser {
+    lastname
+    firstName
+    email
+    nickname
+  }
+}
+    `;
+export const useCurrentUserQuery = <
+      TData = CurrentUserQuery,
+      TError = unknown
+    >(
+      variables?: CurrentUserQueryVariables, 
+      options?: UseQueryOptions<CurrentUserQuery, TError, TData>
+    ) => 
+    useQuery<CurrentUserQuery, TError, TData>(
+      ['CurrentUser', variables],
+      useFetchData<CurrentUserQuery, CurrentUserQueryVariables>(CurrentUserDocument).bind(null, variables),
       options
     );
 export const UsersDocument = `
@@ -738,28 +761,6 @@ export const useFindUserEventsQuery = <
     useQuery<FindUserEventsQuery, TError, TData>(
       ['FindUserEvents', variables],
       useFetchData<FindUserEventsQuery, FindUserEventsQueryVariables>(FindUserEventsDocument).bind(null, variables),
-      options
-    );
-export const CurrentUserDataDocument = `
-    query CurrentUserData {
-  user {
-    lastname
-    firstName
-    email
-    nickname
-  }
-}
-    `;
-export const useCurrentUserDataQuery = <
-      TData = CurrentUserDataQuery,
-      TError = unknown
-    >(
-      variables?: CurrentUserDataQueryVariables, 
-      options?: UseQueryOptions<CurrentUserDataQuery, TError, TData>
-    ) => 
-    useQuery<CurrentUserDataQuery, TError, TData>(
-      ['CurrentUserData', variables],
-      useFetchData<CurrentUserDataQuery, CurrentUserDataQueryVariables>(CurrentUserDataDocument).bind(null, variables),
       options
     );
 export const UpdateUserDocument = `

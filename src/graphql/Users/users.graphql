@@ -48,15 +48,6 @@ query FindUserEvents($isArchive: Boolean! = true) {
   }
 }
 
-query CurrentUserData {
-  user {
-    lastname
-    firstName
-    email
-    nickname
-  }
-}
-
 mutation UpdateUser(
   $password: String
   $email: String
