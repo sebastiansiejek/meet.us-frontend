@@ -14,6 +14,10 @@ const CardLinkStyled = styled.a`
   transition-property: box-shadow, transform;
   transition-duration: 0.3s;
 
+  .ant-card-cover svg {
+    height: 20rem;
+  }
+
   &:hover {
     transform: translateY(-0.5rem);
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;

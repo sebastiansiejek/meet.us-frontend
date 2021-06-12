@@ -282,7 +282,7 @@ export type EventsQuery = (
         { __typename?: 'EventEdge' }
         & { node?: Maybe<(
           { __typename?: 'Event' }
-          & Pick<Event, 'id' | 'title' | 'description' | 'startDate'>
+          & Pick<Event, 'id' | 'title' | 'description' | 'startDate' | 'type'>
         )> }
       )>> }
     ) }
@@ -344,7 +344,7 @@ export type SearchEventsQuery = (
         & Pick<EventEdge, 'cursor'>
         & { node?: Maybe<(
           { __typename?: 'Event' }
-          & Pick<Event, 'id' | 'title' | 'description' | 'startDate'>
+          & Pick<Event, 'id' | 'title' | 'description' | 'startDate' | 'type'>
         )> }
       )>>, pageInfo?: Maybe<(
         { __typename?: 'EventPageInfo' }
@@ -497,6 +497,7 @@ export const EventsDocument = `
           title
           description
           startDate
+          type
         }
       }
     }
@@ -579,6 +580,7 @@ export const SearchEventsDocument = `
           title
           description
           startDate
+          type
         }
         cursor
       }

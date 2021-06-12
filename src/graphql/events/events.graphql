@@ -17,6 +17,7 @@ query Events(
           title
           description
           startDate
+          type
         }
       }
     }
@@ -83,6 +84,7 @@ query SearchEvents(
           title
           description
           startDate
+          type
         }
         cursor
       }
