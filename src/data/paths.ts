@@ -14,8 +14,4 @@ export const paths: Array<{
     href: '/users',
     title: 'Users',
   },
-  {
-    href: '/my-account',
-    title: 'My account',
-  },
 ];
