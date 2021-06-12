@@ -44,8 +44,10 @@
     "Latest events": "Najnowsze wydarzenia",
     "Upcoming events": "Nadchodzące wydarzenia",
     "Add event": "Dodaj wydarzenie",
+    "Edit event": "Edytuj wydarzenie",
     "Cancel": "Anuluj",
     "Logout": "Wyloguj się",
     "Select event type": "Wybierz rodzaj wydarzenia",
-    "Event type": "Rodzaj wydarzenie"
+    "Event type": "Rodzaj wydarzenie",
+    "Edit": "Edytuj"
 }

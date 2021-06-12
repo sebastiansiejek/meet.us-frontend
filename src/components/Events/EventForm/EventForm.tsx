@@ -5,7 +5,7 @@ import { QueryClient } from 'react-query';
 import FormOutput from 'src/components/Form/FormOutput';
 import { useCreateEventMutation } from 'src/generated/gqlQueries';
 import { IApiError } from 'src/types/IApiError';
-import { eventTypes, getMapEventTypes } from 'src/types/IEvent';
+import { getMapEventTypes } from 'src/types/IEvent';
 
 export interface EventFormProps {
   setOpen: Function;
@@ -23,6 +23,9 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({ setOpen }) => {
   return (
     <Form
       form={form}
+      initialValues={{
+        type: 0,
+      }}
       onFinish={({ title, description, dates, maxParticipants, type }) => {
         createEventMutation
           .mutateAsync({
@@ -75,11 +78,7 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({ setOpen }) => {
           },
         ]}
       >
-        <Select
-          placeholder={t('Event type')}
-          className="ml-auto"
-          defaultValue={0}
-        >
+        <Select placeholder={t('Event type')} className="ml-auto">
           {getMapEventTypes().map((el, index) => {
             return (
               <Option key={index} value={index}>
