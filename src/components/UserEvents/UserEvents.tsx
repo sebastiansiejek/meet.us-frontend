@@ -6,6 +6,7 @@ import { getDateReadableFormat } from 'src/utils/date';
 import { getExcerpt } from 'src/utils/excerpt';
 import { useFindUserEventsQuery } from 'src/generated/gqlQueries';
 import { useTranslation } from 'react-i18next';
+import EventModal from '../Events/EventModal';
 
 export interface UserEventsProps {}
 
@@ -57,7 +58,7 @@ const UserEvents: React.FunctionComponent<UserEventsProps> = ({}) => {
                   getDateReadableFormat(value, i18n.language),
               },
               {
-                title: t('Zobacz'),
+                title: t('See more'),
                 dataIndex: 'id',
                 render: (id: string) => (
                   <Link href={`/events/${id}`} passHref>
@@ -66,6 +67,11 @@ const UserEvents: React.FunctionComponent<UserEventsProps> = ({}) => {
                     </a>
                   </Link>
                 ),
+              },
+              {
+                title: t('Edit'),
+                dataIndex: 'id',
+                render: (id: string) => <EventModal isEdit id={id} />,
               },
             ]}
           />

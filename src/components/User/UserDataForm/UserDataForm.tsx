@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Input, Button, Spin } from 'antd';
 import { LockTwoTone, MailTwoTone } from '@ant-design/icons';
 import {
-  useCurrentUserDataQuery,
+  useCurrentUserQuery,
   useUpdateUserMutation,
 } from 'src/generated/gqlQueries';
 import { useTranslation } from 'react-i18next';
@@ -15,7 +15,7 @@ export interface UserDataFormProps {}
 
 const UserDataForm: React.FunctionComponent<UserDataFormProps> = ({}) => {
   const { t } = useTranslation();
-  const { isLoading, data } = useCurrentUserDataQuery();
+  const { isLoading, data } = useCurrentUserQuery();
   const updateUserMutation = useUpdateUserMutation();
 
   return (
@@ -24,10 +24,10 @@ const UserDataForm: React.FunctionComponent<UserDataFormProps> = ({}) => {
       {data && (
         <Form
           initialValues={{
-            email: data.user.email,
-            firstName: data.user.firstName || '',
-            lastname: data.user.lastname || '',
-            nickname: data.user.nickname || '',
+            email: data.currentUser.email,
+            firstName: data.currentUser.firstName || '',
+            lastname: data.currentUser.lastname || '',
+            nickname: data.currentUser.nickname || '',
           }}
           onFinish={(formData) => {
             updateUserMutation

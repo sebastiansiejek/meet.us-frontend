@@ -32,8 +32,8 @@ mutation ActivateUser($token: String!) {
   }
 }
 
-query FindUserEvents {
-  userEvents {
+query FindUserEvents($isArchive: Boolean! = true) {
+  userEvents(isArchive: $isArchive) {
     page {
       edges {
         node {
@@ -45,15 +45,6 @@ query FindUserEvents {
         }
       }
     }
-  }
-}
-
-query CurrentUserData {
-  user {
-    lastname
-    firstName
-    email
-    nickname
   }
 }
 

@@ -54,7 +54,7 @@ const UserSettings: React.FunctionComponent<UserSettingsProps> = ({}) => {
         </Menu>
       }
     >
-      <UserSettingsStyled>
+      <UserSettingsStyled className="user-settings__toggled-icon">
         <SettingFilled />
       </UserSettingsStyled>
     </Dropdown>

@@ -45,6 +45,7 @@ export type Event = {
   description: Scalars['String'];
   endDate: Scalars['DateTime'];
   id: Scalars['String'];
+  isArchive: Scalars['Boolean'];
   maxParticipants?: Maybe<Scalars['Int']>;
   startDate: Scalars['DateTime'];
   state: Scalars['Float'];
@@ -145,6 +146,7 @@ export type PageData = {
 
 export type Query = {
   __typename?: 'Query';
+  currentUser: User;
   event: Event;
   events: EventResponse;
   searchBar: EventResponse;
@@ -163,6 +165,7 @@ export type QueryEventsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Float']>;
+  isArchive?: Maybe<Scalars['Boolean']>;
   last?: Maybe<Scalars['Float']>;
   orderField?: Maybe<Scalars['String']>;
   orderSort?: Maybe<Scalars['String']>;
@@ -173,6 +176,7 @@ export type QuerySearchBarArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Float']>;
+  isArchive?: Maybe<Scalars['Boolean']>;
   last?: Maybe<Scalars['Float']>;
   orderField?: Maybe<Scalars['String']>;
   orderSort?: Maybe<Scalars['String']>;
@@ -181,7 +185,7 @@ export type QuerySearchBarArgs = {
 
 
 export type QueryUserArgs = {
-  id?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
 };
 
 
@@ -189,6 +193,7 @@ export type QueryUserEventsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Float']>;
+  isArchive?: Maybe<Scalars['Boolean']>;
   last?: Maybe<Scalars['Float']>;
   orderField?: Maybe<Scalars['String']>;
   orderSort?: Maybe<Scalars['String']>;
@@ -264,6 +269,7 @@ export type EventsQueryVariables = Exact<{
   first?: Maybe<Scalars['Float']>;
   orderField?: Maybe<Scalars['String']>;
   orderSort?: Maybe<Scalars['String']>;
+  isArchive?: Scalars['Boolean'];
 }>;
 
 
@@ -277,7 +283,7 @@ export type EventsQuery = (
         { __typename?: 'EventEdge' }
         & { node?: Maybe<(
           { __typename?: 'Event' }
-          & Pick<Event, 'id' | 'title' | 'description' | 'startDate'>
+          & Pick<Event, 'id' | 'title' | 'description' | 'startDate' | 'type'>
         )> }
       )>> }
     ) }
@@ -307,6 +313,7 @@ export type CreateEventMutationVariables = Exact<{
   startDate: Scalars['DateTime'];
   endDate: Scalars['DateTime'];
   maxParticipants: Scalars['Int'];
+  type?: Maybe<Scalars['Float']>;
 }>;
 
 
@@ -314,13 +321,17 @@ export type CreateEventMutation = (
   { __typename?: 'Mutation' }
   & { createEvent: (
     { __typename?: 'Event' }
-    & Pick<Event, 'id'>
+    & Pick<Event, 'id' | 'title' | 'description' | 'startDate' | 'type'>
   ) }
 );
 
 export type SearchEventsQueryVariables = Exact<{
   first: Scalars['Float'];
   query: Scalars['String'];
+  orderField?: Maybe<Scalars['String']>;
+  orderSort?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  isArchive?: Scalars['Boolean'];
 }>;
 
 
@@ -335,11 +346,11 @@ export type SearchEventsQuery = (
         & Pick<EventEdge, 'cursor'>
         & { node?: Maybe<(
           { __typename?: 'Event' }
-          & Pick<Event, 'id' | 'title' | 'description' | 'startDate'>
+          & Pick<Event, 'id' | 'title' | 'description' | 'startDate' | 'type'>
         )> }
       )>>, pageInfo?: Maybe<(
         { __typename?: 'EventPageInfo' }
-        & Pick<EventPageInfo, 'startCursor' | 'endCursor'>
+        & Pick<EventPageInfo, 'startCursor' | 'endCursor' | 'hasNextPage'>
       )> }
     ), pageData?: Maybe<(
       { __typename?: 'PageData' }
@@ -349,13 +360,24 @@ export type SearchEventsQuery = (
 );
 
 export type SingleUserQueryVariables = Exact<{
-  id?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
 }>;
 
 
 export type SingleUserQuery = (
   { __typename?: 'Query' }
   & { user: (
+    { __typename?: 'User' }
+    & Pick<User, 'lastname' | 'firstName' | 'email' | 'nickname'>
+  ) }
+);
+
+export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CurrentUserQuery = (
+  { __typename?: 'Query' }
+  & { currentUser: (
     { __typename?: 'User' }
     & Pick<User, 'lastname' | 'firstName' | 'email' | 'nickname'>
   ) }
@@ -422,7 +444,9 @@ export type ActivateUserMutation = (
   ) }
 );
 
-export type FindUserEventsQueryVariables = Exact<{ [key: string]: never; }>;
+export type FindUserEventsQueryVariables = Exact<{
+  isArchive?: Scalars['Boolean'];
+}>;
 
 
 export type FindUserEventsQuery = (
@@ -439,17 +463,6 @@ export type FindUserEventsQuery = (
         )> }
       )>> }
     ) }
-  ) }
-);
-
-export type CurrentUserDataQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type CurrentUserDataQuery = (
-  { __typename?: 'Query' }
-  & { user: (
-    { __typename?: 'User' }
-    & Pick<User, 'lastname' | 'firstName' | 'email' | 'nickname'>
   ) }
 );
 
@@ -472,8 +485,13 @@ export type UpdateUserMutation = (
 
 
 export const EventsDocument = `
-    query Events($first: Float, $orderField: String, $orderSort: String) {
-  events(first: $first, orderField: $orderField, orderSort: $orderSort) {
+    query Events($first: Float, $orderField: String, $orderSort: String, $isArchive: Boolean! = false) {
+  events(
+    first: $first
+    orderField: $orderField
+    orderSort: $orderSort
+    isArchive: $isArchive
+  ) {
     page {
       edges {
         node {
@@ -481,6 +499,7 @@ export const EventsDocument = `
           title
           description
           startDate
+          type
         }
       }
     }
@@ -530,11 +549,15 @@ export const useSingleEventPageQuery = <
       options
     );
 export const CreateEventDocument = `
-    mutation CreateEvent($title: String!, $description: String!, $startDate: DateTime!, $endDate: DateTime!, $maxParticipants: Int!) {
+    mutation CreateEvent($title: String!, $description: String!, $startDate: DateTime!, $endDate: DateTime!, $maxParticipants: Int!, $type: Float) {
   createEvent(
-    createEventInput: {title: $title, description: $description, startDate: $startDate, endDate: $endDate, maxParticipants: $maxParticipants}
+    createEventInput: {title: $title, description: $description, startDate: $startDate, endDate: $endDate, maxParticipants: $maxParticipants, type: $type}
   ) {
     id
+    title
+    description
+    startDate
+    type
   }
 }
     `;
@@ -547,8 +570,15 @@ export const useCreateEventMutation = <
       options
     );
 export const SearchEventsDocument = `
-    query SearchEvents($first: Float!, $query: String!) {
-  searchBar(first: $first, query: $query) {
+    query SearchEvents($first: Float!, $query: String!, $orderField: String, $orderSort: String, $after: String, $isArchive: Boolean! = false) {
+  searchBar(
+    first: $first
+    query: $query
+    orderField: $orderField
+    orderSort: $orderSort
+    isArchive: $isArchive
+    after: $after
+  ) {
     page {
       edges {
         node {
@@ -556,12 +586,14 @@ export const SearchEventsDocument = `
           title
           description
           startDate
+          type
         }
         cursor
       }
       pageInfo {
         startCursor
         endCursor
+        hasNextPage
       }
     }
     pageData {
@@ -585,7 +617,7 @@ export const useSearchEventsQuery = <
       options
     );
 export const SingleUserDocument = `
-    query singleUser($id: String) {
+    query singleUser($id: String!) {
   user(id: $id) {
     lastname
     firstName
@@ -598,12 +630,34 @@ export const useSingleUserQuery = <
       TData = SingleUserQuery,
       TError = unknown
     >(
-      variables?: SingleUserQueryVariables, 
+      variables: SingleUserQueryVariables, 
       options?: UseQueryOptions<SingleUserQuery, TError, TData>
     ) => 
     useQuery<SingleUserQuery, TError, TData>(
       ['singleUser', variables],
       useFetchData<SingleUserQuery, SingleUserQueryVariables>(SingleUserDocument).bind(null, variables),
+      options
+    );
+export const CurrentUserDocument = `
+    query CurrentUser {
+  currentUser {
+    lastname
+    firstName
+    email
+    nickname
+  }
+}
+    `;
+export const useCurrentUserQuery = <
+      TData = CurrentUserQuery,
+      TError = unknown
+    >(
+      variables?: CurrentUserQueryVariables, 
+      options?: UseQueryOptions<CurrentUserQuery, TError, TData>
+    ) => 
+    useQuery<CurrentUserQuery, TError, TData>(
+      ['CurrentUser', variables],
+      useFetchData<CurrentUserQuery, CurrentUserQueryVariables>(CurrentUserDocument).bind(null, variables),
       options
     );
 export const UsersDocument = `
@@ -681,8 +735,8 @@ export const useActivateUserMutation = <
       options
     );
 export const FindUserEventsDocument = `
-    query FindUserEvents {
-  userEvents {
+    query FindUserEvents($isArchive: Boolean! = true) {
+  userEvents(isArchive: $isArchive) {
     page {
       edges {
         node {
@@ -707,28 +761,6 @@ export const useFindUserEventsQuery = <
     useQuery<FindUserEventsQuery, TError, TData>(
       ['FindUserEvents', variables],
       useFetchData<FindUserEventsQuery, FindUserEventsQueryVariables>(FindUserEventsDocument).bind(null, variables),
-      options
-    );
-export const CurrentUserDataDocument = `
-    query CurrentUserData {
-  user {
-    lastname
-    firstName
-    email
-    nickname
-  }
-}
-    `;
-export const useCurrentUserDataQuery = <
-      TData = CurrentUserDataQuery,
-      TError = unknown
-    >(
-      variables?: CurrentUserDataQueryVariables, 
-      options?: UseQueryOptions<CurrentUserDataQuery, TError, TData>
-    ) => 
-    useQuery<CurrentUserDataQuery, TError, TData>(
-      ['CurrentUserData', variables],
-      useFetchData<CurrentUserDataQuery, CurrentUserDataQueryVariables>(CurrentUserDataDocument).bind(null, variables),
       options
     );
 export const UpdateUserDocument = `

@@ -7,7 +7,8 @@ const IndexPage = () => {
   const { data } = useEventsQuery({
     first: 6,
     orderField: 'startDate',
-    orderSort: 'DESC',
+    orderSort: 'ASC',
+    isArchive: false,
   });
 
   return (

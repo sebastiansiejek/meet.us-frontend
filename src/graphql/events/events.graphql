@@ -1,5 +1,15 @@
-query Events($first: Float, $orderField: String, $orderSort: String) {
-  events(first: $first, orderField: $orderField, orderSort: $orderSort) {
+query Events(
+  $first: Float
+  $orderField: String
+  $orderSort: String
+  $isArchive: Boolean! = false
+) {
+  events(
+    first: $first
+    orderField: $orderField
+    orderSort: $orderSort
+    isArchive: $isArchive
+  ) {
     page {
       edges {
         node {
@@ -7,6 +17,7 @@ query Events($first: Float, $orderField: String, $orderSort: String) {
           title
           description
           startDate
+          type
         }
       }
     }
@@ -36,6 +47,7 @@ mutation CreateEvent(
   $startDate: DateTime!
   $endDate: DateTime!
   $maxParticipants: Int!
+  $type: Float
 ) {
   createEvent(
     createEventInput: {
@@ -44,14 +56,33 @@ mutation CreateEvent(
       startDate: $startDate
       endDate: $endDate
       maxParticipants: $maxParticipants
+      type: $type
     }
   ) {
     id
+    title
+    description
+    startDate
+    type
   }
 }
 
-query SearchEvents($first: Float!, $query: String!) {
-  searchBar(first: $first, query: $query) {
+query SearchEvents(
+  $first: Float!
+  $query: String!
+  $orderField: String
+  $orderSort: String
+  $after: String
+  $isArchive: Boolean! = false
+) {
+  searchBar(
+    first: $first
+    query: $query
+    orderField: $orderField
+    orderSort: $orderSort
+    isArchive: $isArchive
+    after: $after
+  ) {
     page {
       edges {
         node {
@@ -59,12 +90,14 @@ query SearchEvents($first: Float!, $query: String!) {
           title
           description
           startDate
+          type
         }
         cursor
       }
       pageInfo {
         startCursor
         endCursor
+        hasNextPage
       }
     }
     pageData {

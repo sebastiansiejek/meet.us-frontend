@@ -1,23 +1,33 @@
-import { Form, Input, Button, DatePicker, notification } from 'antd';
+import { Form, Input, Button, DatePicker, notification, Select } from 'antd';
+import dayjs from 'dayjs';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { QueryClient } from 'react-query';
 import FormOutput from 'src/components/Form/FormOutput';
 import { useCreateEventMutation } from 'src/generated/gqlQueries';
 import { IApiError } from 'src/types/IApiError';
-import {} from 'react-query';
+import { getMapEventTypes } from 'src/types/IEvent';
 
-export interface EventFormProps {}
+export interface EventFormProps {
+  setOpen: Function;
+}
 
-const EventForm: React.FunctionComponent<EventFormProps> = ({}) => {
+const EventForm: React.FunctionComponent<EventFormProps> = ({ setOpen }) => {
   const [form] = Form.useForm();
   const createEventMutation = useCreateEventMutation();
   const { TextArea } = Input;
   const { t } = useTranslation();
+  const queryClient = new QueryClient();
+
+  const Option = Select.Option;
 
   return (
     <Form
       form={form}
-      onFinish={({ title, description, dates, maxParticipants }) => {
+      initialValues={{
+        type: 0,
+      }}
+      onFinish={({ title, description, dates, maxParticipants, type }) => {
         createEventMutation
           .mutateAsync({
             title,
@@ -25,12 +35,15 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({}) => {
             startDate: dates[0].format('YYYY-MM-DD HH:mm'),
             endDate: dates[1].format('YYYY-MM-DD HH:mm'),
             maxParticipants: parseInt(maxParticipants, 10),
+            type,
           })
           .then(() => {
             notification.success({
               message: t('Event has been created'),
             });
             form.resetFields();
+            queryClient.refetchQueries('SearchEvents');
+            setOpen(false);
           });
       }}
     >
@@ -55,7 +68,29 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({}) => {
           placeholder={[t('Start'), t('End')]}
           format="DD MMMM YYYY HH:mm"
           className="w-full"
+          disabledDate={(d) =>
+            d.isBefore(dayjs().add(1, 'day').format('YYYY-MM-DD'))
+          }
         />
+      </Form.Item>
+      <Form.Item
+        name="type"
+        rules={[
+          {
+            required: false,
+            message: t('Select event type'),
+          },
+        ]}
+      >
+        <Select placeholder={t('Event type')} className="ml-auto">
+          {getMapEventTypes().map((el, index) => {
+            return (
+              <Option key={index} value={index}>
+                {t(`${el}`)}
+              </Option>
+            );
+          })}
+        </Select>
       </Form.Item>
       <Form.Item
         name="maxParticipants"
