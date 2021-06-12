@@ -328,6 +328,7 @@ export type SearchEventsQueryVariables = Exact<{
   query: Scalars['String'];
   orderField?: Maybe<Scalars['String']>;
   orderSort?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
   isArchive?: Scalars['Boolean'];
 }>;
 
@@ -347,7 +348,7 @@ export type SearchEventsQuery = (
         )> }
       )>>, pageInfo?: Maybe<(
         { __typename?: 'EventPageInfo' }
-        & Pick<EventPageInfo, 'startCursor' | 'endCursor'>
+        & Pick<EventPageInfo, 'startCursor' | 'endCursor' | 'hasNextPage'>
       )> }
     ), pageData?: Maybe<(
       { __typename?: 'PageData' }
@@ -562,13 +563,14 @@ export const useCreateEventMutation = <
       options
     );
 export const SearchEventsDocument = `
-    query SearchEvents($first: Float!, $query: String!, $orderField: String, $orderSort: String, $isArchive: Boolean! = false) {
+    query SearchEvents($first: Float!, $query: String!, $orderField: String, $orderSort: String, $after: String, $isArchive: Boolean! = false) {
   searchBar(
     first: $first
     query: $query
     orderField: $orderField
     orderSort: $orderSort
     isArchive: $isArchive
+    after: $after
   ) {
     page {
       edges {
@@ -583,6 +585,7 @@ export const SearchEventsDocument = `
       pageInfo {
         startCursor
         endCursor
+        hasNextPage
       }
     }
     pageData {

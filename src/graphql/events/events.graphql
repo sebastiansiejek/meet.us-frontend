@@ -65,6 +65,7 @@ query SearchEvents(
   $query: String!
   $orderField: String
   $orderSort: String
+  $after: String
   $isArchive: Boolean! = false
 ) {
   searchBar(
@@ -73,6 +74,7 @@ query SearchEvents(
     orderField: $orderField
     orderSort: $orderSort
     isArchive: $isArchive
+    after: $after
   ) {
     page {
       edges {
@@ -87,6 +89,7 @@ query SearchEvents(
       pageInfo {
         startCursor
         endCursor
+        hasNextPage
       }
     }
     pageData {
