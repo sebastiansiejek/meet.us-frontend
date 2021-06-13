@@ -359,6 +359,19 @@ export type SearchEventsQuery = (
   ) }
 );
 
+export type DeleteEventMutationVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type DeleteEventMutation = (
+  { __typename?: 'Mutation' }
+  & { removeEvent: (
+    { __typename?: 'Event' }
+    & Pick<Event, 'title'>
+  ) }
+);
+
 export type SingleUserQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
@@ -444,9 +457,7 @@ export type ActivateUserMutation = (
   ) }
 );
 
-export type FindUserEventsQueryVariables = Exact<{
-  isArchive?: Scalars['Boolean'];
-}>;
+export type FindUserEventsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type FindUserEventsQuery = (
@@ -616,6 +627,21 @@ export const useSearchEventsQuery = <
       useFetchData<SearchEventsQuery, SearchEventsQueryVariables>(SearchEventsDocument).bind(null, variables),
       options
     );
+export const DeleteEventDocument = `
+    mutation DeleteEvent($id: String!) {
+  removeEvent(id: $id) {
+    title
+  }
+}
+    `;
+export const useDeleteEventMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<DeleteEventMutation, TError, DeleteEventMutationVariables, TContext>) => 
+    useMutation<DeleteEventMutation, TError, DeleteEventMutationVariables, TContext>(
+      useFetchData<DeleteEventMutation, DeleteEventMutationVariables>(DeleteEventDocument),
+      options
+    );
 export const SingleUserDocument = `
     query singleUser($id: String!) {
   user(id: $id) {
@@ -735,8 +761,8 @@ export const useActivateUserMutation = <
       options
     );
 export const FindUserEventsDocument = `
-    query FindUserEvents($isArchive: Boolean! = true) {
-  userEvents(isArchive: $isArchive) {
+    query FindUserEvents {
+  userEvents {
     page {
       edges {
         node {
