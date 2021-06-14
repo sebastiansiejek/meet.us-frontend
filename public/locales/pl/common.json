@@ -49,5 +49,10 @@
     "Logout": "Wyloguj się",
     "Select event type": "Wybierz rodzaj wydarzenia",
     "Event type": "Rodzaj wydarzenie",
-    "Edit": "Edytuj"
+    "Edit": "Edytuj",
+    "Remove": "Usuń",
+    "Yes": "Tak",
+    "No": "Nie",
+    "Event has been removed": "Wydarzenie zostało usunięte",
+    "Are you sure?": "Czy jesteś pewny?"
 }
