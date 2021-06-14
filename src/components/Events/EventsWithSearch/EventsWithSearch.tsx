@@ -49,7 +49,6 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
     if (data) {
       if (endCursor === '') {
         setEvents([...(data.searchBar.page.edges as [{ node: Event }])]);
-        setIsNextPage(data.searchBar.page.pageInfo?.hasNextPage || false);
       }
 
       if (endCursor !== '') {
@@ -58,6 +57,8 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
           ...(data.searchBar.page.edges as [{ node: Event }]),
         ]);
       }
+
+      setIsNextPage(data.searchBar.page.pageInfo?.hasNextPage || false);
     }
   }, [data, endCursor]);
 
