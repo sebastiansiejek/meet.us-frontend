@@ -176,11 +176,11 @@ export type QuerySearchBarArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Float']>;
-  isArchive?: Maybe<Scalars['Boolean']>;
   last?: Maybe<Scalars['Float']>;
   orderField?: Maybe<Scalars['String']>;
   orderSort?: Maybe<Scalars['String']>;
   query: Scalars['String'];
+  status?: Maybe<Scalars['String']>;
 };
 
 
@@ -331,7 +331,7 @@ export type SearchEventsQueryVariables = Exact<{
   orderField?: Maybe<Scalars['String']>;
   orderSort?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
-  isArchive?: Scalars['Boolean'];
+  status?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -601,13 +601,13 @@ export const useCreateEventMutation = <
       options
     );
 export const SearchEventsDocument = `
-    query SearchEvents($first: Float!, $query: String!, $orderField: String, $orderSort: String, $after: String, $isArchive: Boolean! = false) {
+    query SearchEvents($first: Float!, $query: String!, $orderField: String, $orderSort: String, $after: String, $status: String) {
   searchBar(
     first: $first
     query: $query
     orderField: $orderField
     orderSort: $orderSort
-    isArchive: $isArchive
+    status: $status
     after: $after
   ) {
     page {

@@ -19,8 +19,8 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
   const { t } = useTranslation();
 
   const [orderField, setOrderField] = useState('startDate');
-  const [orderSort, setOrderSort] = useState('DESC');
-  const [isArchive, setArchive] = useState(false);
+  const [orderSort, setOrderSort] = useState('ASC');
+  const [status, setEventStatus] = useState('DURING');
 
   const [endCursor, setEndCursor] = useState('');
   const [isNextPage, setIsNextPage] = useState(true);
@@ -31,23 +31,12 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
     query: initSearchQuery,
     orderField,
     orderSort,
-    isArchive,
+    status: status,
     after: endCursor,
   });
 
   const sortChangeHandler = (value: string) => {
-    if (value === 'latest') {
-      setOrderField('createdAt');
-      setOrderSort('DESC');
-      setArchive(true);
-    }
-
-    if (value === 'closest') {
-      setOrderField('startDate');
-      setOrderSort('DESC');
-      setArchive(false);
-    }
-
+    setEventStatus(value);
     setEndCursor('');
   };
 
@@ -82,13 +71,14 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
           <Select
             onChange={sortChangeHandler}
             style={{ width: 200 }}
-            placeholder={t('Sortuj')}
+            placeholder={t('Select status of events')}
             className="ml-auto"
             loading={isLoading}
-            defaultValue="closest"
+            defaultValue="DURING"
           >
-            <Option value="latest">{t('Latest events')}</Option>
-            <Option value="closest">{t('Upcoming events')}</Option>
+            <Option value="FUTURE">{t('Upcoming')}</Option>
+            <Option value="DURING">{t('During')}</Option>
+            <Option value="PAST">{t('Past')}</Option>
           </Select>
           <div>
             <InfiniteScroll

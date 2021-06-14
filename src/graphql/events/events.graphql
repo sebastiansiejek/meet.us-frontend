@@ -74,14 +74,14 @@ query SearchEvents(
   $orderField: String
   $orderSort: String
   $after: String
-  $isArchive: Boolean! = false
+  $status: String
 ) {
   searchBar(
     first: $first
     query: $query
     orderField: $orderField
     orderSort: $orderSort
-    isArchive: $isArchive
+    status: $status
     after: $after
   ) {
     page {
