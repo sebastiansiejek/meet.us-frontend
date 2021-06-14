@@ -53,6 +53,8 @@ const MobileMenu: React.FunctionComponent<MobileMenuProps> = ({}) => {
 
   const [isOpen, setOpen] = useState(false);
 
+  const handleClick = () => setOpen(false);
+
   return (
     <MobileMenuStyled>
       <Hamburger
@@ -75,11 +77,14 @@ const MobileMenu: React.FunctionComponent<MobileMenuProps> = ({}) => {
         </div>
         <Menu theme="dark" mode="vertical">
           {paths.map(({ href, title }) => (
-            <Menu.Item key={href}>
+            <Menu.Item key={href} onClick={() => handleClick()}>
               <Link href={href}>{t(title)}</Link>
             </Menu.Item>
           ))}
-          <Menu.Item style={{ padding: '0', display: 'flex' }}>
+          <Menu.Item
+            style={{ padding: '0', display: 'flex' }}
+            onClick={() => handleClick()}
+          >
             <UserSettings />
           </Menu.Item>
         </Menu>
