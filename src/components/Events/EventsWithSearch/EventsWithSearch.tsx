@@ -37,6 +37,15 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
 
   const sortByStatusHandler = (value: string) => {
     setEventStatus(value);
+
+    if (value === 'FUTURE') {
+      setOrderSort('ASC');
+    }
+
+    if (value === 'PAST') {
+      setOrderSort('DESC');
+    }
+
     setEndCursor('');
   };
 
@@ -82,7 +91,8 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
               placeholder={t('Select status of events')}
               className="ml-auto"
               loading={isLoading}
-              defaultValue="DURING"
+              defaultValue={status}
+              value={status}
             >
               <Option value="FUTURE">{t('Upcoming')}</Option>
               <Option value="DURING">{t('During')}</Option>
@@ -94,7 +104,8 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
               placeholder={t('Select status of events')}
               className="ml-auto"
               loading={isLoading}
-              defaultValue="ASC"
+              defaultValue={orderSort}
+              value={orderSort}
             >
               <Option value="ASC">{t('Ascending by start date')}</Option>
               <Option value="DESC">{t('Descending by start date')}</Option>
