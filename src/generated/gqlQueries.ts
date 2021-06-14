@@ -299,7 +299,7 @@ export type SingleEventPageQuery = (
   { __typename?: 'Query' }
   & { event: (
     { __typename?: 'Event' }
-    & Pick<Event, 'id' | 'title' | 'description' | 'startDate' | 'endDate' | 'maxParticipants'>
+    & Pick<Event, 'id' | 'title' | 'description' | 'startDate' | 'endDate' | 'maxParticipants' | 'type'>
     & { user: (
       { __typename?: 'User' }
       & Pick<User, 'id' | 'firstName' | 'lastname' | 'nickname'>
@@ -521,9 +521,9 @@ export const useEventsQuery = <
       TData = EventsQuery,
       TError = unknown
     >(
-      variables?: EventsQueryVariables,
+      variables?: EventsQueryVariables, 
       options?: UseQueryOptions<EventsQuery, TError, TData>
-    ) =>
+    ) => 
     useQuery<EventsQuery, TError, TData>(
       ['Events', variables],
       useFetchData<EventsQuery, EventsQueryVariables>(EventsDocument).bind(null, variables),
@@ -538,6 +538,7 @@ export const SingleEventPageDocument = `
     startDate
     endDate
     maxParticipants
+    type
     user {
       id
       firstName
@@ -551,9 +552,9 @@ export const useSingleEventPageQuery = <
       TData = SingleEventPageQuery,
       TError = unknown
     >(
-      variables: SingleEventPageQueryVariables,
+      variables: SingleEventPageQueryVariables, 
       options?: UseQueryOptions<SingleEventPageQuery, TError, TData>
-    ) =>
+    ) => 
     useQuery<SingleEventPageQuery, TError, TData>(
       ['SingleEventPage', variables],
       useFetchData<SingleEventPageQuery, SingleEventPageQueryVariables>(SingleEventPageDocument).bind(null, variables),
@@ -575,7 +576,7 @@ export const CreateEventDocument = `
 export const useCreateEventMutation = <
       TError = unknown,
       TContext = unknown
-    >(options?: UseMutationOptions<CreateEventMutation, TError, CreateEventMutationVariables, TContext>) =>
+    >(options?: UseMutationOptions<CreateEventMutation, TError, CreateEventMutationVariables, TContext>) => 
     useMutation<CreateEventMutation, TError, CreateEventMutationVariables, TContext>(
       useFetchData<CreateEventMutation, CreateEventMutationVariables>(CreateEventDocument),
       options
@@ -619,9 +620,9 @@ export const useSearchEventsQuery = <
       TData = SearchEventsQuery,
       TError = unknown
     >(
-      variables: SearchEventsQueryVariables,
+      variables: SearchEventsQueryVariables, 
       options?: UseQueryOptions<SearchEventsQuery, TError, TData>
-    ) =>
+    ) => 
     useQuery<SearchEventsQuery, TError, TData>(
       ['SearchEvents', variables],
       useFetchData<SearchEventsQuery, SearchEventsQueryVariables>(SearchEventsDocument).bind(null, variables),
@@ -637,7 +638,7 @@ export const DeleteEventDocument = `
 export const useDeleteEventMutation = <
       TError = unknown,
       TContext = unknown
-    >(options?: UseMutationOptions<DeleteEventMutation, TError, DeleteEventMutationVariables, TContext>) =>
+    >(options?: UseMutationOptions<DeleteEventMutation, TError, DeleteEventMutationVariables, TContext>) => 
     useMutation<DeleteEventMutation, TError, DeleteEventMutationVariables, TContext>(
       useFetchData<DeleteEventMutation, DeleteEventMutationVariables>(DeleteEventDocument),
       options
@@ -656,9 +657,9 @@ export const useSingleUserQuery = <
       TData = SingleUserQuery,
       TError = unknown
     >(
-      variables: SingleUserQueryVariables,
+      variables: SingleUserQueryVariables, 
       options?: UseQueryOptions<SingleUserQuery, TError, TData>
-    ) =>
+    ) => 
     useQuery<SingleUserQuery, TError, TData>(
       ['singleUser', variables],
       useFetchData<SingleUserQuery, SingleUserQueryVariables>(SingleUserDocument).bind(null, variables),
@@ -678,9 +679,9 @@ export const useCurrentUserQuery = <
       TData = CurrentUserQuery,
       TError = unknown
     >(
-      variables?: CurrentUserQueryVariables,
+      variables?: CurrentUserQueryVariables, 
       options?: UseQueryOptions<CurrentUserQuery, TError, TData>
-    ) =>
+    ) => 
     useQuery<CurrentUserQuery, TError, TData>(
       ['CurrentUser', variables],
       useFetchData<CurrentUserQuery, CurrentUserQueryVariables>(CurrentUserDocument).bind(null, variables),
@@ -706,9 +707,9 @@ export const useUsersQuery = <
       TData = UsersQuery,
       TError = unknown
     >(
-      variables?: UsersQueryVariables,
+      variables?: UsersQueryVariables, 
       options?: UseQueryOptions<UsersQuery, TError, TData>
-    ) =>
+    ) => 
     useQuery<UsersQuery, TError, TData>(
       ['Users', variables],
       useFetchData<UsersQuery, UsersQueryVariables>(UsersDocument).bind(null, variables),
@@ -724,7 +725,7 @@ export const LoginDocument = `
 export const useLoginMutation = <
       TError = unknown,
       TContext = unknown
-    >(options?: UseMutationOptions<LoginMutation, TError, LoginMutationVariables, TContext>) =>
+    >(options?: UseMutationOptions<LoginMutation, TError, LoginMutationVariables, TContext>) => 
     useMutation<LoginMutation, TError, LoginMutationVariables, TContext>(
       useFetchData<LoginMutation, LoginMutationVariables>(LoginDocument),
       options
@@ -739,7 +740,7 @@ export const CreateUserDocument = `
 export const useCreateUserMutation = <
       TError = unknown,
       TContext = unknown
-    >(options?: UseMutationOptions<CreateUserMutation, TError, CreateUserMutationVariables, TContext>) =>
+    >(options?: UseMutationOptions<CreateUserMutation, TError, CreateUserMutationVariables, TContext>) => 
     useMutation<CreateUserMutation, TError, CreateUserMutationVariables, TContext>(
       useFetchData<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument),
       options
@@ -755,7 +756,7 @@ export const ActivateUserDocument = `
 export const useActivateUserMutation = <
       TError = unknown,
       TContext = unknown
-    >(options?: UseMutationOptions<ActivateUserMutation, TError, ActivateUserMutationVariables, TContext>) =>
+    >(options?: UseMutationOptions<ActivateUserMutation, TError, ActivateUserMutationVariables, TContext>) => 
     useMutation<ActivateUserMutation, TError, ActivateUserMutationVariables, TContext>(
       useFetchData<ActivateUserMutation, ActivateUserMutationVariables>(ActivateUserDocument),
       options
@@ -781,9 +782,9 @@ export const useFindUserEventsQuery = <
       TData = FindUserEventsQuery,
       TError = unknown
     >(
-      variables?: FindUserEventsQueryVariables,
+      variables?: FindUserEventsQueryVariables, 
       options?: UseQueryOptions<FindUserEventsQuery, TError, TData>
-    ) =>
+    ) => 
     useQuery<FindUserEventsQuery, TError, TData>(
       ['FindUserEvents', variables],
       useFetchData<FindUserEventsQuery, FindUserEventsQueryVariables>(FindUserEventsDocument).bind(null, variables),
@@ -801,7 +802,7 @@ export const UpdateUserDocument = `
 export const useUpdateUserMutation = <
       TError = unknown,
       TContext = unknown
-    >(options?: UseMutationOptions<UpdateUserMutation, TError, UpdateUserMutationVariables, TContext>) =>
+    >(options?: UseMutationOptions<UpdateUserMutation, TError, UpdateUserMutationVariables, TContext>) => 
     useMutation<UpdateUserMutation, TError, UpdateUserMutationVariables, TContext>(
       useFetchData<UpdateUserMutation, UpdateUserMutationVariables>(UpdateUserDocument),
       options
