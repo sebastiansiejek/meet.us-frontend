@@ -4,15 +4,22 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { QueryClient } from 'react-query';
 import FormOutput from 'src/components/Form/FormOutput';
-import { useCreateEventMutation } from 'src/generated/gqlQueries';
+import {
+  SingleEventPageQuery,
+  useCreateEventMutation,
+} from 'src/generated/gqlQueries';
 import { IApiError } from 'src/types/IApiError';
 import { getMapEventTypes } from 'src/types/IEvent';
 
 export interface EventFormProps {
   setOpen: Function;
+  initialValues: SingleEventPageQuery['event'];
 }
 
-const EventForm: React.FunctionComponent<EventFormProps> = ({ setOpen }) => {
+const EventForm: React.FunctionComponent<EventFormProps> = ({
+  setOpen,
+  initialValues,
+}) => {
   const [form] = Form.useForm();
   const createEventMutation = useCreateEventMutation();
   const { TextArea } = Input;
@@ -21,12 +28,12 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({ setOpen }) => {
 
   const Option = Select.Option;
 
+  console.log(initialValues);
+
   return (
     <Form
       form={form}
-      initialValues={{
-        type: 0,
-      }}
+      initialValues={initialValues}
       onFinish={({ title, description, dates, maxParticipants, type }) => {
         createEventMutation
           .mutateAsync({

@@ -85,7 +85,7 @@ const UserEvents: React.FunctionComponent<UserEventsProps> = ({}) => {
                 render: (id: string) => (
                   <Link href={`/events/${id}`} passHref>
                     <a href="">
-                      <Button type="primary">{t('See')}</Button>
+                      <Button type="link">{t('See')}</Button>
                     </a>
                   </Link>
                 ),
@@ -101,7 +101,7 @@ const UserEvents: React.FunctionComponent<UserEventsProps> = ({}) => {
                 render: (id: string) => (
                   <Popconfirm
                     placement="top"
-                    title={t('Are you shure?')}
+                    title={t('Are you sure?')}
                     okText={t('Yes')}
                     cancelText={t('No')}
                     okButtonProps={{
