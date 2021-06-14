@@ -43,6 +43,7 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
   const sortChangeHandler = (value: string) => {
     setOrderSort(value);
     setOrderField('startDate');
+    setEndCursor('');
   };
 
   useEffect(() => {
