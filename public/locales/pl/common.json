@@ -64,5 +64,9 @@
     "Are you sure?": "Czy jesteś pewny?",
     "Your personal data has been updated": "Twoje dane osobowe zostały zaktualizowane",
     "See all events": "Zobacz wszystkie wydarzenia",
-    "Select status of events": "Wybierz status wydarzeń"
+    "Select status of events": "Wybierz status wydarzeń",
+    "Ascending by date": "Rosnąco przez datę",
+    "Descending by date": "Malejąco przez datę",
+    "Ascending by start date": "Rosnąco przez datę rozpoczęcie",
+    "Descending by start date": "Malejąco przez datę rozpoczęcie"
 }

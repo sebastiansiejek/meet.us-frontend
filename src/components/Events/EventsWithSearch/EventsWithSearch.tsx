@@ -35,9 +35,14 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
     after: endCursor,
   });
 
-  const sortChangeHandler = (value: string) => {
+  const sortByStatusHandler = (value: string) => {
     setEventStatus(value);
     setEndCursor('');
+  };
+
+  const sortChangeHandler = (value: string) => {
+    setOrderSort(value);
+    setOrderField('startDate');
   };
 
   useEffect(() => {
@@ -68,18 +73,31 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
       <SearchBar value={`${initSearchQuery}`} />
       {events && events.length >= 1 && (
         <div className="flex flex-col mt-12">
-          <Select
-            onChange={sortChangeHandler}
-            style={{ width: 200 }}
-            placeholder={t('Select status of events')}
-            className="ml-auto"
-            loading={isLoading}
-            defaultValue="DURING"
-          >
-            <Option value="FUTURE">{t('Upcoming')}</Option>
-            <Option value="DURING">{t('During')}</Option>
-            <Option value="PAST">{t('Past')}</Option>
-          </Select>
+          <div className="flex">
+            <Select
+              onChange={sortByStatusHandler}
+              style={{ width: 200 }}
+              placeholder={t('Select status of events')}
+              className="ml-auto"
+              loading={isLoading}
+              defaultValue="DURING"
+            >
+              <Option value="FUTURE">{t('Upcoming')}</Option>
+              <Option value="DURING">{t('During')}</Option>
+              <Option value="PAST">{t('Past')}</Option>
+            </Select>
+            <Select
+              onChange={sortChangeHandler}
+              style={{ width: 200 }}
+              placeholder={t('Select status of events')}
+              className="ml-auto"
+              loading={isLoading}
+              defaultValue="ASC"
+            >
+              <Option value="ASC">{t('Ascending by start date')}</Option>
+              <Option value="DESC">{t('Descending by start date')}</Option>
+            </Select>
+          </div>
           <div>
             <InfiniteScroll
               style={{
