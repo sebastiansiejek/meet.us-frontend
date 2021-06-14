@@ -29,7 +29,6 @@ export type CreateEventInput = {
   endDate: Scalars['DateTime'];
   maxParticipants?: Maybe<Scalars['Int']>;
   startDate: Scalars['DateTime'];
-  state?: Maybe<Scalars['Float']>;
   title: Scalars['String'];
   type?: Maybe<Scalars['Float']>;
 };
@@ -48,7 +47,7 @@ export type Event = {
   isArchive: Scalars['Boolean'];
   maxParticipants?: Maybe<Scalars['Int']>;
   startDate: Scalars['DateTime'];
-  state: Scalars['Float'];
+  state: Scalars['String'];
   title: Scalars['String'];
   type: Scalars['Float'];
   user: User;
@@ -215,7 +214,6 @@ export type UpdateEventInput = {
   id: Scalars['String'];
   maxParticipants?: Maybe<Scalars['Int']>;
   startDate?: Maybe<Scalars['DateTime']>;
-  state?: Maybe<Scalars['Float']>;
   title?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['Float']>;
 };
@@ -346,7 +344,7 @@ export type SearchEventsQuery = (
         & Pick<EventEdge, 'cursor'>
         & { node?: Maybe<(
           { __typename?: 'Event' }
-          & Pick<Event, 'id' | 'title' | 'description' | 'startDate' | 'type'>
+          & Pick<Event, 'id' | 'title' | 'description' | 'startDate' | 'endDate' | 'type' | 'state'>
         )> }
       )>>, pageInfo?: Maybe<(
         { __typename?: 'EventPageInfo' }
@@ -617,7 +615,9 @@ export const SearchEventsDocument = `
           title
           description
           startDate
+          endDate
           type
+          state
         }
         cursor
       }

@@ -91,7 +91,9 @@ query SearchEvents(
           title
           description
           startDate
+          endDate
           type
+          state
         }
         cursor
       }
