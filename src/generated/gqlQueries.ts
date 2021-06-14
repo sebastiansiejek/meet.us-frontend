@@ -47,7 +47,7 @@ export type Event = {
   isArchive: Scalars['Boolean'];
   maxParticipants?: Maybe<Scalars['Int']>;
   startDate: Scalars['DateTime'];
-  state: Scalars['String'];
+  state?: Maybe<Scalars['String']>;
   title: Scalars['String'];
   type: Scalars['Float'];
   user: User;
@@ -166,8 +166,8 @@ export type QueryEventsArgs = {
   last?: Maybe<Scalars['Float']>;
   orderField?: Maybe<Scalars['String']>;
   orderSort?: Maybe<Scalars['String']>;
-  query: Scalars['String'];
-  status?: Maybe<Scalars['String']>;
+  query?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
 };
 
 
@@ -292,7 +292,7 @@ export type EventsQueryVariables = Exact<{
   orderField?: Maybe<Scalars['String']>;
   orderSort?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
-  status?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -528,13 +528,13 @@ export const useCreateEventMutation = <
       options
     );
 export const EventsDocument = `
-    query Events($first: Float!, $query: String!, $orderField: String, $orderSort: String, $after: String, $status: String) {
+    query Events($first: Float!, $query: String!, $orderField: String, $orderSort: String, $after: String, $state: String) {
   events(
     first: $first
     query: $query
     orderField: $orderField
     orderSort: $orderSort
-    status: $status
+    state: $state
     after: $after
   ) {
     page {

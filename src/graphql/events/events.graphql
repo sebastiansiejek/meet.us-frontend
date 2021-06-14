@@ -48,14 +48,14 @@ query Events(
   $orderField: String
   $orderSort: String
   $after: String
-  $status: String
+  $state: String
 ) {
   events(
     first: $first
     query: $query
     orderField: $orderField
     orderSort: $orderSort
-    status: $status
+    state: $state
     after: $after
   ) {
     page {

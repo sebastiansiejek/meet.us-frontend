@@ -20,7 +20,7 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
 
   const [orderField, setOrderField] = useState('startDate');
   const [orderSort, setOrderSort] = useState('DESC');
-  const [status, setEventStatus] = useState('DURING');
+  const [state, setEventState] = useState('DURING');
 
   const [endCursor, setEndCursor] = useState('');
   const [isNextPage, setIsNextPage] = useState(true);
@@ -31,12 +31,12 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
     query: initSearchQuery,
     orderField,
     orderSort,
-    status: status,
+    state,
     after: endCursor,
   });
 
-  const sortByStatusHandler = (value: string) => {
-    setEventStatus(value);
+  const sortByStateHandler = (value: string) => {
+    setEventState(value);
 
     if (value === 'FUTURE') {
       setOrderSort('ASC');
@@ -86,13 +86,13 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
         <div className="flex flex-col mt-12">
           <div className="flex">
             <Select
-              onChange={sortByStatusHandler}
+              onChange={sortByStateHandler}
               style={{ width: 200 }}
               placeholder={t('Select status of events')}
               className="ml-auto"
               loading={isLoading}
-              defaultValue={status}
-              value={status}
+              defaultValue={state}
+              value={state}
             >
               <Option value="FUTURE">{t('Upcoming')}</Option>
               <Option value="DURING">{t('During')}</Option>
