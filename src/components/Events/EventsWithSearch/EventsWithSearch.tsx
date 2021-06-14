@@ -19,7 +19,7 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
   const { t } = useTranslation();
 
   const [orderField, setOrderField] = useState('startDate');
-  const [orderSort, setOrderSort] = useState('ASC');
+  const [orderSort, setOrderSort] = useState('DESC');
   const [status, setEventStatus] = useState('DURING');
 
   const [endCursor, setEndCursor] = useState('');
