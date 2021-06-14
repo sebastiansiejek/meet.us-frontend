@@ -4,7 +4,7 @@ import { Select, Spin } from 'antd';
 import { useTranslation } from 'react-i18next';
 import SearchBar from 'src/components/SearchBar';
 import { Event } from 'src/generated/gqlQueries';
-import { useSearchEventsQuery } from 'src/generated/gqlQueries';
+import { useEventsQuery } from 'src/generated/gqlQueries';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 export interface EventsWithSearchProps {
@@ -26,7 +26,7 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
   const [isNextPage, setIsNextPage] = useState(true);
   const [events, setEvents] = useState<Array<any>>([]);
 
-  const { data, isLoading } = useSearchEventsQuery({
+  const { data, isLoading } = useEventsQuery({
     first: 12,
     query: initSearchQuery,
     orderField,
@@ -58,24 +58,24 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
   useEffect(() => {
     if (data) {
       if (endCursor === '') {
-        setEvents([...(data.searchBar.page.edges as [{ node: Event }])]);
+        setEvents([...(data.events.page.edges as [{ node: Event }])]);
       }
 
       if (endCursor !== '') {
         setEvents([
           ...events,
-          ...(data.searchBar.page.edges as [{ node: Event }]),
+          ...(data.events.page.edges as [{ node: Event }]),
         ]);
       }
 
-      setIsNextPage(data.searchBar.page.pageInfo?.hasNextPage || false);
+      setIsNextPage(data.events.page.pageInfo?.hasNextPage || false);
     }
   }, [data, endCursor]);
 
   const getMoreEvents = () => {
     if (data) {
-      setEndCursor(data.searchBar.page.pageInfo?.endCursor || '');
-      setIsNextPage(data.searchBar.page.pageInfo?.hasNextPage || false);
+      setEndCursor(data.events.page.pageInfo?.endCursor || '');
+      setIsNextPage(data.events.page.pageInfo?.hasNextPage || false);
     }
   };
 

@@ -5,10 +5,10 @@ import Link from 'next/link';
 import Container from 'src/components/Container';
 import EventCards from 'src/components/Events/EventCards';
 import HeroSearchBanner from 'src/components/HeroSearchBanner';
-import { Event, useSearchEventsQuery } from 'src/generated/gqlQueries';
+import { Event, useEventsQuery } from 'src/generated/gqlQueries';
 
 const IndexPage = () => {
-  const { data } = useSearchEventsQuery({
+  const { data } = useEventsQuery({
     first: 6,
     orderField: 'startDate',
     orderSort: 'DESC',
@@ -20,15 +20,13 @@ const IndexPage = () => {
   return (
     <>
       <HeroSearchBanner />
-      {data?.searchBar.page.edges && (
+      {data?.events.page.edges && (
         <>
           <Container>
             <Typography.Title level={2} className="text-center">
               {t('During events')}
             </Typography.Title>
-            <EventCards
-              events={data.searchBar.page.edges as [{ node: Event }]}
-            />
+            <EventCards events={data.events.page.edges as [{ node: Event }]} />
             <Link href="/events" passHref>
               <a className="flex justify-center">
                 <Button type="primary" className="mt-8">

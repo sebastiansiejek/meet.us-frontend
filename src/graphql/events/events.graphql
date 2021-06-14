@@ -1,29 +1,3 @@
-query Events(
-  $first: Float
-  $orderField: String
-  $orderSort: String
-  $isArchive: Boolean! = false
-) {
-  events(
-    first: $first
-    orderField: $orderField
-    orderSort: $orderSort
-    isArchive: $isArchive
-  ) {
-    page {
-      edges {
-        node {
-          id
-          title
-          description
-          startDate
-          type
-        }
-      }
-    }
-  }
-}
-
 query SingleEventPage($id: String!) {
   event(id: $id) {
     id
@@ -68,7 +42,7 @@ mutation CreateEvent(
   }
 }
 
-query SearchEvents(
+query Events(
   $first: Float!
   $query: String!
   $orderField: String
@@ -76,7 +50,7 @@ query SearchEvents(
   $after: String
   $status: String
 ) {
-  searchBar(
+  events(
     first: $first
     query: $query
     orderField: $orderField
