@@ -2,7 +2,7 @@ import { Form, Input, Button, DatePicker, notification, Select } from 'antd';
 import dayjs from 'dayjs';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { QueryClient } from 'react-query';
+import { useQueryClient } from 'react-query';
 import FormOutput from 'src/components/Form/FormOutput';
 import {
   SingleEventPageQuery,
@@ -20,38 +20,38 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
   setOpen,
   initialValues,
 }) => {
+  const queryClient = useQueryClient();
   const [form] = Form.useForm();
-  const createEventMutation = useCreateEventMutation();
   const { TextArea } = Input;
   const { t } = useTranslation();
-  const queryClient = new QueryClient();
+
+  const createEventMutation = useCreateEventMutation({
+    onSuccess: () => {
+      notification.success({
+        message: t('Event has been created'),
+      });
+      form.resetFields();
+      setOpen(false);
+      queryClient.invalidateQueries('FindUserEvents');
+      queryClient.invalidateQueries('SearchEvents');
+    },
+  });
 
   const Option = Select.Option;
-
-  console.log(initialValues);
 
   return (
     <Form
       form={form}
       initialValues={initialValues}
       onFinish={({ title, description, dates, maxParticipants, type }) => {
-        createEventMutation
-          .mutateAsync({
-            title,
-            description,
-            startDate: dates[0].format('YYYY-MM-DD HH:mm'),
-            endDate: dates[1].format('YYYY-MM-DD HH:mm'),
-            maxParticipants: parseInt(maxParticipants, 10),
-            type,
-          })
-          .then(() => {
-            notification.success({
-              message: t('Event has been created'),
-            });
-            form.resetFields();
-            queryClient.refetchQueries('SearchEvents');
-            setOpen(false);
-          });
+        createEventMutation.mutate({
+          title,
+          description,
+          startDate: dates[0].format('YYYY-MM-DD HH:mm'),
+          endDate: dates[1].format('YYYY-MM-DD HH:mm'),
+          maxParticipants: parseInt(maxParticipants, 10),
+          type,
+        });
       }}
     >
       <Form.Item

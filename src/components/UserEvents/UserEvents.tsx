@@ -85,7 +85,7 @@ const UserEvents: React.FunctionComponent<UserEventsProps> = ({}) => {
                 render: (id: string) => (
                   <Link href={`/events/${id}`} passHref>
                     <a href="">
-                      <Button type="link">{t('See')}</Button>
+                      <Button type="primary">{t('See')}</Button>
                     </a>
                   </Link>
                 ),
