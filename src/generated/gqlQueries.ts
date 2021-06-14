@@ -372,6 +372,25 @@ export type DeleteEventMutation = (
   ) }
 );
 
+export type UpdateEventMutationVariables = Exact<{
+  id: Scalars['String'];
+  title: Scalars['String'];
+  description: Scalars['String'];
+  startDate: Scalars['DateTime'];
+  endDate: Scalars['DateTime'];
+  maxParticipants: Scalars['Int'];
+  type?: Maybe<Scalars['Float']>;
+}>;
+
+
+export type UpdateEventMutation = (
+  { __typename?: 'Mutation' }
+  & { updateEvent: (
+    { __typename?: 'Event' }
+    & Pick<Event, 'id'>
+  ) }
+);
+
 export type SingleUserQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
@@ -641,6 +660,23 @@ export const useDeleteEventMutation = <
     >(options?: UseMutationOptions<DeleteEventMutation, TError, DeleteEventMutationVariables, TContext>) => 
     useMutation<DeleteEventMutation, TError, DeleteEventMutationVariables, TContext>(
       useFetchData<DeleteEventMutation, DeleteEventMutationVariables>(DeleteEventDocument),
+      options
+    );
+export const UpdateEventDocument = `
+    mutation UpdateEvent($id: String!, $title: String!, $description: String!, $startDate: DateTime!, $endDate: DateTime!, $maxParticipants: Int!, $type: Float) {
+  updateEvent(
+    updateEventInput: {id: $id, title: $title, description: $description, startDate: $startDate, endDate: $endDate, maxParticipants: $maxParticipants, type: $type}
+  ) {
+    id
+  }
+}
+    `;
+export const useUpdateEventMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<UpdateEventMutation, TError, UpdateEventMutationVariables, TContext>) => 
+    useMutation<UpdateEventMutation, TError, UpdateEventMutationVariables, TContext>(
+      useFetchData<UpdateEventMutation, UpdateEventMutationVariables>(UpdateEventDocument),
       options
     );
 export const SingleUserDocument = `

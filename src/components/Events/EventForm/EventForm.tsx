@@ -7,6 +7,7 @@ import FormOutput from 'src/components/Form/FormOutput';
 import {
   SingleEventPageQuery,
   useCreateEventMutation,
+  useUpdateEventMutation,
 } from 'src/generated/gqlQueries';
 import { IApiError } from 'src/types/IApiError';
 import { getMapEventTypes } from 'src/types/IEvent';
@@ -37,6 +38,17 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
     },
   });
 
+  const updateEventMutation = useUpdateEventMutation({
+    onSuccess: () => {
+      notification.success({
+        message: t('Event has been updated'),
+      });
+      form.resetFields();
+      setOpen(false);
+      queryClient.invalidateQueries('FindUserEvents');
+    },
+  });
+
   const Option = Select.Option;
 
   return (
@@ -44,14 +56,26 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
       form={form}
       initialValues={initialValues}
       onFinish={({ title, description, dates, maxParticipants, type }) => {
-        createEventMutation.mutate({
-          title,
-          description,
-          startDate: dates[0].format('YYYY-MM-DD HH:mm'),
-          endDate: dates[1].format('YYYY-MM-DD HH:mm'),
-          maxParticipants: parseInt(maxParticipants, 10),
-          type,
-        });
+        if (initialValues.id) {
+          updateEventMutation.mutate({
+            id: initialValues.id,
+            title,
+            description,
+            startDate: dates[0].format('YYYY-MM-DD HH:mm'),
+            endDate: dates[1].format('YYYY-MM-DD HH:mm'),
+            maxParticipants: parseInt(maxParticipants, 10),
+            type,
+          });
+        } else {
+          createEventMutation.mutate({
+            title,
+            description,
+            startDate: dates[0].format('YYYY-MM-DD HH:mm'),
+            endDate: dates[1].format('YYYY-MM-DD HH:mm'),
+            maxParticipants: parseInt(maxParticipants, 10),
+            type,
+          });
+        }
       }}
     >
       <Form.Item
