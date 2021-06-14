@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Button, Spin } from 'antd';
+import { Form, Input, Button, Spin, notification } from 'antd';
 import { LockTwoTone, MailTwoTone } from '@ant-design/icons';
 import {
   useCurrentUserQuery,
@@ -34,7 +34,11 @@ const UserDataForm: React.FunctionComponent<UserDataFormProps> = ({}) => {
               .mutateAsync({
                 ...pickBy(formData, identity),
               })
-              .then((res) => console.log(res))
+              .then(() => {
+                notification.success({
+                  message: t('Your personal data has been updated'),
+                });
+              })
               .catch((error) => console.log(error));
           }}
         >
