@@ -32,6 +32,7 @@ query SingleEventPage($id: String!) {
     startDate
     endDate
     maxParticipants
+    type
     user {
       id
       firstName
@@ -105,5 +106,35 @@ query SearchEvents(
       offset
       limit
     }
+  }
+}
+
+mutation DeleteEvent($id: String!) {
+  removeEvent(id: $id) {
+    title
+  }
+}
+
+mutation UpdateEvent(
+  $id: String!
+  $title: String!
+  $description: String!
+  $startDate: DateTime!
+  $endDate: DateTime!
+  $maxParticipants: Int!
+  $type: Float
+) {
+  updateEvent(
+    updateEventInput: {
+      id: $id
+      title: $title
+      description: $description
+      startDate: $startDate
+      endDate: $endDate
+      maxParticipants: $maxParticipants
+      type: $type
+    }
+  ) {
+    id
   }
 }

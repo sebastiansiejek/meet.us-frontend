@@ -13,6 +13,7 @@
     "Start": "Początek",
     "End": "Koniec",
     "See more": "Zobacz więcej",
+    "See": "Zobacz",
     "Created events": "Utworzone wydarzenia",
     "Please input your login": "Wpisz login",
     "Please input your password": "Wpisz hasło",
@@ -33,6 +34,7 @@
     "Title": "Tytuł",
     "Maximum number of participants": "Maksymalna liczba uczestników",
     "Event has been created": "Wydarzenie zostało utworzone",
+    "Event has been updated": "Wydarzenie zostało zaktualizowane",
     "Users": "Użytkownicy",
     "Events": "Wydarzenia",
     "Polish": "Polski",
@@ -49,5 +51,10 @@
     "Logout": "Wyloguj się",
     "Select event type": "Wybierz rodzaj wydarzenia",
     "Event type": "Rodzaj wydarzenie",
-    "Edit": "Edytuj"
+    "Edit": "Edytuj",
+    "Remove": "Usuń",
+    "Yes": "Tak",
+    "No": "Nie",
+    "Event has been removed": "Wydarzenie zostało usunięte",
+    "Are you sure?": "Czy jesteś pewny?"
 }

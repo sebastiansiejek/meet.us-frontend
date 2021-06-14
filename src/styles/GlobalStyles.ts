@@ -38,6 +38,10 @@ const GlobalStyles = createGlobalStyle`
       background: #2A9D8F;
     }
   }
+
+  .ant-table-content {
+    overflow-x: scroll;
+  }
 `;
 
 export default GlobalStyles;
