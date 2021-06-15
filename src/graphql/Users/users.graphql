@@ -32,22 +32,6 @@ mutation ActivateUser($token: String!) {
   }
 }
 
-query FindUserEvents {
-  userEvents {
-    page {
-      edges {
-        node {
-          id
-          title
-          description
-          startDate
-          endDate
-        }
-      }
-    }
-  }
-}
-
 mutation UpdateUser(
   $password: String
   $email: String

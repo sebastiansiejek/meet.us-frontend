@@ -2,6 +2,7 @@ import CardLink from 'src/components/CardLink';
 import React from 'react';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import duration from 'dayjs/plugin/duration';
 import { CalendarTwoTone } from '@ant-design/icons';
 import { Card, Divider } from 'antd';
 import { Event } from 'src/generated/gqlQueries';
@@ -13,13 +14,20 @@ export interface EventCardProps {
 }
 
 const EventCard: React.FunctionComponent<EventCardProps> = ({ event }) => {
-  const { title, description, id, startDate, type } = event;
+  const { title, description, id, startDate, endDate, type, state } = event;
   const { Meta } = Card;
   const { i18n } = useTranslation();
+  const { language } = i18n;
 
   dayjs.extend(relativeTime);
+  dayjs.extend(duration);
 
-  const fromNow = dayjs(startDate).locale(i18n.language).fromNow();
+  const fromNow = dayjs(startDate).locale(language).fromNow();
+  const during = dayjs
+    .duration(dayjs().diff(endDate))
+    .locale(language)
+    .humanize();
+
   return (
     <CardLink
       linkProps={{
@@ -2343,7 +2351,10 @@ const EventCard: React.FunctionComponent<EventCardProps> = ({ event }) => {
           <Divider />
           <div className="flex items-center">
             <CalendarTwoTone className="mr-3" />
-            <time>{fromNow}</time>
+            <time>
+              {state === 'DURING' && during}
+              {state !== 'DURING' && fromNow}
+            </time>
           </div>
         </div>
       )}
