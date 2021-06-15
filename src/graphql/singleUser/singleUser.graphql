@@ -15,3 +15,9 @@ query CurrentUser {
     nickname
   }
 }
+
+query CurrentUserId {
+  currentUser {
+    id
+  }
+}

@@ -11,8 +11,9 @@ const IndexPage = () => {
   const { data } = useEventsQuery({
     first: 6,
     orderField: 'startDate',
-    orderSort: 'ASC',
-    isArchive: false,
+    orderSort: 'DESC',
+    query: '',
+    state: 'DURING',
   });
 
   const { t } = useTranslation();
@@ -20,11 +21,11 @@ const IndexPage = () => {
   return (
     <>
       <HeroSearchBanner />
-      {data && (
+      {data?.events.page.edges && (
         <>
           <Container>
             <Typography.Title level={2} className="text-center">
-              {t('Upcoming events')}
+              {t('During events')}
             </Typography.Title>
             <EventCards events={data.events.page.edges as [{ node: Event }]} />
             <Link href="/events" passHref>

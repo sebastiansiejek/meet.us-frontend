@@ -45,6 +45,11 @@
     "Sortuj": "Sortuj",
     "Latest events": "Najnowsze wydarzenia",
     "Upcoming events": "Nadchodzące wydarzenia",
+    "During events": "Trwające wydarzenia",
+    "Upcoming": "Nadchodzące",
+    "During": "Trwające",
+    "Past": "Przeszłe",
+    "Past events": "Przeszłe wydarzenia",
     "Add event": "Dodaj wydarzenie",
     "Edit event": "Edytuj wydarzenie",
     "Cancel": "Anuluj",
@@ -58,5 +63,10 @@
     "Event has been removed": "Wydarzenie zostało usunięte",
     "Are you sure?": "Czy jesteś pewny?",
     "Your personal data has been updated": "Twoje dane osobowe zostały zaktualizowane",
-    "See all events": "Zobacz wszystkie wydarzenia"
+    "See all events": "Zobacz wszystkie wydarzenia",
+    "Select status of events": "Wybierz status wydarzeń",
+    "Ascending by date": "Rosnąco przez datę",
+    "Descending by date": "Malejąco przez datę",
+    "Ascending by start date": "Rosnąco przez datę rozpoczęcia",
+    "Descending by start date": "Malejąco przez datę rozpoczęcia"
 }

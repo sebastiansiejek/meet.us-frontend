@@ -4,7 +4,7 @@ import { Select, Spin } from 'antd';
 import { useTranslation } from 'react-i18next';
 import SearchBar from 'src/components/SearchBar';
 import { Event } from 'src/generated/gqlQueries';
-import { useSearchEventsQuery } from 'src/generated/gqlQueries';
+import { useEventsQuery } from 'src/generated/gqlQueries';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 export interface EventsWithSearchProps {
@@ -20,57 +20,62 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
 
   const [orderField, setOrderField] = useState('startDate');
   const [orderSort, setOrderSort] = useState('DESC');
-  const [isArchive, setArchive] = useState(false);
+  const [state, setEventState] = useState('DURING');
 
   const [endCursor, setEndCursor] = useState('');
   const [isNextPage, setIsNextPage] = useState(true);
   const [events, setEvents] = useState<Array<any>>([]);
 
-  const { data, isLoading } = useSearchEventsQuery({
+  const { data, isLoading } = useEventsQuery({
     first: 12,
     query: initSearchQuery,
     orderField,
     orderSort,
-    isArchive,
+    state,
     after: endCursor,
   });
 
+  const sortByStateHandler = (value: string) => {
+    setEventState(value);
+
+    if (value === 'FUTURE') {
+      setOrderSort('ASC');
+    }
+
+    if (value === 'PAST') {
+      setOrderSort('DESC');
+    }
+
+    setEndCursor('');
+  };
+
   const sortChangeHandler = (value: string) => {
-    if (value === 'latest') {
-      setOrderField('createdAt');
-      setOrderSort('DESC');
-      setArchive(true);
-    }
-
-    if (value === 'closest') {
-      setOrderField('startDate');
-      setOrderSort('DESC');
-      setArchive(false);
-    }
-
+    setOrderSort(value);
+    setOrderField('startDate');
     setEndCursor('');
   };
 
   useEffect(() => {
     if (data) {
       if (endCursor === '') {
-        setEvents([...(data.searchBar.page.edges as [{ node: Event }])]);
-        setIsNextPage(data.searchBar.page.pageInfo?.hasNextPage || false);
+        setEvents([...(data.events.page.edges as [{ node: Event }])]);
       }
 
       if (endCursor !== '') {
         setEvents([
           ...events,
-          ...(data.searchBar.page.edges as [{ node: Event }]),
+          ...(data.events.page.edges as [{ node: Event }]),
         ]);
       }
+
+      setIsNextPage(data.events.page.pageInfo?.hasNextPage || false);
     }
   }, [data, endCursor]);
 
   const getMoreEvents = () => {
     if (data) {
-      setEndCursor(data.searchBar.page.pageInfo?.endCursor || '');
-      setIsNextPage(data.searchBar.page.pageInfo?.hasNextPage || false);
+      setEndCursor(data.events.page.pageInfo?.endCursor || '');
+      setIsNextPage(data.events.page.pageInfo?.hasNextPage || false);
     }
   };
 
@@ -79,17 +84,33 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
       <SearchBar value={`${initSearchQuery}`} />
       {events && events.length >= 1 && (
         <div className="flex flex-col mt-12">
-          <Select
-            onChange={sortChangeHandler}
-            style={{ width: 200 }}
-            placeholder={t('Sortuj')}
-            className="ml-auto"
-            loading={isLoading}
-            defaultValue="closest"
-          >
-            <Option value="latest">{t('Latest events')}</Option>
-            <Option value="closest">{t('Upcoming events')}</Option>
-          </Select>
+          <div className="flex">
+            <Select
+              onChange={sortByStateHandler}
+              style={{ width: 200 }}
+              placeholder={t('Select status of events')}
+              className="ml-auto"
+              loading={isLoading}
+              defaultValue={state}
+              value={state}
+            >
+              <Option value="FUTURE">{t('Upcoming')}</Option>
+              <Option value="DURING">{t('During')}</Option>
+              <Option value="PAST">{t('Past')}</Option>
+            </Select>
+            <Select
+              onChange={sortChangeHandler}
+              style={{ width: 200 }}
+              placeholder={t('Select status of events')}
+              className="ml-auto"
+              loading={isLoading}
+              defaultValue={orderSort}
+              value={orderSort}
+            >
+              <Option value="ASC">{t('Ascending by start date')}</Option>
+              <Option value="DESC">{t('Descending by start date')}</Option>
+            </Select>
+          </div>
           <div>
             <InfiniteScroll
               style={{
