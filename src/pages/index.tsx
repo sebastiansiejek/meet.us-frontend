@@ -13,6 +13,7 @@ const IndexPage = () => {
     orderField: 'startDate',
     orderSort: 'DESC',
     query: '',
+    state: 'DURING',
   });
 
   const { t } = useTranslation();
