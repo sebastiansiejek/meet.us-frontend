@@ -114,3 +114,19 @@ mutation UpdateEvent(
     id
   }
 }
+
+query FindUserEvents($userId: String!) {
+  events(userId: $userId) {
+    page {
+      edges {
+        node {
+          id
+          title
+          description
+          startDate
+          endDate
+        }
+      }
+    }
+  }
+}

@@ -19,10 +19,14 @@ import { useTranslation } from 'react-i18next';
 import EventModal from '../Events/EventModal';
 import { useQueryClient } from 'react-query';
 
-export interface UserEventsProps {}
+export interface UserEventsProps {
+  userId: string;
+}
 
-const UserEvents: React.FunctionComponent<UserEventsProps> = ({}) => {
-  const { isLoading, data, isError } = useFindUserEventsQuery();
+const UserEvents: React.FunctionComponent<UserEventsProps> = ({ userId }) => {
+  const { isLoading, data, isError } = useFindUserEventsQuery({
+    userId,
+  });
   const { t, i18n } = useTranslation();
 
   const queryClient = useQueryClient();
@@ -36,7 +40,7 @@ const UserEvents: React.FunctionComponent<UserEventsProps> = ({}) => {
     },
   });
 
-  const events = data && data.userEvents.page.edges?.map((edge) => edge.node);
+  const events = data && data.events.page.edges?.map((edge) => edge.node);
 
   return (
     <>

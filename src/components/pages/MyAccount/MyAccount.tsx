@@ -7,12 +7,16 @@ import UserDataForm from 'src/components/User/UserDataForm';
 import { Collapse } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { ContactsTwoTone } from '@ant-design/icons';
+import { useCurrentUserIdQuery } from 'src/generated/gqlQueries';
 
 export interface MyAccountProps {}
 
 const MyAccount: React.FunctionComponent<MyAccountProps> = ({}) => {
   const { Panel } = Collapse;
   const { t } = useTranslation();
+
+  const currentUserIdQuery = useCurrentUserIdQuery();
+  const userId = currentUserIdQuery.data?.currentUser.id;
 
   return (
     <Container>
@@ -33,7 +37,7 @@ const MyAccount: React.FunctionComponent<MyAccountProps> = ({}) => {
         </Collapse>
       </div>
       <ActivateUser />
-      <UserEvents />
+      {userId && <UserEvents userId={userId} />}
     </Container>
   );
 };
