@@ -37,6 +37,11 @@ const GlobalStyles = createGlobalStyle`
     .bar {
       background: #2A9D8F;
     }
+
+    .spinner-icon {
+      border-top-color: #2A9D8F;
+      border-left-color: #2A9D8F;
+    }
   }
 
   .ant-table-content {

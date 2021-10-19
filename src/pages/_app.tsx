@@ -13,7 +13,7 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { appWithTranslation } from 'next-i18next';
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
-  NProgress.configure({ showSpinner: false });
+  NProgress.configure({ showSpinner: true });
   Router.events.on('routeChangeStart', () => NProgress.start());
   Router.events.on('routeChangeComplete', () => NProgress.done());
   Router.events.on('routeChangeError', () => NProgress.done());
