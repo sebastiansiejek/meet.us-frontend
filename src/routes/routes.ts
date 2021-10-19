@@ -1,4 +1,4 @@
-export const paths: {
+export const routes: {
   [key: string]: {
     href: string;
     title: string;

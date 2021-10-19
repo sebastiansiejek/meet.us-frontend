@@ -4,7 +4,7 @@ import React from 'react';
 import { Layout } from 'antd';
 import { Menu } from 'antd';
 import { useTranslation } from 'react-i18next';
-import { paths } from 'src/data/paths';
+import { routes } from 'src/routes/routes';
 import UserSettings from '../UserSettings';
 import MobileMenu from '../MobileMenu';
 import styled from 'styled-components';
@@ -52,7 +52,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
         theme="dark"
         mode="horizontal"
       >
-        {Object.values(paths).map(({ href, title, display }) => (
+        {Object.values(routes).map(({ href, title, display }) => (
           <Menu.Item key={href}>
             {isLogged !== 'null' && display.logged && (
               <Link href={href}>{t(title)}</Link>

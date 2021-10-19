@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { Menu } from 'antd';
 import { useTranslation } from 'react-i18next';
-import { paths } from 'src/data/paths';
+import { routes } from 'src/routes/routes';
 import UserSettings from '../UserSettings';
 import Hamburger from 'hamburger-react';
 import styled from 'styled-components';
@@ -76,7 +76,7 @@ const MobileMenu: React.FunctionComponent<MobileMenuProps> = ({}) => {
           />
         </div>
         <Menu theme="dark" mode="vertical">
-          {Object.values(paths).map(({ href, title }) => (
+          {Object.values(routes).map(({ href, title }) => (
             <Menu.Item key={href} onClick={() => handleClick()}>
               <Link href={href}>{t(title)}</Link>
             </Menu.Item>
