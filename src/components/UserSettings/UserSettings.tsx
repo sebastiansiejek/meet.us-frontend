@@ -8,6 +8,7 @@ import { logout } from 'src/store/slices/userSlice';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
+import { routes } from 'src/routes/routes';
 
 export interface UserSettingsProps {}
 
@@ -37,7 +38,7 @@ const UserSettings: React.FunctionComponent<UserSettingsProps> = ({}) => {
       overlay={
         <Menu selectable defaultSelectedKeys={[i18n.language]}>
           <Menu.Item key="my-account">
-            <Link href="/my-account">{t('My account')}</Link>
+            <Link href={routes.myAccount.href}>{t('My account')}</Link>
           </Menu.Item>
           <Menu.ItemGroup title={t('Languages')}>
             {Object.keys(availableLanguages).map((key) => (

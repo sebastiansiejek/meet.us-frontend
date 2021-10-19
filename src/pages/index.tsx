@@ -6,6 +6,7 @@ import Container from 'src/components/Container';
 import EventCards from 'src/components/Events/EventCards';
 import HeroSearchBanner from 'src/components/HeroSearchBanner';
 import { Event, useEventsQuery } from 'src/generated/gqlQueries';
+import { routes } from 'src/routes/routes';
 
 const IndexPage = () => {
   const { data } = useEventsQuery({
@@ -28,7 +29,7 @@ const IndexPage = () => {
               {t('During events')}
             </Typography.Title>
             <EventCards events={data.events.page.edges as [{ node: Event }]} />
-            <Link href="/events" passHref>
+            <Link href={routes.events.href} passHref>
               <a className="flex justify-center">
                 <Button type="primary" className="mt-8">
                   {t('See all events')}

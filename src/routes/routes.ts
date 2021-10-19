@@ -32,4 +32,12 @@ export const routes: {
       unLogged: true,
     },
   },
+  myAccount: {
+    href: '/my-account',
+    title: 'My account',
+    display: {
+      logged: true,
+      unLogged: false,
+    },
+  },
 };
