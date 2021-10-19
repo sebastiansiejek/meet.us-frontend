@@ -1,13 +1,4 @@
-export const routes: {
-  [key: string]: {
-    href: string;
-    title: string;
-    display: {
-      logged: boolean;
-      unLogged: boolean;
-    };
-  };
-} = {
+export const routes = {
   joinToUs: {
     href: '/join-to-us',
     title: 'Join to us',
