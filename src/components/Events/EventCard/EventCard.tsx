@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import Party from '../../../assets/images/party.svg';
 import Sport from '../../../assets/images/sport.svg';
 import Conversation from '../../../assets/images/conversation.svg';
+import { routes } from 'src/routes/routes';
 
 export interface EventCardProps {
   event: Partial<Event>;
@@ -34,7 +35,7 @@ const EventCard: React.FunctionComponent<EventCardProps> = ({ event }) => {
   return (
     <CardLink
       linkProps={{
-        href: `events/${id}`,
+        href: `${routes.events.href}/${id}`,
         passHref: true,
       }}
       cardProps={{
