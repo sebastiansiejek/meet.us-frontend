@@ -76,7 +76,7 @@ const MobileMenu: React.FunctionComponent<MobileMenuProps> = ({}) => {
           />
         </div>
         <Menu theme="dark" mode="vertical">
-          {paths.map(({ href, title }) => (
+          {Object.values(paths).map(({ href, title }) => (
             <Menu.Item key={href} onClick={() => handleClick()}>
               <Link href={href}>{t(title)}</Link>
             </Menu.Item>

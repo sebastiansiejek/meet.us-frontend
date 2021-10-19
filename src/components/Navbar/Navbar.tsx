@@ -52,7 +52,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
         theme="dark"
         mode="horizontal"
       >
-        {paths.map(({ href, title, display }) => (
+        {Object.values(paths).map(({ href, title, display }) => (
           <Menu.Item key={href}>
             {isLogged !== 'null' && display.logged && (
               <Link href={href}>{t(title)}</Link>
