@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "yarn graphql:codegen && next -p 3001",
     "build": "next build",
-    "start": "next start -p $PORT",
+    "start": "next start -p 3001",
+    "analyze": "ANALYZE=true next build",
     "type-check": "tsc",
     "pre-commit": "lint-staged",
     "graphql:codegen": "graphql-codegen --config codegen.yml -r dotenv/config",
@@ -12,6 +13,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
+    "@next/bundle-analyzer": "^11.1.2",
     "@reduxjs/toolkit": "^1.5.1",
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-less": "^1.0.1",
