@@ -1,5 +1,5 @@
 overwrite: true
-schema: ${API_ENDPOINT}
+schema: ${NEXT_PUBLIC_API_ENDPOINT}
 documents: './src/**/*.graphql'
 generates:
   src/generated/gqlQueries.ts:

@@ -4,7 +4,7 @@ export const useFetchData = <TData, TVariables>(
   query: string,
 ): (() => Promise<TData>) => {
   return async (variables?: TVariables) => {
-    const res = await fetch(process.env.API_ENDPOINT, {
+    const res = await fetch(process.env.NEXT_PUBLIC_API_ENDPOINT, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
