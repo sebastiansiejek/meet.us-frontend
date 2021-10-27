@@ -3,6 +3,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
 const withAntdLess = require('next-plugin-antd-less');
+const { i18n } = require('./next-i18next.config');
 
 module.exports = withPlugins(
   [
@@ -12,9 +13,6 @@ module.exports = withPlugins(
     withBundleAnalyzer,
   ],
   {
-    i18n: {
-      defaultLocale: 'en',
-      locales: ['en', 'pl'],
-    },
+    i18n,
   },
 );
