@@ -38,7 +38,6 @@ export type CreateUserInput = {
   password: Scalars['String'];
 };
 
-
 export type Event = {
   __typename?: 'Event';
   description: Scalars['String'];
@@ -245,17 +244,7 @@ export type SingleEventPageQueryVariables = Exact<{
 }>;
 
 
-export type SingleEventPageQuery = (
-  { __typename?: 'Query' }
-  & { event: (
-    { __typename?: 'Event' }
-    & Pick<Event, 'id' | 'title' | 'description' | 'startDate' | 'endDate' | 'maxParticipants' | 'type'>
-    & { user: (
-      { __typename?: 'User' }
-      & Pick<User, 'id' | 'firstName' | 'lastname' | 'nickname'>
-    ) }
-  ) }
-);
+export type SingleEventPageQuery = { __typename?: 'Query', event: { __typename?: 'Event', id: string, title: string, description: string, startDate: any, endDate: any, maxParticipants?: number | null | undefined, type: number, user: { __typename?: 'User', id: string, firstName?: string | null | undefined, lastname?: string | null | undefined, nickname?: string | null | undefined } } };
 
 export type CreateEventMutationVariables = Exact<{
   title: Scalars['String'];
@@ -267,13 +256,7 @@ export type CreateEventMutationVariables = Exact<{
 }>;
 
 
-export type CreateEventMutation = (
-  { __typename?: 'Mutation' }
-  & { createEvent: (
-    { __typename?: 'Event' }
-    & Pick<Event, 'id' | 'title' | 'description' | 'startDate' | 'type'>
-  ) }
-);
+export type CreateEventMutation = { __typename?: 'Mutation', createEvent: { __typename?: 'Event', id: string, title: string, description: string, startDate: any, type: number } };
 
 export type EventsQueryVariables = Exact<{
   first: Scalars['Float'];
@@ -285,42 +268,14 @@ export type EventsQueryVariables = Exact<{
 }>;
 
 
-export type EventsQuery = (
-  { __typename?: 'Query' }
-  & { events: (
-    { __typename?: 'EventResponse' }
-    & { page: (
-      { __typename?: 'EventConnection' }
-      & { edges?: Maybe<Array<(
-        { __typename?: 'EventEdge' }
-        & Pick<EventEdge, 'cursor'>
-        & { node?: Maybe<(
-          { __typename?: 'Event' }
-          & Pick<Event, 'id' | 'title' | 'description' | 'startDate' | 'endDate' | 'type' | 'state'>
-        )> }
-      )>>, pageInfo?: Maybe<(
-        { __typename?: 'EventPageInfo' }
-        & Pick<EventPageInfo, 'startCursor' | 'endCursor' | 'hasNextPage'>
-      )> }
-    ), pageData?: Maybe<(
-      { __typename?: 'PageData' }
-      & Pick<PageData, 'count' | 'offset' | 'limit'>
-    )> }
-  ) }
-);
+export type EventsQuery = { __typename?: 'Query', events: { __typename?: 'EventResponse', page: { __typename?: 'EventConnection', edges?: Array<{ __typename?: 'EventEdge', cursor?: string | null | undefined, node?: { __typename?: 'Event', id: string, title: string, description: string, startDate: any, endDate: any, type: number, state?: string | null | undefined } | null | undefined }> | null | undefined, pageInfo?: { __typename?: 'EventPageInfo', startCursor?: string | null | undefined, endCursor?: string | null | undefined, hasNextPage: boolean } | null | undefined }, pageData?: { __typename?: 'PageData', count: number, offset: number, limit: number } | null | undefined } };
 
 export type DeleteEventMutationVariables = Exact<{
   id: Scalars['String'];
 }>;
 
 
-export type DeleteEventMutation = (
-  { __typename?: 'Mutation' }
-  & { removeEvent: (
-    { __typename?: 'Event' }
-    & Pick<Event, 'title'>
-  ) }
-);
+export type DeleteEventMutation = { __typename?: 'Mutation', removeEvent: { __typename?: 'Event', title: string } };
 
 export type UpdateEventMutationVariables = Exact<{
   id: Scalars['String'];
@@ -333,90 +288,36 @@ export type UpdateEventMutationVariables = Exact<{
 }>;
 
 
-export type UpdateEventMutation = (
-  { __typename?: 'Mutation' }
-  & { updateEvent: (
-    { __typename?: 'Event' }
-    & Pick<Event, 'id'>
-  ) }
-);
+export type UpdateEventMutation = { __typename?: 'Mutation', updateEvent: { __typename?: 'Event', id: string } };
 
 export type FindUserEventsQueryVariables = Exact<{
   userId: Scalars['String'];
 }>;
 
 
-export type FindUserEventsQuery = (
-  { __typename?: 'Query' }
-  & { events: (
-    { __typename?: 'EventResponse' }
-    & { page: (
-      { __typename?: 'EventConnection' }
-      & { edges?: Maybe<Array<(
-        { __typename?: 'EventEdge' }
-        & { node?: Maybe<(
-          { __typename?: 'Event' }
-          & Pick<Event, 'id' | 'title' | 'description' | 'startDate' | 'endDate'>
-        )> }
-      )>> }
-    ) }
-  ) }
-);
+export type FindUserEventsQuery = { __typename?: 'Query', events: { __typename?: 'EventResponse', page: { __typename?: 'EventConnection', edges?: Array<{ __typename?: 'EventEdge', node?: { __typename?: 'Event', id: string, title: string, description: string, startDate: any, endDate: any } | null | undefined }> | null | undefined } } };
 
 export type SingleUserQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
 
 
-export type SingleUserQuery = (
-  { __typename?: 'Query' }
-  & { user: (
-    { __typename?: 'User' }
-    & Pick<User, 'lastname' | 'firstName' | 'email' | 'nickname'>
-  ) }
-);
+export type SingleUserQuery = { __typename?: 'Query', user: { __typename?: 'User', lastname?: string | null | undefined, firstName?: string | null | undefined, email: string, nickname?: string | null | undefined } };
 
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = (
-  { __typename?: 'Query' }
-  & { currentUser: (
-    { __typename?: 'User' }
-    & Pick<User, 'lastname' | 'firstName' | 'email' | 'nickname'>
-  ) }
-);
+export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', lastname?: string | null | undefined, firstName?: string | null | undefined, email: string, nickname?: string | null | undefined } };
 
 export type CurrentUserIdQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserIdQuery = (
-  { __typename?: 'Query' }
-  & { currentUser: (
-    { __typename?: 'User' }
-    & Pick<User, 'id'>
-  ) }
-);
+export type CurrentUserIdQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', id: string } };
 
 export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UsersQuery = (
-  { __typename?: 'Query' }
-  & { users: (
-    { __typename?: 'UserResponse' }
-    & { page: (
-      { __typename?: 'UserConnection' }
-      & { edges?: Maybe<Array<(
-        { __typename?: 'UserEdge' }
-        & { node?: Maybe<(
-          { __typename?: 'User' }
-          & Pick<User, 'id' | 'lastname' | 'firstName' | 'nickname'>
-        )> }
-      )>> }
-    ) }
-  ) }
-);
+export type UsersQuery = { __typename?: 'Query', users: { __typename?: 'UserResponse', page: { __typename?: 'UserConnection', edges?: Array<{ __typename?: 'UserEdge', node?: { __typename?: 'User', id: string, lastname?: string | null | undefined, firstName?: string | null | undefined, nickname?: string | null | undefined } | null | undefined }> | null | undefined } } };
 
 export type LoginMutationVariables = Exact<{
   email: Scalars['String'];
@@ -424,13 +325,7 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = (
-  { __typename?: 'Mutation' }
-  & { login: (
-    { __typename?: 'AccessToken' }
-    & Pick<AccessToken, 'accessToken'>
-  ) }
-);
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'AccessToken', accessToken: string } };
 
 export type CreateUserMutationVariables = Exact<{
   email: Scalars['String'];
@@ -438,26 +333,14 @@ export type CreateUserMutationVariables = Exact<{
 }>;
 
 
-export type CreateUserMutation = (
-  { __typename?: 'Mutation' }
-  & { createUser: (
-    { __typename?: 'User' }
-    & Pick<User, 'id'>
-  ) }
-);
+export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', id: string } };
 
 export type ActivateUserMutationVariables = Exact<{
   token: Scalars['String'];
 }>;
 
 
-export type ActivateUserMutation = (
-  { __typename?: 'Mutation' }
-  & { activateUser: (
-    { __typename?: 'User' }
-    & Pick<User, 'email' | 'firstName'>
-  ) }
-);
+export type ActivateUserMutation = { __typename?: 'Mutation', activateUser: { __typename?: 'User', email: string, firstName?: string | null | undefined } };
 
 export type UpdateUserMutationVariables = Exact<{
   password?: Maybe<Scalars['String']>;
@@ -468,13 +351,7 @@ export type UpdateUserMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserMutation = (
-  { __typename?: 'Mutation' }
-  & { updateUser: (
-    { __typename?: 'User' }
-    & Pick<User, 'id'>
-  ) }
-);
+export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', id: string } };
 
 
 export const SingleEventPageDocument = `
@@ -679,7 +556,7 @@ export const useCurrentUserQuery = <
       options?: UseQueryOptions<CurrentUserQuery, TError, TData>
     ) => 
     useQuery<CurrentUserQuery, TError, TData>(
-      ['CurrentUser', variables],
+      variables === undefined ? ['CurrentUser'] : ['CurrentUser', variables],
       useFetchData<CurrentUserQuery, CurrentUserQueryVariables>(CurrentUserDocument).bind(null, variables),
       options
     );
@@ -698,7 +575,7 @@ export const useCurrentUserIdQuery = <
       options?: UseQueryOptions<CurrentUserIdQuery, TError, TData>
     ) => 
     useQuery<CurrentUserIdQuery, TError, TData>(
-      ['CurrentUserId', variables],
+      variables === undefined ? ['CurrentUserId'] : ['CurrentUserId', variables],
       useFetchData<CurrentUserIdQuery, CurrentUserIdQueryVariables>(CurrentUserIdDocument).bind(null, variables),
       options
     );
@@ -726,7 +603,7 @@ export const useUsersQuery = <
       options?: UseQueryOptions<UsersQuery, TError, TData>
     ) => 
     useQuery<UsersQuery, TError, TData>(
-      ['Users', variables],
+      variables === undefined ? ['Users'] : ['Users', variables],
       useFetchData<UsersQuery, UsersQueryVariables>(UsersDocument).bind(null, variables),
       options
     );

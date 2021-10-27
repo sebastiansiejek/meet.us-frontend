@@ -1,27 +1,18 @@
-const withLess = require('@zeit/next-less');
-const withCSS = require('@zeit/next-css');
 const withPlugins = require('next-compose-plugins');
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
+const withAntdLess = require('next-plugin-antd-less');
 const { i18n } = require('./next-i18next.config');
 
-module.exports = withPlugins([
+module.exports = withPlugins(
   [
-    withCSS,
-    withLess({
-      lessLoaderOptions: {
-        modifyVars: {
-          'primary-color': '#2A9D8F',
-        },
-        javascriptEnabled: true,
-      },
-      webpack(config) {
-        return config;
-      },
+    withAntdLess({
+      modifyVars: { '@primary-color': '#2A9D8F' },
     }),
+    withBundleAnalyzer,
   ],
   {
     i18n,
-    env: {
-      API_ENDPOINT: process.env.API_ENDPOINT,
-    },
   },
-]);
+);

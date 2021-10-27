@@ -5,7 +5,7 @@ import NProgress from 'nprogress';
 import Navbar from 'src/components/Navbar';
 import Router from 'next/router';
 import store from 'src/store/store';
-import { AppProps } from 'next/dist/next-server/lib/router/router';
+import { AppProps } from 'next/dist/shared/lib/router/router';
 import { Hydrate } from 'react-query/hydration';
 import { Provider } from 'react-redux';
 import { QueryClient, QueryClientProvider } from 'react-query';
