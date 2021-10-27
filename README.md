@@ -3,7 +3,7 @@
 This repository is dependent on the [meet-us.backend](https://github.com/sebastiansiejek/meet.us-backend) repository.
 
 ## Requirements
-* [Node.js](https://nodejs.org) in 14.14.8.1v
+* [Node.js](https://nodejs.org) in 16.13.0v
 * [yarn](https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable)
 ## Getting started
 1. Clone latest version of the [backend](https://github.com/sebastiansiejek/meet.us-backend) repository and run according to the instructions in the README.md file.
