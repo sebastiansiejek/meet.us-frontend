@@ -63,7 +63,6 @@ const EventsMap: React.FunctionComponent<EventsMapProps> = ({ events }) => {
         const lng = random(center.lng, center.lng + 0.5);
         // @ts-ignore
         const iconUrl = icons[event.node.type] || '';
-        console.log(iconUrl);
 
         return (
           <Marker
@@ -75,6 +74,7 @@ const EventsMap: React.FunctionComponent<EventsMapProps> = ({ events }) => {
               url: iconUrl,
               scaledSize: new window.google.maps.Size(50, 50),
             }}
+            title={event.node.title}
           />
         );
       })}
