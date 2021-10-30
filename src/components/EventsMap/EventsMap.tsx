@@ -1,10 +1,10 @@
 import React, { useCallback, useState } from 'react';
-import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
-import { Event } from 'src/generated/gqlQueries';
-import { random } from 'lodash';
 import useCurrentLocation from 'src/hooks/useCurrentLocation';
-import { useRouter } from 'next/router';
+import { Event } from 'src/generated/gqlQueries';
+import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
+import { random } from 'lodash';
 import { routes } from 'src/routes/routes';
+import { useRouter } from 'next/router';
 
 const containerStyle = {
   width: '100%',
