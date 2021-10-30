@@ -3,6 +3,8 @@ import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import { Event } from 'src/generated/gqlQueries';
 import { random } from 'lodash';
 import useCurrentLocation from 'src/hooks/useCurrentLocation';
+import { useRouter } from 'next/router';
+import { routes } from 'src/routes/routes';
 
 const containerStyle = {
   width: '100%',
@@ -19,6 +21,7 @@ const icons = {
 };
 
 const EventsMap: React.FunctionComponent<EventsMapProps> = ({ events }) => {
+  const router = useRouter();
   const { coords } = useCurrentLocation();
   const latitude = coords?.latitude;
   const longitude = coords?.longitude;
@@ -75,6 +78,9 @@ const EventsMap: React.FunctionComponent<EventsMapProps> = ({ events }) => {
               scaledSize: new window.google.maps.Size(50, 50),
             }}
             title={event.node.title}
+            onClick={() => {
+              router.push(`${routes.events.href}/${event.node.id}`);
+            }}
           />
         );
       })}
