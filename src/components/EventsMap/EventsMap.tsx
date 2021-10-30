@@ -66,6 +66,7 @@ const EventsMap: React.FunctionComponent<EventsMapProps> = ({ events }) => {
 
         return (
           <Marker
+            key={JSON.stringify({ lat, lng, title: event.node.title })}
             position={{
               lat,
               lng,
