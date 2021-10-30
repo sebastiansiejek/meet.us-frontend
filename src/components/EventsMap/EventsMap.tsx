@@ -36,7 +36,7 @@ const EventsMap: React.FunctionComponent<EventsMapProps> = ({ events }) => {
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY || '',
   });
 
-  const [map, setMap] = useState(null);
+  const [map, setMap] = useState<google.maps.Map | null>();
 
   const onLoad = useCallback(function callback(map) {
     const bounds = new window.google.maps.LatLngBounds();
@@ -55,9 +55,6 @@ const EventsMap: React.FunctionComponent<EventsMapProps> = ({ events }) => {
       zoom={13}
       onLoad={onLoad}
       onUnmount={onUnmount}
-      onDragEnd={() => {
-        console.log(map);
-      }}
     >
       {events.map((event) => {
         // TODO: Get event location from API
