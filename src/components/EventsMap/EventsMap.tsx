@@ -2,15 +2,11 @@ import React, { useCallback, useState } from 'react';
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import { Event } from 'src/generated/gqlQueries';
 import { random } from 'lodash';
+import useCurrentLocation from 'src/hooks/useCurrentLocation';
 
 const containerStyle = {
   width: '100%',
   height: '400px',
-};
-
-const center = {
-  lat: 52.409538,
-  lng: 16.931992,
 };
 
 interface EventsMapProps {
@@ -18,6 +14,15 @@ interface EventsMapProps {
 }
 
 const EventsMap: React.FunctionComponent<EventsMapProps> = ({ events }) => {
+  const { coords } = useCurrentLocation();
+  const latitude = coords?.latitude;
+  const longitude = coords?.longitude;
+
+  const center = {
+    lat: latitude || 52.409538,
+    lng: longitude || 16.931992,
+  };
+
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY || '',
