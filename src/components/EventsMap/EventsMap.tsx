@@ -13,6 +13,11 @@ interface EventsMapProps {
   events: [{ node: Event }];
 }
 
+const icons = {
+  0: '/images/icons/sport.svg',
+  1: '/images/icons/party.svg',
+};
+
 const EventsMap: React.FunctionComponent<EventsMapProps> = ({ events }) => {
   const { coords } = useCurrentLocation();
   const latitude = coords?.latitude;
@@ -54,14 +59,21 @@ const EventsMap: React.FunctionComponent<EventsMapProps> = ({ events }) => {
       {events.map((event) => {
         // TODO: Get event location from API
         // const { lat, lng } = event;
-        const lat = random(center.lat, center.lat + 1);
-        const lng = random(center.lng, center.lng + 1);
+        const lat = random(center.lat, center.lat + 0.5);
+        const lng = random(center.lng, center.lng + 0.5);
+        // @ts-ignore
+        const iconUrl = icons[event.node.type] || '';
+        console.log(iconUrl);
 
         return (
           <Marker
             position={{
               lat,
               lng,
+            }}
+            icon={{
+              url: iconUrl,
+              scaledSize: new window.google.maps.Size(50, 50),
             }}
           />
         );
