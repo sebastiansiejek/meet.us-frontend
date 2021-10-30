@@ -76,12 +76,16 @@ const MobileMenu: React.FunctionComponent<MobileMenuProps> = ({}) => {
           />
         </div>
         <Menu theme="dark" mode="vertical">
-          {Object.values(routes).map(({ href, title }) => (
-            <Menu.Item key={href} onClick={() => handleClick()}>
-              <Link href={href}>{t(title)}</Link>
-            </Menu.Item>
-          ))}
+          {Object.values(routes).map(({ href, title, display }) => {
+            const key = JSON.stringify({ href, display });
+            return (
+              <Menu.Item key={key} onClick={() => handleClick()}>
+                <Link href={href}>{t(title)}</Link>
+              </Menu.Item>
+            );
+          })}
           <Menu.Item
+            key="settings"
             style={{ padding: '0', display: 'flex' }}
             onClick={() => handleClick()}
           >

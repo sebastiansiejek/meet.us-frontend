@@ -52,17 +52,21 @@ const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
         theme="dark"
         mode="horizontal"
       >
-        {Object.values(routes).map(({ href, title, display }) => (
-          <Menu.Item key={href}>
-            {isLogged !== 'null' && display.logged && (
-              <Link href={href}>{t(title)}</Link>
-            )}
-            {isLogged === 'null' && display.unLogged && (
-              <Link href={href}>{t(title)}</Link>
-            )}
-          </Menu.Item>
-        ))}
+        {Object.values(routes).map(({ href, title, display }) => {
+          const key = JSON.stringify({ href, display });
+          return (
+            <Menu.Item key={key}>
+              {isLogged !== 'null' && display.logged && (
+                <Link href={href}>{t(title)}</Link>
+              )}
+              {isLogged === 'null' && display.unLogged && (
+                <Link href={href}>{t(title)}</Link>
+              )}
+            </Menu.Item>
+          );
+        })}
         <Menu.Item
+          key="settings"
           style={{ marginLeft: 'auto', padding: '0', display: 'flex' }}
         >
           {isLogged !== 'null' && <UserSettings />}
