@@ -23,6 +23,8 @@ mutation CreateEvent(
   $endDate: DateTime!
   $maxParticipants: Int!
   $type: Float
+  $lat: Float!
+  $long: Float!
 ) {
   createEvent(
     createEventInput: {
@@ -32,6 +34,8 @@ mutation CreateEvent(
       endDate: $endDate
       maxParticipants: $maxParticipants
       type: $type
+      lat: $lat
+      long: $long
     }
   ) {
     id

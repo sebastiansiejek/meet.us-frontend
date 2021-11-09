@@ -18,6 +18,7 @@ export type Scalars = {
 export type AccessToken = {
   __typename?: 'AccessToken';
   accessToken: Scalars['String'];
+  refreshToken: Scalars['String'];
 };
 
 export type ActivateUserInput = {
@@ -27,6 +28,8 @@ export type ActivateUserInput = {
 export type CreateEventInput = {
   description: Scalars['String'];
   endDate: Scalars['DateTime'];
+  lat: Scalars['Float'];
+  long: Scalars['Float'];
   maxParticipants?: Maybe<Scalars['Int']>;
   startDate: Scalars['DateTime'];
   title: Scalars['String'];
@@ -41,9 +44,12 @@ export type CreateUserInput = {
 export type Event = {
   __typename?: 'Event';
   description: Scalars['String'];
+  distance: Scalars['Float'];
   endDate: Scalars['DateTime'];
   id: Scalars['String'];
   isArchive: Scalars['Boolean'];
+  lat: Scalars['Float'];
+  long: Scalars['Float'];
   maxParticipants?: Maybe<Scalars['Int']>;
   startDate: Scalars['DateTime'];
   state?: Maybe<Scalars['String']>;
@@ -86,11 +92,14 @@ export type LoginUserInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   activateUser: User;
+  confirmResetPassword: ResetResponse;
   createEvent: Event;
   createUser: User;
   login: AccessToken;
+  refresh: AccessToken;
   removeEvent: Event;
   removeUser: User;
+  resetPassword: ResetResponse;
   updateEvent: Event;
   updateUser: User;
 };
@@ -98,6 +107,11 @@ export type Mutation = {
 
 export type MutationActivateUserArgs = {
   activateUser: ActivateUserInput;
+};
+
+
+export type MutationConfirmResetPasswordArgs = {
+  confirmResetPassword: ResetPasswordTokenInput;
 };
 
 
@@ -116,6 +130,11 @@ export type MutationLoginArgs = {
 };
 
 
+export type MutationRefreshArgs = {
+  refreshToken: RefreshUserToken;
+};
+
+
 export type MutationRemoveEventArgs = {
   id: Scalars['String'];
 };
@@ -123,6 +142,11 @@ export type MutationRemoveEventArgs = {
 
 export type MutationRemoveUserArgs = {
   id: Scalars['String'];
+};
+
+
+export type MutationResetPasswordArgs = {
+  resetPasswordInput: ResetPasswordInput;
 };
 
 
@@ -160,8 +184,11 @@ export type QueryEventArgs = {
 export type QueryEventsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
+  distance?: Maybe<Scalars['Float']>;
   first?: Maybe<Scalars['Float']>;
   last?: Maybe<Scalars['Float']>;
+  latitude?: Maybe<Scalars['Float']>;
+  longitude?: Maybe<Scalars['Float']>;
   orderField?: Maybe<Scalars['String']>;
   orderSort?: Maybe<Scalars['String']>;
   query?: Maybe<Scalars['String']>;
@@ -178,16 +205,40 @@ export type QueryUserArgs = {
 export type QueryUsersArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
+  distance?: Maybe<Scalars['Float']>;
   first?: Maybe<Scalars['Float']>;
   last?: Maybe<Scalars['Float']>;
+  latitude?: Maybe<Scalars['Float']>;
+  longitude?: Maybe<Scalars['Float']>;
   orderField?: Maybe<Scalars['String']>;
   orderSort?: Maybe<Scalars['String']>;
+};
+
+export type RefreshUserToken = {
+  token: Scalars['String'];
+};
+
+export type ResetPasswordInput = {
+  email: Scalars['String'];
+};
+
+export type ResetPasswordTokenInput = {
+  confirmPassword: Scalars['String'];
+  newPassword: Scalars['String'];
+  token: Scalars['String'];
+};
+
+export type ResetResponse = {
+  __typename?: 'ResetResponse';
+  message: Scalars['String'];
 };
 
 export type UpdateEventInput = {
   description?: Maybe<Scalars['String']>;
   endDate?: Maybe<Scalars['DateTime']>;
   id: Scalars['String'];
+  lat?: Maybe<Scalars['Float']>;
+  long?: Maybe<Scalars['Float']>;
   maxParticipants?: Maybe<Scalars['Int']>;
   startDate?: Maybe<Scalars['DateTime']>;
   title?: Maybe<Scalars['String']>;
@@ -253,6 +304,8 @@ export type CreateEventMutationVariables = Exact<{
   endDate: Scalars['DateTime'];
   maxParticipants: Scalars['Int'];
   type?: Maybe<Scalars['Float']>;
+  lat: Scalars['Float'];
+  long: Scalars['Float'];
 }>;
 
 
@@ -386,9 +439,9 @@ export const useSingleEventPageQuery = <
       options
     );
 export const CreateEventDocument = `
-    mutation CreateEvent($title: String!, $description: String!, $startDate: DateTime!, $endDate: DateTime!, $maxParticipants: Int!, $type: Float) {
+    mutation CreateEvent($title: String!, $description: String!, $startDate: DateTime!, $endDate: DateTime!, $maxParticipants: Int!, $type: Float, $lat: Float!, $long: Float!) {
   createEvent(
-    createEventInput: {title: $title, description: $description, startDate: $startDate, endDate: $endDate, maxParticipants: $maxParticipants, type: $type}
+    createEventInput: {title: $title, description: $description, startDate: $startDate, endDate: $endDate, maxParticipants: $maxParticipants, type: $type, lat: $lat, long: $long}
   ) {
     id
     title
