@@ -2,7 +2,6 @@ import React, { useCallback, useState } from 'react';
 import useCurrentLocation from 'src/hooks/useCurrentLocation';
 import { Event } from 'src/generated/gqlQueries';
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
-import { random } from 'lodash';
 import { routes } from 'src/routes/routes';
 import { useRouter } from 'next/router';
 
@@ -57,16 +56,13 @@ const EventsMap: React.FunctionComponent<EventsMapProps> = ({ events }) => {
       onUnmount={onUnmount}
     >
       {events.map((event) => {
-        // TODO: Get event location from API
-        // const { lat, lng } = event;
-        const lat = random(center.lat, center.lat + 0.5);
-        const lng = random(center.lng, center.lng + 0.5);
+        const { lat, lng, title, id } = event.node;
         // @ts-ignore
         const iconUrl = icons[event.node.type] || '';
 
         return (
           <Marker
-            key={JSON.stringify({ lat, lng, title: event.node.title })}
+            key={JSON.stringify({ lat, lng, title: title })}
             position={{
               lat,
               lng,
@@ -75,9 +71,9 @@ const EventsMap: React.FunctionComponent<EventsMapProps> = ({ events }) => {
               url: iconUrl,
               scaledSize: new window.google.maps.Size(50, 50),
             }}
-            title={event.node.title}
+            title={title}
             onClick={() => {
-              router.push(`${routes.events.href}/${event.node.id}`);
+              router.push(`${routes.events.href}/${id}`);
             }}
           />
         );

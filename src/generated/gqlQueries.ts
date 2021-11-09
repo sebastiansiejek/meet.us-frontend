@@ -29,7 +29,7 @@ export type CreateEventInput = {
   description: Scalars['String'];
   endDate: Scalars['DateTime'];
   lat: Scalars['Float'];
-  long: Scalars['Float'];
+  lng: Scalars['Float'];
   maxParticipants?: Maybe<Scalars['Int']>;
   startDate: Scalars['DateTime'];
   title: Scalars['String'];
@@ -49,7 +49,7 @@ export type Event = {
   id: Scalars['String'];
   isArchive: Scalars['Boolean'];
   lat: Scalars['Float'];
-  long: Scalars['Float'];
+  lng: Scalars['Float'];
   maxParticipants?: Maybe<Scalars['Int']>;
   startDate: Scalars['DateTime'];
   state?: Maybe<Scalars['String']>;
@@ -238,7 +238,7 @@ export type UpdateEventInput = {
   endDate?: Maybe<Scalars['DateTime']>;
   id: Scalars['String'];
   lat?: Maybe<Scalars['Float']>;
-  long?: Maybe<Scalars['Float']>;
+  lng?: Maybe<Scalars['Float']>;
   maxParticipants?: Maybe<Scalars['Int']>;
   startDate?: Maybe<Scalars['DateTime']>;
   title?: Maybe<Scalars['String']>;
@@ -305,7 +305,7 @@ export type CreateEventMutationVariables = Exact<{
   maxParticipants: Scalars['Int'];
   type?: Maybe<Scalars['Float']>;
   lat: Scalars['Float'];
-  long: Scalars['Float'];
+  lng: Scalars['Float'];
 }>;
 
 
@@ -321,7 +321,7 @@ export type EventsQueryVariables = Exact<{
 }>;
 
 
-export type EventsQuery = { __typename?: 'Query', events: { __typename?: 'EventResponse', page: { __typename?: 'EventConnection', edges?: Array<{ __typename?: 'EventEdge', cursor?: string | null | undefined, node?: { __typename?: 'Event', id: string, title: string, description: string, startDate: any, endDate: any, type: number, state?: string | null | undefined } | null | undefined }> | null | undefined, pageInfo?: { __typename?: 'EventPageInfo', startCursor?: string | null | undefined, endCursor?: string | null | undefined, hasNextPage: boolean } | null | undefined }, pageData?: { __typename?: 'PageData', count: number, offset: number, limit: number } | null | undefined } };
+export type EventsQuery = { __typename?: 'Query', events: { __typename?: 'EventResponse', page: { __typename?: 'EventConnection', edges?: Array<{ __typename?: 'EventEdge', cursor?: string | null | undefined, node?: { __typename?: 'Event', id: string, title: string, description: string, startDate: any, endDate: any, type: number, state?: string | null | undefined, lat: number, lng: number } | null | undefined }> | null | undefined, pageInfo?: { __typename?: 'EventPageInfo', startCursor?: string | null | undefined, endCursor?: string | null | undefined, hasNextPage: boolean } | null | undefined }, pageData?: { __typename?: 'PageData', count: number, offset: number, limit: number } | null | undefined } };
 
 export type DeleteEventMutationVariables = Exact<{
   id: Scalars['String'];
@@ -439,9 +439,9 @@ export const useSingleEventPageQuery = <
       options
     );
 export const CreateEventDocument = `
-    mutation CreateEvent($title: String!, $description: String!, $startDate: DateTime!, $endDate: DateTime!, $maxParticipants: Int!, $type: Float, $lat: Float!, $long: Float!) {
+    mutation CreateEvent($title: String!, $description: String!, $startDate: DateTime!, $endDate: DateTime!, $maxParticipants: Int!, $type: Float, $lat: Float!, $lng: Float!) {
   createEvent(
-    createEventInput: {title: $title, description: $description, startDate: $startDate, endDate: $endDate, maxParticipants: $maxParticipants, type: $type, lat: $lat, long: $long}
+    createEventInput: {title: $title, description: $description, startDate: $startDate, endDate: $endDate, maxParticipants: $maxParticipants, type: $type, lat: $lat, lng: $lng}
   ) {
     id
     title
@@ -479,6 +479,8 @@ export const EventsDocument = `
           endDate
           type
           state
+          lat
+          lng
         }
         cursor
       }

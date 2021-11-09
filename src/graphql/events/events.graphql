@@ -24,7 +24,7 @@ mutation CreateEvent(
   $maxParticipants: Int!
   $type: Float
   $lat: Float!
-  $long: Float!
+  $lng: Float!
 ) {
   createEvent(
     createEventInput: {
@@ -35,7 +35,7 @@ mutation CreateEvent(
       maxParticipants: $maxParticipants
       type: $type
       lat: $lat
-      long: $long
+      lng: $lng
     }
   ) {
     id
@@ -72,6 +72,8 @@ query Events(
           endDate
           type
           state
+          lat
+          lng
         }
         cursor
       }
