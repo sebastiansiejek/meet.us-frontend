@@ -23,6 +23,8 @@ mutation CreateEvent(
   $endDate: DateTime!
   $maxParticipants: Int!
   $type: Float
+  $lat: Float!
+  $lng: Float!
 ) {
   createEvent(
     createEventInput: {
@@ -32,6 +34,8 @@ mutation CreateEvent(
       endDate: $endDate
       maxParticipants: $maxParticipants
       type: $type
+      lat: $lat
+      lng: $lng
     }
   ) {
     id
@@ -68,6 +72,8 @@ query Events(
           endDate
           type
           state
+          lat
+          lng
         }
         cursor
       }
@@ -81,6 +87,38 @@ query Events(
       count
       offset
       limit
+    }
+  }
+}
+
+query EventsOnMap(
+  $first: Float!
+  $state: String
+  $latitude: Float
+  $longitude: Float
+  $distance: Float
+) {
+  events(
+    first: $first
+    state: $state
+    latitude: $latitude
+    longitude: $longitude
+    distance: $distance
+  ) {
+    page {
+      edges {
+        node {
+          id
+          title
+          type
+          state
+          lat
+          lng
+        }
+      }
+    }
+    pageData {
+      count
     }
   }
 }

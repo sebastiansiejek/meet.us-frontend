@@ -18,6 +18,7 @@ export type Scalars = {
 export type AccessToken = {
   __typename?: 'AccessToken';
   accessToken: Scalars['String'];
+  refreshToken: Scalars['String'];
 };
 
 export type ActivateUserInput = {
@@ -27,6 +28,8 @@ export type ActivateUserInput = {
 export type CreateEventInput = {
   description: Scalars['String'];
   endDate: Scalars['DateTime'];
+  lat: Scalars['Float'];
+  lng: Scalars['Float'];
   maxParticipants?: Maybe<Scalars['Int']>;
   startDate: Scalars['DateTime'];
   title: Scalars['String'];
@@ -41,9 +44,12 @@ export type CreateUserInput = {
 export type Event = {
   __typename?: 'Event';
   description: Scalars['String'];
+  distance: Scalars['Float'];
   endDate: Scalars['DateTime'];
   id: Scalars['String'];
   isArchive: Scalars['Boolean'];
+  lat: Scalars['Float'];
+  lng: Scalars['Float'];
   maxParticipants?: Maybe<Scalars['Int']>;
   startDate: Scalars['DateTime'];
   state?: Maybe<Scalars['String']>;
@@ -86,11 +92,14 @@ export type LoginUserInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   activateUser: User;
+  confirmResetPassword: ResetResponse;
   createEvent: Event;
   createUser: User;
   login: AccessToken;
+  refresh: AccessToken;
   removeEvent: Event;
   removeUser: User;
+  resetPassword: ResetResponse;
   updateEvent: Event;
   updateUser: User;
 };
@@ -98,6 +107,11 @@ export type Mutation = {
 
 export type MutationActivateUserArgs = {
   activateUser: ActivateUserInput;
+};
+
+
+export type MutationConfirmResetPasswordArgs = {
+  confirmResetPassword: ResetPasswordTokenInput;
 };
 
 
@@ -116,6 +130,11 @@ export type MutationLoginArgs = {
 };
 
 
+export type MutationRefreshArgs = {
+  refreshToken: RefreshUserToken;
+};
+
+
 export type MutationRemoveEventArgs = {
   id: Scalars['String'];
 };
@@ -123,6 +142,11 @@ export type MutationRemoveEventArgs = {
 
 export type MutationRemoveUserArgs = {
   id: Scalars['String'];
+};
+
+
+export type MutationResetPasswordArgs = {
+  resetPasswordInput: ResetPasswordInput;
 };
 
 
@@ -160,8 +184,11 @@ export type QueryEventArgs = {
 export type QueryEventsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
+  distance?: Maybe<Scalars['Float']>;
   first?: Maybe<Scalars['Float']>;
   last?: Maybe<Scalars['Float']>;
+  latitude?: Maybe<Scalars['Float']>;
+  longitude?: Maybe<Scalars['Float']>;
   orderField?: Maybe<Scalars['String']>;
   orderSort?: Maybe<Scalars['String']>;
   query?: Maybe<Scalars['String']>;
@@ -178,16 +205,40 @@ export type QueryUserArgs = {
 export type QueryUsersArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
+  distance?: Maybe<Scalars['Float']>;
   first?: Maybe<Scalars['Float']>;
   last?: Maybe<Scalars['Float']>;
+  latitude?: Maybe<Scalars['Float']>;
+  longitude?: Maybe<Scalars['Float']>;
   orderField?: Maybe<Scalars['String']>;
   orderSort?: Maybe<Scalars['String']>;
+};
+
+export type RefreshUserToken = {
+  token: Scalars['String'];
+};
+
+export type ResetPasswordInput = {
+  email: Scalars['String'];
+};
+
+export type ResetPasswordTokenInput = {
+  confirmPassword: Scalars['String'];
+  newPassword: Scalars['String'];
+  token: Scalars['String'];
+};
+
+export type ResetResponse = {
+  __typename?: 'ResetResponse';
+  message: Scalars['String'];
 };
 
 export type UpdateEventInput = {
   description?: Maybe<Scalars['String']>;
   endDate?: Maybe<Scalars['DateTime']>;
   id: Scalars['String'];
+  lat?: Maybe<Scalars['Float']>;
+  lng?: Maybe<Scalars['Float']>;
   maxParticipants?: Maybe<Scalars['Int']>;
   startDate?: Maybe<Scalars['DateTime']>;
   title?: Maybe<Scalars['String']>;
@@ -253,6 +304,8 @@ export type CreateEventMutationVariables = Exact<{
   endDate: Scalars['DateTime'];
   maxParticipants: Scalars['Int'];
   type?: Maybe<Scalars['Float']>;
+  lat: Scalars['Float'];
+  lng: Scalars['Float'];
 }>;
 
 
@@ -268,7 +321,18 @@ export type EventsQueryVariables = Exact<{
 }>;
 
 
-export type EventsQuery = { __typename?: 'Query', events: { __typename?: 'EventResponse', page: { __typename?: 'EventConnection', edges?: Array<{ __typename?: 'EventEdge', cursor?: string | null | undefined, node?: { __typename?: 'Event', id: string, title: string, description: string, startDate: any, endDate: any, type: number, state?: string | null | undefined } | null | undefined }> | null | undefined, pageInfo?: { __typename?: 'EventPageInfo', startCursor?: string | null | undefined, endCursor?: string | null | undefined, hasNextPage: boolean } | null | undefined }, pageData?: { __typename?: 'PageData', count: number, offset: number, limit: number } | null | undefined } };
+export type EventsQuery = { __typename?: 'Query', events: { __typename?: 'EventResponse', page: { __typename?: 'EventConnection', edges?: Array<{ __typename?: 'EventEdge', cursor?: string | null | undefined, node?: { __typename?: 'Event', id: string, title: string, description: string, startDate: any, endDate: any, type: number, state?: string | null | undefined, lat: number, lng: number } | null | undefined }> | null | undefined, pageInfo?: { __typename?: 'EventPageInfo', startCursor?: string | null | undefined, endCursor?: string | null | undefined, hasNextPage: boolean } | null | undefined }, pageData?: { __typename?: 'PageData', count: number, offset: number, limit: number } | null | undefined } };
+
+export type EventsOnMapQueryVariables = Exact<{
+  first: Scalars['Float'];
+  state?: Maybe<Scalars['String']>;
+  latitude?: Maybe<Scalars['Float']>;
+  longitude?: Maybe<Scalars['Float']>;
+  distance?: Maybe<Scalars['Float']>;
+}>;
+
+
+export type EventsOnMapQuery = { __typename?: 'Query', events: { __typename?: 'EventResponse', page: { __typename?: 'EventConnection', edges?: Array<{ __typename?: 'EventEdge', node?: { __typename?: 'Event', id: string, title: string, type: number, state?: string | null | undefined, lat: number, lng: number } | null | undefined }> | null | undefined }, pageData?: { __typename?: 'PageData', count: number } | null | undefined } };
 
 export type DeleteEventMutationVariables = Exact<{
   id: Scalars['String'];
@@ -385,10 +449,12 @@ export const useSingleEventPageQuery = <
       useFetchData<SingleEventPageQuery, SingleEventPageQueryVariables>(SingleEventPageDocument).bind(null, variables),
       options
     );
+useSingleEventPageQuery.document = SingleEventPageDocument;
+
 export const CreateEventDocument = `
-    mutation CreateEvent($title: String!, $description: String!, $startDate: DateTime!, $endDate: DateTime!, $maxParticipants: Int!, $type: Float) {
+    mutation CreateEvent($title: String!, $description: String!, $startDate: DateTime!, $endDate: DateTime!, $maxParticipants: Int!, $type: Float, $lat: Float!, $lng: Float!) {
   createEvent(
-    createEventInput: {title: $title, description: $description, startDate: $startDate, endDate: $endDate, maxParticipants: $maxParticipants, type: $type}
+    createEventInput: {title: $title, description: $description, startDate: $startDate, endDate: $endDate, maxParticipants: $maxParticipants, type: $type, lat: $lat, lng: $lng}
   ) {
     id
     title
@@ -426,6 +492,8 @@ export const EventsDocument = `
           endDate
           type
           state
+          lat
+          lng
         }
         cursor
       }
@@ -455,6 +523,49 @@ export const useEventsQuery = <
       useFetchData<EventsQuery, EventsQueryVariables>(EventsDocument).bind(null, variables),
       options
     );
+useEventsQuery.document = EventsDocument;
+
+export const EventsOnMapDocument = `
+    query EventsOnMap($first: Float!, $state: String, $latitude: Float, $longitude: Float, $distance: Float) {
+  events(
+    first: $first
+    state: $state
+    latitude: $latitude
+    longitude: $longitude
+    distance: $distance
+  ) {
+    page {
+      edges {
+        node {
+          id
+          title
+          type
+          state
+          lat
+          lng
+        }
+      }
+    }
+    pageData {
+      count
+    }
+  }
+}
+    `;
+export const useEventsOnMapQuery = <
+      TData = EventsOnMapQuery,
+      TError = unknown
+    >(
+      variables: EventsOnMapQueryVariables, 
+      options?: UseQueryOptions<EventsOnMapQuery, TError, TData>
+    ) => 
+    useQuery<EventsOnMapQuery, TError, TData>(
+      ['EventsOnMap', variables],
+      useFetchData<EventsOnMapQuery, EventsOnMapQueryVariables>(EventsOnMapDocument).bind(null, variables),
+      options
+    );
+useEventsOnMapQuery.document = EventsOnMapDocument;
+
 export const DeleteEventDocument = `
     mutation DeleteEvent($id: String!) {
   removeEvent(id: $id) {
@@ -516,6 +627,8 @@ export const useFindUserEventsQuery = <
       useFetchData<FindUserEventsQuery, FindUserEventsQueryVariables>(FindUserEventsDocument).bind(null, variables),
       options
     );
+useFindUserEventsQuery.document = FindUserEventsDocument;
+
 export const SingleUserDocument = `
     query singleUser($id: String!) {
   user(id: $id) {
@@ -538,6 +651,8 @@ export const useSingleUserQuery = <
       useFetchData<SingleUserQuery, SingleUserQueryVariables>(SingleUserDocument).bind(null, variables),
       options
     );
+useSingleUserQuery.document = SingleUserDocument;
+
 export const CurrentUserDocument = `
     query CurrentUser {
   currentUser {
@@ -560,6 +675,8 @@ export const useCurrentUserQuery = <
       useFetchData<CurrentUserQuery, CurrentUserQueryVariables>(CurrentUserDocument).bind(null, variables),
       options
     );
+useCurrentUserQuery.document = CurrentUserDocument;
+
 export const CurrentUserIdDocument = `
     query CurrentUserId {
   currentUser {
@@ -579,6 +696,8 @@ export const useCurrentUserIdQuery = <
       useFetchData<CurrentUserIdQuery, CurrentUserIdQueryVariables>(CurrentUserIdDocument).bind(null, variables),
       options
     );
+useCurrentUserIdQuery.document = CurrentUserIdDocument;
+
 export const UsersDocument = `
     query Users {
   users {
@@ -607,6 +726,8 @@ export const useUsersQuery = <
       useFetchData<UsersQuery, UsersQueryVariables>(UsersDocument).bind(null, variables),
       options
     );
+useUsersQuery.document = UsersDocument;
+
 export const LoginDocument = `
     mutation Login($email: String!, $password: String!) {
   login(loginUserInput: {email: $email, password: $password}) {
