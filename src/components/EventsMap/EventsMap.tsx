@@ -1,6 +1,6 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import useCurrentLocation from 'src/hooks/useCurrentLocation';
-import { Event } from 'src/generated/gqlQueries';
+import { useEventsOnMapQuery } from 'src/generated/gqlQueries';
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import { routes } from 'src/routes/routes';
 import { useRouter } from 'next/router';
@@ -10,25 +10,70 @@ const containerStyle = {
   height: '400px',
 };
 
-interface EventsMapProps {
-  events: [{ node: Event }];
-}
-
 const icons = {
   0: '/images/icons/sport.svg',
   1: '/images/icons/party.svg',
 };
 
-const EventsMap: React.FunctionComponent<EventsMapProps> = ({ events }) => {
+type IEventType = {
+  node?:
+    | {
+        __typename?: 'Event' | undefined;
+        id: string;
+        title: string;
+        type: number;
+        state?: string | null | undefined;
+        lat: number;
+        lng: number;
+      }
+    | null
+    | undefined;
+};
+
+const EventsMap: React.FunctionComponent = () => {
   const router = useRouter();
   const { coords } = useCurrentLocation();
-  const latitude = coords?.latitude;
-  const longitude = coords?.longitude;
+  const userLat = coords?.latitude || 52.409538;
+  const userLng = coords?.longitude || 16.931992;
+  const [totalEvents, setTotalEvents] = useState<number>(0);
+  const [currentEvents, setCurrentEvents] = useState<Array<IEventType>>([]);
+  const [centerCoords, setCenterCoords] = useState<{
+    lat: number;
+    lng: number;
+  }>({
+    lat: userLat,
+    lng: userLng,
+  });
 
-  const center = {
-    lat: latitude || 52.409538,
-    lng: longitude || 16.931992,
-  };
+  const eventsOnMapData = useEventsOnMapQuery(
+    {
+      first: 15,
+      latitude: centerCoords.lat,
+      longitude: centerCoords.lng,
+      distance: 100000,
+      // state: 'DURING',
+    },
+    {
+      enabled: currentEvents.length === 0 || currentEvents.length < totalEvents,
+    },
+  ).data;
+
+  const events = eventsOnMapData?.events.page.edges;
+
+  useEffect(() => {
+    if (events && eventsOnMapData) {
+      if (!totalEvents) {
+        setTotalEvents(eventsOnMapData.events.pageData?.count || 0);
+      }
+
+      if (totalEvents) {
+        const newEvents = events.filter((event) =>
+          currentEvents.every((currentEvent) => currentEvent !== event),
+        );
+        setCurrentEvents([...currentEvents, ...newEvents]);
+      }
+    }
+  }, [eventsOnMapData, totalEvents]);
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -43,22 +88,34 @@ const EventsMap: React.FunctionComponent<EventsMapProps> = ({ events }) => {
     setMap(map);
   }, []);
 
-  const onUnmount = useCallback(function callback(map) {
+  const onUnmount = useCallback(function callback() {
     setMap(null);
   }, []);
 
   return isLoaded ? (
     <GoogleMap
       mapContainerStyle={containerStyle}
-      center={center}
+      center={centerCoords}
       zoom={13}
       onLoad={onLoad}
       onUnmount={onUnmount}
+      onDragEnd={() => {
+        if (map) {
+          const center = map.getCenter();
+          const lat = center?.lat()!;
+          const lng = center?.lng()!;
+          setCenterCoords({
+            lat,
+            lng,
+          });
+        }
+      }}
     >
-      {events.map((event) => {
-        const { lat, lng, title, id } = event.node;
+      {currentEvents.map((event) => {
         // @ts-ignore
-        const iconUrl = icons[event.node.type] || '';
+        const { lat, lng, title, id, type } = event.node;
+        // @ts-ignore
+        const iconUrl = icons[type] || '';
 
         return (
           <Marker

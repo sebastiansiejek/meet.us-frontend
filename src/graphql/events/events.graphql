@@ -91,6 +91,38 @@ query Events(
   }
 }
 
+query EventsOnMap(
+  $first: Float!
+  $state: String
+  $latitude: Float
+  $longitude: Float
+  $distance: Float
+) {
+  events(
+    first: $first
+    state: $state
+    latitude: $latitude
+    longitude: $longitude
+    distance: $distance
+  ) {
+    page {
+      edges {
+        node {
+          id
+          title
+          type
+          state
+          lat
+          lng
+        }
+      }
+    }
+    pageData {
+      count
+    }
+  }
+}
+
 mutation DeleteEvent($id: String!) {
   removeEvent(id: $id) {
     title

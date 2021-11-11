@@ -323,6 +323,17 @@ export type EventsQueryVariables = Exact<{
 
 export type EventsQuery = { __typename?: 'Query', events: { __typename?: 'EventResponse', page: { __typename?: 'EventConnection', edges?: Array<{ __typename?: 'EventEdge', cursor?: string | null | undefined, node?: { __typename?: 'Event', id: string, title: string, description: string, startDate: any, endDate: any, type: number, state?: string | null | undefined, lat: number, lng: number } | null | undefined }> | null | undefined, pageInfo?: { __typename?: 'EventPageInfo', startCursor?: string | null | undefined, endCursor?: string | null | undefined, hasNextPage: boolean } | null | undefined }, pageData?: { __typename?: 'PageData', count: number, offset: number, limit: number } | null | undefined } };
 
+export type EventsOnMapQueryVariables = Exact<{
+  first: Scalars['Float'];
+  state?: Maybe<Scalars['String']>;
+  latitude?: Maybe<Scalars['Float']>;
+  longitude?: Maybe<Scalars['Float']>;
+  distance?: Maybe<Scalars['Float']>;
+}>;
+
+
+export type EventsOnMapQuery = { __typename?: 'Query', events: { __typename?: 'EventResponse', page: { __typename?: 'EventConnection', edges?: Array<{ __typename?: 'EventEdge', node?: { __typename?: 'Event', id: string, title: string, type: number, state?: string | null | undefined, lat: number, lng: number } | null | undefined }> | null | undefined }, pageData?: { __typename?: 'PageData', count: number } | null | undefined } };
+
 export type DeleteEventMutationVariables = Exact<{
   id: Scalars['String'];
 }>;
@@ -438,6 +449,8 @@ export const useSingleEventPageQuery = <
       useFetchData<SingleEventPageQuery, SingleEventPageQueryVariables>(SingleEventPageDocument).bind(null, variables),
       options
     );
+useSingleEventPageQuery.document = SingleEventPageDocument;
+
 export const CreateEventDocument = `
     mutation CreateEvent($title: String!, $description: String!, $startDate: DateTime!, $endDate: DateTime!, $maxParticipants: Int!, $type: Float, $lat: Float!, $lng: Float!) {
   createEvent(
@@ -510,6 +523,49 @@ export const useEventsQuery = <
       useFetchData<EventsQuery, EventsQueryVariables>(EventsDocument).bind(null, variables),
       options
     );
+useEventsQuery.document = EventsDocument;
+
+export const EventsOnMapDocument = `
+    query EventsOnMap($first: Float!, $state: String, $latitude: Float, $longitude: Float, $distance: Float) {
+  events(
+    first: $first
+    state: $state
+    latitude: $latitude
+    longitude: $longitude
+    distance: $distance
+  ) {
+    page {
+      edges {
+        node {
+          id
+          title
+          type
+          state
+          lat
+          lng
+        }
+      }
+    }
+    pageData {
+      count
+    }
+  }
+}
+    `;
+export const useEventsOnMapQuery = <
+      TData = EventsOnMapQuery,
+      TError = unknown
+    >(
+      variables: EventsOnMapQueryVariables, 
+      options?: UseQueryOptions<EventsOnMapQuery, TError, TData>
+    ) => 
+    useQuery<EventsOnMapQuery, TError, TData>(
+      ['EventsOnMap', variables],
+      useFetchData<EventsOnMapQuery, EventsOnMapQueryVariables>(EventsOnMapDocument).bind(null, variables),
+      options
+    );
+useEventsOnMapQuery.document = EventsOnMapDocument;
+
 export const DeleteEventDocument = `
     mutation DeleteEvent($id: String!) {
   removeEvent(id: $id) {
@@ -571,6 +627,8 @@ export const useFindUserEventsQuery = <
       useFetchData<FindUserEventsQuery, FindUserEventsQueryVariables>(FindUserEventsDocument).bind(null, variables),
       options
     );
+useFindUserEventsQuery.document = FindUserEventsDocument;
+
 export const SingleUserDocument = `
     query singleUser($id: String!) {
   user(id: $id) {
@@ -593,6 +651,8 @@ export const useSingleUserQuery = <
       useFetchData<SingleUserQuery, SingleUserQueryVariables>(SingleUserDocument).bind(null, variables),
       options
     );
+useSingleUserQuery.document = SingleUserDocument;
+
 export const CurrentUserDocument = `
     query CurrentUser {
   currentUser {
@@ -615,6 +675,8 @@ export const useCurrentUserQuery = <
       useFetchData<CurrentUserQuery, CurrentUserQueryVariables>(CurrentUserDocument).bind(null, variables),
       options
     );
+useCurrentUserQuery.document = CurrentUserDocument;
+
 export const CurrentUserIdDocument = `
     query CurrentUserId {
   currentUser {
@@ -634,6 +696,8 @@ export const useCurrentUserIdQuery = <
       useFetchData<CurrentUserIdQuery, CurrentUserIdQueryVariables>(CurrentUserIdDocument).bind(null, variables),
       options
     );
+useCurrentUserIdQuery.document = CurrentUserIdDocument;
+
 export const UsersDocument = `
     query Users {
   users {
@@ -662,6 +726,8 @@ export const useUsersQuery = <
       useFetchData<UsersQuery, UsersQueryVariables>(UsersDocument).bind(null, variables),
       options
     );
+useUsersQuery.document = UsersDocument;
+
 export const LoginDocument = `
     mutation Login($email: String!, $password: String!) {
   login(loginUserInput: {email: $email, password: $password}) {

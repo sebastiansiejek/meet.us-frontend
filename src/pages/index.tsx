@@ -39,7 +39,7 @@ const IndexPage = () => {
               </a>
             </Link>
             <div className="mt-20">
-              <EventsMap events={events} />
+              <EventsMap />
             </div>
           </Container>
         </>
