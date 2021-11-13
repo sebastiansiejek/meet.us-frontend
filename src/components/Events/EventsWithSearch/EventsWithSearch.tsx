@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import EventCards from 'src/components/Events/EventCards';
-import { Select, Spin } from 'antd';
+import { Col, Row, Select, Space } from 'antd';
 import { useTranslation } from 'react-i18next';
 import SearchBar from 'src/components/SearchBar';
 import { Event } from 'src/generated/gqlQueries';
 import { useEventsQuery } from 'src/generated/gqlQueries';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import Container from 'src/components/Container';
+import EventCardSkeleton from '../EventCardSkeleton';
 
 export interface EventsWithSearchProps {
   initSearchQuery: string;
@@ -117,9 +119,21 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
                 overflow: 'hidden',
               }}
               loader={
-                <div className="flex justify-center mt-10">
-                  <Spin />
-                </div>
+                <Container>
+                  <Row gutter={16}>
+                    {new Array(12).fill(0).map((_, index) => (
+                      <Col key={index} span={24} sm={12} lg={8}>
+                        <Space
+                          direction={'vertical'}
+                          size={8}
+                          className="w-full"
+                        >
+                          <EventCardSkeleton />
+                        </Space>
+                      </Col>
+                    ))}
+                  </Row>
+                </Container>
               }
               next={getMoreEvents}
               hasMore={isNextPage}
