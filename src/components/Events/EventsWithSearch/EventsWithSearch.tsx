@@ -86,10 +86,12 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
 
   return (
     <>
-      <SearchBar value={`${initSearchQuery}`} />
+      <Container>
+        <SearchBar value={`${initSearchQuery}`} />
+      </Container>
       {events && (
         <div className="flex flex-col mt-12">
-          <div className="flex flex-wrap flex-col md:items-center md:flex-row">
+          <Container className="flex flex-wrap flex-col md:items-center md:flex-row w-full">
             <div>
               <Select
                 onChange={sortByStateHandler}
@@ -119,7 +121,7 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
               <UnorderedListOutlined onClick={() => setLayout('list')} />
               <TableOutlined onClick={() => setLayout('grid')} />
             </div>
-          </div>
+          </Container>
           <div>
             <InfiniteScroll
               style={{
