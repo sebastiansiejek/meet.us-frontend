@@ -65,12 +65,14 @@ const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
             </Menu.Item>
           );
         })}
-        <Menu.Item
-          key="settings"
-          style={{ marginLeft: 'auto', padding: '0', display: 'flex' }}
-        >
-          {isLogged !== 'null' && <UserSettings />}
-        </Menu.Item>
+        {isLogged !== 'null' && (
+          <Menu.Item
+            key="settings"
+            style={{ marginLeft: 'auto', padding: '0', display: 'flex' }}
+          >
+            <UserSettings />
+          </Menu.Item>
+        )}
       </Menu>
       <MobileMenu />
     </NavbarStyled>
