@@ -93,9 +93,8 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
             <div>
               <Select
                 onChange={sortByStateHandler}
-                style={{ width: 200 }}
                 placeholder={t('Select status of events')}
-                className="ml-auto"
+                className="ml-auto w-full md:w-2/5"
                 loading={isLoading}
                 defaultValue={state}
                 value={state}
@@ -106,9 +105,8 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
               </Select>
               <Select
                 onChange={sortChangeHandler}
-                style={{ width: 200 }}
                 placeholder={t('Select status of events')}
-                className="ml-auto"
+                className="ml-auto w-full md:w-2/5"
                 loading={isLoading}
                 defaultValue={orderSort}
                 value={orderSort}
