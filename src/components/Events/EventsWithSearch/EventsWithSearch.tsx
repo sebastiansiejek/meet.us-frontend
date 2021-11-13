@@ -82,7 +82,7 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
   return (
     <>
       <SearchBar value={`${initSearchQuery}`} />
-      {events && events.length >= 1 && (
+      {events && (
         <div className="flex flex-col mt-12">
           <div className="flex">
             <Select
