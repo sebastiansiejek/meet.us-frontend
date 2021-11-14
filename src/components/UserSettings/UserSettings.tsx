@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 import availableLanguages from 'src/data/availableLanguage';
 import styled from 'styled-components';
-import { Menu, Dropdown } from 'antd';
+import { Menu, Dropdown, notification } from 'antd';
 import { SettingFilled } from '@ant-design/icons';
 import { logout } from 'src/store/slices/userSlice';
 import { useDispatch } from 'react-redux';
@@ -49,7 +49,15 @@ const UserSettings: React.FunctionComponent<UserSettingsProps> = ({}) => {
               </Menu.Item>
             ))}
           </Menu.ItemGroup>
-          <Menu.Item onClick={() => dispatch(logout())} key="logout">
+          <Menu.Item
+            onClick={() => {
+              dispatch(logout());
+              notification.open({
+                message: t('You have been logged out'),
+              });
+            }}
+            key="logout"
+          >
             {t('Logout')}
           </Menu.Item>
         </Menu>
