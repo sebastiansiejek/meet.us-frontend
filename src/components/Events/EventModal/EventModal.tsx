@@ -1,7 +1,6 @@
 import React from 'react';
 import EventForm from 'src/components/Events/EventForm';
-import { Button } from 'antd';
-import Modal from 'antd/lib/modal/Modal';
+import { Button, Modal } from 'antd';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSingleEventPageQuery } from 'src/generated/gqlQueries';

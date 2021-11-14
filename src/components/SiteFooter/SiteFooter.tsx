@@ -1,10 +1,10 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import { Footer } from 'antd/lib/layout/layout';
+import { Layout } from 'antd';
 
-export interface SiteFooterProps {}
+const Footer = Layout.Footer;
 
-const SiteFooter: React.FunctionComponent<SiteFooterProps> = ({}) => {
+const SiteFooter: React.FunctionComponent = () => {
   const date = dayjs();
 
   return (

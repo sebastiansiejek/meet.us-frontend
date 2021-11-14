@@ -1,5 +1,4 @@
-import { Card } from 'antd';
-import { CardProps } from 'antd/lib/card';
+import { Card, CardProps } from 'antd';
 import Link, { LinkProps } from 'next/link';
 import React from 'react';
 import styled from 'styled-components';
