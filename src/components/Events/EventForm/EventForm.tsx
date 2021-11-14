@@ -114,7 +114,7 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
         ]}
       >
         <Select placeholder={t('Event type')} className="ml-auto">
-          {getMapEventTypes().map((el, index) => {
+          {getMapEventTypes.map((el, index) => {
             return (
               <Option key={index} value={index}>
                 {t(`${el}`)}

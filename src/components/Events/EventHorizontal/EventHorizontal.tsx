@@ -9,6 +9,8 @@ import { Event } from 'src/generated/gqlQueries';
 import { getExcerpt } from 'src/utils/excerpt';
 import { useTranslation } from 'react-i18next';
 import { routes } from 'src/routes/routes';
+import { getMapEventTypes } from 'src/types/IEvent';
+import { isNil } from 'lodash';
 
 const { Paragraph } = Typography;
 
@@ -34,6 +36,8 @@ const EventHorizontal: React.FunctionComponent<EventHorizontalProps> = ({
     .locale(language)
     .humanize();
 
+  const eventTypeName = !isNil(type) ? getMapEventTypes[type] : '';
+
   return (
     <CardLink
       linkProps={{
@@ -44,9 +48,7 @@ const EventHorizontal: React.FunctionComponent<EventHorizontalProps> = ({
         title: (
           <>
             <div className="mb-2 font-normal lowercase">
-              {type === 0 && <Paragraph>{t('Sport')}</Paragraph>}
-              {type === 1 && <Paragraph>{t('Party')}</Paragraph>}
-              {type === 2 && <Paragraph>{t('Chatting')}</Paragraph>}
+              {<Paragraph>{t(eventTypeName)}</Paragraph>}
             </div>
             {title}
           </>
