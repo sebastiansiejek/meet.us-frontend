@@ -1,14 +1,14 @@
 import Link from 'next/link';
 import Logo from '../Logo';
+import MobileMenu from '../MobileMenu';
 import React from 'react';
+import UserSettings from '../UserSettings';
+import styled from 'styled-components';
 import { Layout } from 'antd';
 import { Menu } from 'antd';
-import { useTranslation } from 'react-i18next';
 import { routes } from 'src/routes/routes';
-import UserSettings from '../UserSettings';
-import MobileMenu from '../MobileMenu';
-import styled from 'styled-components';
-import { useSelector } from 'react-redux';
+import { useLogin } from 'src/hooks/useLogin';
+import { useTranslation } from 'react-i18next';
 
 const { Header } = Layout;
 
@@ -34,7 +34,7 @@ const NavbarStyled = styled(Header)`
 
 const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
   const { t } = useTranslation();
-  const isLogged = useSelector((state: any) => state.user.token);
+  const { isLogged } = useLogin();
 
   return (
     <NavbarStyled className="flex items-center">
@@ -56,16 +56,16 @@ const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
           const key = JSON.stringify({ href, display });
           return (
             <Menu.Item key={key}>
-              {isLogged !== 'null' && display.logged && (
+              {isLogged && display.logged && (
                 <Link href={href}>{t(title)}</Link>
               )}
-              {isLogged === 'null' && display.unLogged && (
+              {!isLogged && display.unLogged && (
                 <Link href={href}>{t(title)}</Link>
               )}
             </Menu.Item>
           );
         })}
-        {isLogged !== 'null' && (
+        {isLogged && (
           <Menu.Item
             key="settings"
             style={{ marginLeft: 'auto', padding: '0', display: 'flex' }}

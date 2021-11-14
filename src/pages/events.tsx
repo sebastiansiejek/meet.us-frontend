@@ -5,14 +5,14 @@ import isUndefined from 'lodash/isUndefined';
 import { PageHeader as AntdHeader } from 'antd';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { useLogin } from 'src/hooks/useLogin';
 
 const IndexPage = () => {
   const { query } = useRouter();
   const q = !isUndefined(query.q) ? query.q : '';
   const { t } = useTranslation();
-  const isLogged = useSelector((state: any) => state.user.token);
+  const { isLogged } = useLogin();
 
   return (
     <div>
@@ -20,7 +20,7 @@ const IndexPage = () => {
         <AntdHeader className="mb-14 w-full">
           <div className="items-center justify-between flex flex-col md:flex-row w-full">
             <h1 className="text-6xl mb-8 md:mb-0">{t('Events')}</h1>
-            {isLogged !== 'null' && <EventModal />}
+            {isLogged && <EventModal />}
           </div>
         </AntdHeader>
       </Container>

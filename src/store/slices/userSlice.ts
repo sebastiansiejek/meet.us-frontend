@@ -31,4 +31,7 @@ const authorisationSlice = createSlice({
 });
 
 export const { setToken, logout } = authorisationSlice.actions;
+
+export const selectUserToken = (state: IProps) => state.token;
+
 export default authorisationSlice.reducer;

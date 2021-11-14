@@ -1,16 +1,18 @@
+import FormOutput from '../Form/FormOutput';
 import React from 'react';
 import { Form, Input, Button, notification } from 'antd';
-import { MailTwoTone, LockTwoTone } from '@ant-design/icons';
-import { useTranslation } from 'react-i18next';
-import FormOutput from '../Form/FormOutput';
 import { IApiError } from 'src/types/IApiError';
+import { MailTwoTone, LockTwoTone } from '@ant-design/icons';
 import { useLogin } from 'src/hooks/useLogin';
+import { useTranslation } from 'react-i18next';
 
 export interface LoginProps {}
 
 const Login: React.FunctionComponent<LoginProps> = ({}) => {
   const { t } = useTranslation();
-  const { mutateAsync, error, isLoading } = useLogin();
+  const {
+    mutate: { mutateAsync, error, isLoading },
+  } = useLogin();
   const [form] = Form.useForm();
 
   return (
