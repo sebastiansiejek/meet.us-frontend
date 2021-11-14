@@ -7,7 +7,7 @@ import UserSettings from '../UserSettings';
 import Hamburger from 'hamburger-react';
 import styled from 'styled-components';
 import Logo from '../Logo';
-import classname from 'classnames';
+import clsx from 'clsx';
 
 export interface MobileMenuProps {}
 
@@ -63,11 +63,11 @@ const MobileMenu: React.FunctionComponent<MobileMenuProps> = ({}) => {
         toggle={() => setOpen(!isOpen)}
       />
       <div
-        className={`navbar__mobile-navigation ${classname({
+        clsx={`navbar__mobile-navigation ${clsx({
           'is-open': isOpen,
         })}`}
       >
-        <div className="flex items-center justify-between mb-8">
+        <div clsx="flex items-center justify-between mb-8">
           <Logo />
           <Hamburger
             color="#2A9D8F"
