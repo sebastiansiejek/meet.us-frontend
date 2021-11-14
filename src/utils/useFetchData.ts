@@ -1,4 +1,4 @@
-import AuthService from 'src/services/AuthService';
+import { getCookieToken } from 'src/services/AuthService';
 
 export const useFetchData = <TData, TVariables>(
   query: string,
@@ -8,7 +8,7 @@ export const useFetchData = <TData, TVariables>(
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${AuthService.getToken()}`,
+        Authorization: `Bearer ${getCookieToken()}`,
         'Accept-Language':
           document.querySelector('html')?.getAttribute('lang') || 'en',
       },
