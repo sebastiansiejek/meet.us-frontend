@@ -46,11 +46,14 @@ export type Event = {
   description: Scalars['String'];
   distance: Scalars['Float'];
   endDate: Scalars['DateTime'];
+  goingCount?: Maybe<Scalars['Float']>;
   id: Scalars['String'];
+  interestedCount?: Maybe<Scalars['Float']>;
   isArchive: Scalars['Boolean'];
   lat: Scalars['Float'];
   lng: Scalars['Float'];
   maxParticipants?: Maybe<Scalars['Int']>;
+  participants?: Maybe<Array<Participant>>;
   startDate: Scalars['DateTime'];
   state?: Maybe<Scalars['String']>;
   title: Scalars['String'];
@@ -96,6 +99,7 @@ export type Mutation = {
   createEvent: Event;
   createUser: User;
   login: AccessToken;
+  participateInEvent: Participant;
   refresh: AccessToken;
   removeEvent: Event;
   removeUser: User;
@@ -127,6 +131,11 @@ export type MutationCreateUserArgs = {
 
 export type MutationLoginArgs = {
   loginUserInput: LoginUserInput;
+};
+
+
+export type MutationParticipateInEventArgs = {
+  participateInEvent: ParticipantUpdate;
 };
 
 
@@ -166,12 +175,54 @@ export type PageData = {
   offset: Scalars['Float'];
 };
 
+export type Participant = {
+  __typename?: 'Participant';
+  event: Event;
+  id: Scalars['String'];
+  type: Scalars['Float'];
+  user: User;
+};
+
+export type ParticipantConnection = {
+  __typename?: 'ParticipantConnection';
+  edges?: Maybe<Array<ParticipantEdge>>;
+  pageInfo?: Maybe<ParticipantPageInfo>;
+};
+
+export type ParticipantEdge = {
+  __typename?: 'ParticipantEdge';
+  cursor?: Maybe<Scalars['String']>;
+  node?: Maybe<Participant>;
+};
+
+export type ParticipantListResponse = {
+  __typename?: 'ParticipantListResponse';
+  page: ParticipantConnection;
+  pageData?: Maybe<PageData>;
+};
+
+export type ParticipantPageInfo = {
+  __typename?: 'ParticipantPageInfo';
+  endCursor?: Maybe<Scalars['String']>;
+  hasNextPage: Scalars['Boolean'];
+  hasPreviousPage: Scalars['Boolean'];
+  startCursor?: Maybe<Scalars['String']>;
+};
+
+export type ParticipantUpdate = {
+  eventId: Scalars['String'];
+  type: Scalars['Float'];
+};
+
 export type Query = {
   __typename?: 'Query';
   currentUser: User;
   event: Event;
   events: EventResponse;
+  participantsEvents: ParticipantListResponse;
+  tokenIsValid: IsValid;
   user: User;
+  userParticipation: ParticipantListResponse;
   users: UserResponse;
 };
 
@@ -197,8 +248,40 @@ export type QueryEventsArgs = {
 };
 
 
+export type QueryParticipantsEventsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  distance?: Maybe<Scalars['Float']>;
+  eventId?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Float']>;
+  last?: Maybe<Scalars['Float']>;
+  latitude?: Maybe<Scalars['Float']>;
+  longitude?: Maybe<Scalars['Float']>;
+  orderField?: Maybe<Scalars['String']>;
+  orderSort?: Maybe<Scalars['String']>;
+  query?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['Float']>;
+  userId?: Maybe<Scalars['String']>;
+};
+
+
 export type QueryUserArgs = {
   id: Scalars['String'];
+};
+
+
+export type QueryUserParticipationArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  distance?: Maybe<Scalars['Float']>;
+  first?: Maybe<Scalars['Float']>;
+  last?: Maybe<Scalars['Float']>;
+  latitude?: Maybe<Scalars['Float']>;
+  longitude?: Maybe<Scalars['Float']>;
+  orderField?: Maybe<Scalars['String']>;
+  orderSort?: Maybe<Scalars['String']>;
+  query?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['Float']>;
 };
 
 
@@ -288,6 +371,11 @@ export type UserResponse = {
   __typename?: 'UserResponse';
   page: UserConnection;
   pageData?: Maybe<PageData>;
+};
+
+export type IsValid = {
+  __typename?: 'isValid';
+  isValid: Scalars['Boolean'];
 };
 
 export type SingleEventPageQueryVariables = Exact<{

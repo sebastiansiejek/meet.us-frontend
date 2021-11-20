@@ -1,14 +1,14 @@
-import { Button, Typography } from 'antd';
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
 import Container from 'src/components/Container';
 import EventCards from 'src/components/Events/EventCards';
-import EventsMap from 'src/components/EventsMap';
 import HeroSearchBanner from 'src/components/HeroSearchBanner';
+import Link from 'next/link';
+import dynamic from 'next/dynamic';
+import { Button, Typography, Spin } from 'antd';
 import { Event, useEventsQuery } from 'src/generated/gqlQueries';
 import { routes } from 'src/routes/routes';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'next-i18next';
 
 const IndexPage = () => {
   const [state, setState] = useState('DURING');
@@ -33,6 +33,15 @@ const IndexPage = () => {
 
   const { t } = useTranslation();
   const events = data?.events.page.edges as [{ node: Event }];
+
+  const EventsMap = useMemo(
+    () =>
+      dynamic(() => import('src/components/EventsMap'), {
+        loading: () => <Spin />,
+        ssr: false,
+      }),
+    [],
+  );
 
   return (
     <>
