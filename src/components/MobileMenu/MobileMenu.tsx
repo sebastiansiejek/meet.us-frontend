@@ -63,11 +63,11 @@ const MobileMenu: React.FunctionComponent<MobileMenuProps> = ({}) => {
         toggle={() => setOpen(!isOpen)}
       />
       <div
-        clsx={`navbar__mobile-navigation ${clsx({
+        className={`navbar__mobile-navigation ${clsx({
           'is-open': isOpen,
         })}`}
       >
-        <div clsx="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-8">
           <Logo />
           <Hamburger
             color="#2A9D8F"
