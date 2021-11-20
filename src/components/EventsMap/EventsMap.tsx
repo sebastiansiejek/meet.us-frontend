@@ -11,7 +11,6 @@ import {
   TileLayer,
   useMapEvents,
 } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
 
 const icons = {
   0: '/images/icons/sport.svg',

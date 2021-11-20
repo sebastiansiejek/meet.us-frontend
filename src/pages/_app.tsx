@@ -1,4 +1,5 @@
 import 'tailwindcss/tailwind.css';
+import 'src/styles/leaflet.css';
 import GlobalStyles from 'src/styles/GlobalStyles';
 import Main from 'src/components/templates/Main';
 import NProgress from 'nprogress';
