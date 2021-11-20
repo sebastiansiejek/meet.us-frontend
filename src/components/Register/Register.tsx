@@ -28,7 +28,7 @@ const Register: React.FunctionComponent<RegisterProps> = ({}) => {
           notification.success({
             message: t('Your account has been created'),
           });
-          loginMutation
+          loginMutation.mutate
             .mutateAsync({
               email: login,
               password,
@@ -63,7 +63,7 @@ const Register: React.FunctionComponent<RegisterProps> = ({}) => {
       <Button
         type="primary"
         htmlType="submit"
-        loading={isLoading || loginMutation.isLoading}
+        loading={isLoading || loginMutation.mutate.isLoading}
         className="block mx-auto"
       >
         {t('Sign up')}
