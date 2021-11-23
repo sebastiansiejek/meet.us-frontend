@@ -46,9 +46,9 @@ const IndexPage = () => {
   return (
     <>
       <HeroSearchBanner />
-      {data?.events.page.edges && (
-        <>
-          <Container>
+      <Container>
+        {data?.events.page.edges && (
+          <>
             <Typography.Title level={2} className="text-center">
               {state === 'DURING' && t('During events')}
               {state === 'FUTURE' && t('Upcoming events')}
@@ -61,12 +61,12 @@ const IndexPage = () => {
                 </Button>
               </a>
             </Link>
-            <div className="mt-20">
-              <EventsMap />
-            </div>
-          </Container>
-        </>
-      )}
+          </>
+        )}
+        <div className="mt-20">
+          <EventsMap />
+        </div>
+      </Container>
     </>
   );
 };
