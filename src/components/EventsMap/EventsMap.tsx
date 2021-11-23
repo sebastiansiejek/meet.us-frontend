@@ -86,7 +86,7 @@ const EventsMap: React.FunctionComponent = () => {
     if (events && eventsOnMapData && totalEvents) {
       const newEvents = events.filter((event) =>
         currentEvents.every(
-          (currentEvent) => currentEvent.node?.lat !== event.node?.lat,
+          (currentEvent) => currentEvent.node?.id !== event.node?.id,
         ),
       );
 
