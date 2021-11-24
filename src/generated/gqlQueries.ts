@@ -471,10 +471,12 @@ export type EventsOnMapQueryVariables = Exact<{
   longitude?: Maybe<Scalars['Float']>;
   distance?: Maybe<Scalars['Float']>;
   orderField?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  orderSort?: Maybe<Scalars['String']>;
 }>;
 
 
-export type EventsOnMapQuery = { __typename?: 'Query', events: { __typename?: 'EventResponse', page: { __typename?: 'EventConnection', edges?: Array<{ __typename?: 'EventEdge', node?: { __typename?: 'Event', id: string, title: string, type: number, state?: string | null | undefined, lat: number, lng: number } | null | undefined }> | null | undefined }, pageData?: { __typename?: 'PageData', count: number } | null | undefined } };
+export type EventsOnMapQuery = { __typename?: 'Query', events: { __typename?: 'EventResponse', page: { __typename?: 'EventConnection', edges?: Array<{ __typename?: 'EventEdge', node?: { __typename?: 'Event', id: string, title: string, type: number, state?: string | null | undefined, lat: number, lng: number } | null | undefined }> | null | undefined, pageInfo?: { __typename?: 'EventPageInfo', startCursor?: string | null | undefined, endCursor?: string | null | undefined, hasNextPage: boolean } | null | undefined }, pageData?: { __typename?: 'PageData', count: number } | null | undefined } };
 
 export type FindUserEventsQueryVariables = Exact<{
   userId: Scalars['String'];
@@ -658,7 +660,7 @@ export const useEventsQuery = <
       options
     );
 export const EventsOnMapDocument = `
-    query EventsOnMap($first: Float!, $state: String, $latitude: Float, $longitude: Float, $distance: Float, $orderField: String) {
+    query EventsOnMap($first: Float!, $state: String, $latitude: Float, $longitude: Float, $distance: Float, $orderField: String, $after: String, $orderSort: String) {
   events(
     first: $first
     state: $state
@@ -666,6 +668,8 @@ export const EventsOnMapDocument = `
     longitude: $longitude
     distance: $distance
     orderField: $orderField
+    after: $after
+    orderSort: $orderSort
   ) {
     page {
       edges {
@@ -677,6 +681,11 @@ export const EventsOnMapDocument = `
           lat
           lng
         }
+      }
+      pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
       }
     }
     pageData {

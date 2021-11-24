@@ -68,6 +68,8 @@ query EventsOnMap(
   $longitude: Float
   $distance: Float
   $orderField: String
+  $after: String
+  $orderSort: String
 ) {
   events(
     first: $first
@@ -76,6 +78,8 @@ query EventsOnMap(
     longitude: $longitude
     distance: $distance
     orderField: $orderField
+    after: $after
+    orderSort: $orderSort
   ) {
     page {
       edges {
@@ -87,6 +91,11 @@ query EventsOnMap(
           lat
           lng
         }
+      }
+      pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
       }
     }
     pageData {

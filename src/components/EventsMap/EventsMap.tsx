@@ -37,6 +37,8 @@ const EventsMap: React.FunctionComponent = () => {
   const { coords } = useCurrentLocation();
   const [totalEvents, setTotalEvents] = useState<number>(0);
   const [currentEvents, setCurrentEvents] = useState<Array<IEventType>>([]);
+  const [hasNextPage, setHasNextPage] = useState<boolean>(true);
+  const [endCursor, setEndCursor] = useState('');
   const [centerCoords, setCenterCoords] = useState<{
     lat: number;
     lng: number;
@@ -56,19 +58,36 @@ const EventsMap: React.FunctionComponent = () => {
 
   const eventsOnMapData = useEventsOnMapQuery(
     {
-      // TODO: Exclude set events
       first: 15,
       latitude: centerCoords.lat,
       longitude: centerCoords.lng,
       distance: 99999999,
+      after: endCursor,
+      orderField: 'distance',
+      // TODO: Set during and future events
       // state: 'DURING',
     },
     {
-      enabled: currentEvents.length === 0 || currentEvents.length < totalEvents,
+      enabled: hasNextPage,
     },
   ).data;
 
   const events = eventsOnMapData?.events.page.edges;
+  const eventsEndCursor = eventsOnMapData?.events.page.pageInfo?.endCursor;
+
+  useEffect(() => {
+    if (events && !totalEvents) {
+      setTotalEvents(eventsOnMapData.events.pageData?.count || 0);
+    }
+
+    if (events && totalEvents && eventsEndCursor && hasNextPage) {
+      setHasNextPage(
+        eventsOnMapData?.events.page.pageInfo?.hasNextPage || false,
+      );
+      setEndCursor(eventsEndCursor);
+      setCurrentEvents([...currentEvents, ...events]);
+    }
+  }, [centerCoords]);
 
   const setCoorsOnMapChange = (map: Map) => {
     const { lat, lng } = map.locate().getCenter();
@@ -77,24 +96,6 @@ const EventsMap: React.FunctionComponent = () => {
       lng,
     });
   };
-
-  useEffect(() => {
-    if (events && !totalEvents) {
-      setTotalEvents(eventsOnMapData.events.pageData?.count || 0);
-    }
-
-    if (events && eventsOnMapData && totalEvents) {
-      const newEvents = events.filter((event) =>
-        currentEvents.every(
-          (currentEvent) => currentEvent.node?.id !== event.node?.id,
-        ),
-      );
-
-      if (newEvents && newEvents.length > 0) {
-        setCurrentEvents([...currentEvents, ...newEvents]);
-      }
-    }
-  }, [centerCoords, events, eventsOnMapData, totalEvents]);
 
   const MapContext = () => {
     const map = useMapEvents({
