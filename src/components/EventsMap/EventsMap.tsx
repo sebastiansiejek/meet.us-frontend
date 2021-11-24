@@ -1,14 +1,16 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useCurrentLocation from 'src/hooks/useCurrentLocation';
-import { useEventsOnMapQuery } from 'src/generated/gqlQueries';
-import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
+import { Icon, Map, Point } from 'leaflet';
 import { routes } from 'src/routes/routes';
+import { useEventsOnMapQuery } from 'src/generated/gqlQueries';
 import { useRouter } from 'next/router';
-
-const containerStyle = {
-  width: '100%',
-  height: '400px',
-};
+import {
+  MapContainer,
+  Marker,
+  Popup,
+  TileLayer,
+  useMapEvents,
+} from 'react-leaflet';
 
 const icons = {
   0: '/images/icons/sport.svg',
@@ -33,112 +35,124 @@ type IEventType = {
 const EventsMap: React.FunctionComponent = () => {
   const router = useRouter();
   const { coords } = useCurrentLocation();
-  const userLat = coords?.latitude || 52.409538;
-  const userLng = coords?.longitude || 16.931992;
   const [totalEvents, setTotalEvents] = useState<number>(0);
   const [currentEvents, setCurrentEvents] = useState<Array<IEventType>>([]);
+  const [hasNextPage, setHasNextPage] = useState<boolean>(true);
+  const [endCursor, setEndCursor] = useState('');
   const [centerCoords, setCenterCoords] = useState<{
     lat: number;
     lng: number;
   }>({
-    lat: userLat,
-    lng: userLng,
+    lat: 52.40953,
+    lng: 16.931992,
   });
+
+  useEffect(() => {
+    if (coords) {
+      setCenterCoords({
+        lat: coords.latitude,
+        lng: coords.longitude,
+      });
+    }
+  }, [coords]);
 
   const eventsOnMapData = useEventsOnMapQuery(
     {
       first: 15,
       latitude: centerCoords.lat,
       longitude: centerCoords.lng,
-      distance: 100000,
+      distance: 99999999,
+      after: endCursor,
+      orderField: 'distance',
+      // TODO: Set during and future events
       // state: 'DURING',
     },
     {
-      enabled: currentEvents.length === 0 || currentEvents.length < totalEvents,
+      enabled: hasNextPage,
     },
   ).data;
 
   const events = eventsOnMapData?.events.page.edges;
+  const eventsEndCursor = eventsOnMapData?.events.page.pageInfo?.endCursor;
 
   useEffect(() => {
-    if (events && eventsOnMapData) {
-      if (!totalEvents) {
-        setTotalEvents(eventsOnMapData.events.pageData?.count || 0);
-      }
-
-      if (totalEvents) {
-        const newEvents = events.filter((event) =>
-          currentEvents.every((currentEvent) => currentEvent !== event),
-        );
-        setCurrentEvents([...currentEvents, ...newEvents]);
-      }
+    if (events && !totalEvents) {
+      setTotalEvents(eventsOnMapData.events.pageData?.count || 0);
     }
-  }, [eventsOnMapData, totalEvents]);
 
-  const { isLoaded } = useJsApiLoader({
-    id: 'google-map-script',
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY || '',
-  });
+    if (events && totalEvents && eventsEndCursor && hasNextPage) {
+      setHasNextPage(
+        eventsOnMapData?.events.page.pageInfo?.hasNextPage || false,
+      );
+      setEndCursor(eventsEndCursor);
+      setCurrentEvents([...currentEvents, ...events]);
+    }
+  }, [centerCoords]);
 
-  const [map, setMap] = useState<google.maps.Map | null>();
+  const setCoorsOnMapChange = (map: Map) => {
+    const { lat, lng } = map.locate().getCenter();
+    setCenterCoords({
+      lat,
+      lng,
+    });
+  };
 
-  const onLoad = useCallback(function callback(map) {
-    const bounds = new window.google.maps.LatLngBounds();
-    map.fitBounds(bounds);
-    setMap(map);
-  }, []);
+  const MapContext = () => {
+    const map = useMapEvents({
+      dragend() {
+        setCoorsOnMapChange(map);
+      },
+      zoomend() {
+        setCoorsOnMapChange(map);
+      },
+    });
+    map.setView(centerCoords);
+    return <></>;
+  };
 
-  const onUnmount = useCallback(function callback() {
-    setMap(null);
-  }, []);
-
-  return isLoaded ? (
-    <GoogleMap
-      mapContainerStyle={containerStyle}
-      center={centerCoords}
-      zoom={13}
-      onLoad={onLoad}
-      onUnmount={onUnmount}
-      onDragEnd={() => {
-        if (map) {
-          const center = map.getCenter();
-          const lat = center?.lat()!;
-          const lng = center?.lng()!;
-          setCenterCoords({
-            lat,
-            lng,
-          });
-        }
-      }}
+  return (
+    <MapContainer
+      center={[centerCoords.lat, centerCoords.lng]}
+      zoom={12}
+      scrollWheelZoom={false}
+      style={{ height: '50vh', width: '100%' }}
     >
+      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       {currentEvents.map((event) => {
         // @ts-ignore
         const { lat, lng, title, id, type } = event.node;
         // @ts-ignore
         const iconUrl = icons[type] || '';
 
+        const icon = new Icon({
+          iconUrl,
+          iconSize: new Point(40, 40),
+        });
+
         return (
           <Marker
             key={JSON.stringify({ lat, lng, title: title })}
-            position={{
-              lat,
-              lng,
-            }}
-            icon={{
-              url: iconUrl,
-              scaledSize: new window.google.maps.Size(50, 50),
-            }}
+            position={[lat, lng]}
+            icon={icon}
             title={title}
-            onClick={() => {
-              router.push(`${routes.events.href}/${id}`);
+            eventHandlers={{
+              click: () => {
+                router.push(`${routes.events.href}/${id}`);
+              },
+              mouseover: (e) => {
+                e.target.openPopup();
+              },
+              mouseout: (e) => {
+                e.target.closePopup();
+              },
             }}
-          />
+          >
+            <Popup>{title}</Popup>
+          </Marker>
         );
       })}
-      <></>
-    </GoogleMap>
-  ) : (
-    <></>
+      <MapContext />
+    </MapContainer>
   );
 };
 

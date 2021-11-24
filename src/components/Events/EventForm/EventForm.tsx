@@ -74,6 +74,19 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
             endDate: dates[1].format('YYYY-MM-DD HH:mm'),
             maxParticipants: parseInt(maxParticipants, 10),
             type,
+            // TODO: set lat and lng from API
+            lat: 0,
+            lng: 0,
+            eventAddress: {
+              city: '',
+              state: '',
+              postalCode: '',
+              countryCode: '',
+              countryName: '',
+              county: '',
+              district: '',
+              label: '',
+            },
           });
         }
       }}
