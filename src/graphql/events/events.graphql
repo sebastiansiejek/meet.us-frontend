@@ -16,36 +16,6 @@ query SingleEventPage($id: String!) {
   }
 }
 
-mutation CreateEvent(
-  $title: String!
-  $description: String!
-  $startDate: DateTime!
-  $endDate: DateTime!
-  $maxParticipants: Int!
-  $type: Float
-  $lat: Float!
-  $lng: Float!
-) {
-  createEvent(
-    createEventInput: {
-      title: $title
-      description: $description
-      startDate: $startDate
-      endDate: $endDate
-      maxParticipants: $maxParticipants
-      type: $type
-      lat: $lat
-      lng: $lng
-    }
-  ) {
-    id
-    title
-    description
-    startDate
-    type
-  }
-}
-
 query Events(
   $first: Float!
   $query: String!
@@ -97,6 +67,7 @@ query EventsOnMap(
   $latitude: Float
   $longitude: Float
   $distance: Float
+  $orderField: String
 ) {
   events(
     first: $first
@@ -104,6 +75,7 @@ query EventsOnMap(
     latitude: $latitude
     longitude: $longitude
     distance: $distance
+    orderField: $orderField
   ) {
     page {
       edges {
@@ -120,36 +92,6 @@ query EventsOnMap(
     pageData {
       count
     }
-  }
-}
-
-mutation DeleteEvent($id: String!) {
-  removeEvent(id: $id) {
-    title
-  }
-}
-
-mutation UpdateEvent(
-  $id: String!
-  $title: String!
-  $description: String!
-  $startDate: DateTime!
-  $endDate: DateTime!
-  $maxParticipants: Int!
-  $type: Float
-) {
-  updateEvent(
-    updateEventInput: {
-      id: $id
-      title: $title
-      description: $description
-      startDate: $startDate
-      endDate: $endDate
-      maxParticipants: $maxParticipants
-      type: $type
-    }
-  ) {
-    id
   }
 }
 

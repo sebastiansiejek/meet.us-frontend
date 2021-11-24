@@ -77,6 +77,16 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
             // TODO: set lat and lng from API
             lat: 0,
             lng: 0,
+            eventAddress: {
+              city: '',
+              state: '',
+              postalCode: '',
+              countryCode: '',
+              countryName: '',
+              county: '',
+              district: '',
+              label: '',
+            },
           });
         }
       }}
