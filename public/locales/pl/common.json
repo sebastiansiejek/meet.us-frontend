@@ -73,5 +73,6 @@
     "Party": "Impreza",
     "Chatting": "Spotkanie towarzyskie",
     "User not activated": "Konto nie jest aktywne",
-    "You have been logged out": "Zostałeś wylogowany"
+    "You have been logged out": "Zostałeś wylogowany",
+    "Invalid password": "Nieprawidłowe hasło"
 }
