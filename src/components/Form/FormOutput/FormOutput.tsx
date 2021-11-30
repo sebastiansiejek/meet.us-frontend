@@ -11,7 +11,7 @@ const FormOutput: React.FunctionComponent<FormOutputProps> = ({ error }) => {
   const { t } = useTranslation();
 
   return (
-    <>
+    <div className={'my-4'}>
       {error?.data?.message &&
         Array.isArray(error.data.message) &&
         error.data.message.map((error) => (
@@ -20,7 +20,7 @@ const FormOutput: React.FunctionComponent<FormOutputProps> = ({ error }) => {
       {error?.data?.message && !Array.isArray(error.data.message) && (
         <Alert message={t(error.data.message)} type="error" />
       )}
-    </>
+    </div>
   );
 };
 
