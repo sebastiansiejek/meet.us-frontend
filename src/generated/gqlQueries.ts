@@ -520,6 +520,14 @@ export type CreateEventMutationVariables = Exact<{
 
 export type CreateEventMutation = { __typename?: 'Mutation', createEvent: { __typename?: 'Event', id: string, title: string, description: string, startDate: any, type: number } };
 
+export type ParticipateInEventMutationVariables = Exact<{
+  eventId: Scalars['String'];
+  type: Scalars['Float'];
+}>;
+
+
+export type ParticipateInEventMutation = { __typename?: 'Mutation', participateInEvent: { __typename?: 'Participant', event: { __typename?: 'Event', id: string } } };
+
 export type SingleUserQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
@@ -789,6 +797,24 @@ export const useCreateEventMutation = <
     useMutation<CreateEventMutation, TError, CreateEventMutationVariables, TContext>(
       'CreateEvent',
       useFetchData<CreateEventMutation, CreateEventMutationVariables>(CreateEventDocument),
+      options
+    );
+export const ParticipateInEventDocument = `
+    mutation participateInEvent($eventId: String!, $type: Float!) {
+  participateInEvent(participateInEvent: {eventId: $eventId, type: $type}) {
+    event {
+      id
+    }
+  }
+}
+    `;
+export const useParticipateInEventMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<ParticipateInEventMutation, TError, ParticipateInEventMutationVariables, TContext>) =>
+    useMutation<ParticipateInEventMutation, TError, ParticipateInEventMutationVariables, TContext>(
+      'participateInEvent',
+      useFetchData<ParticipateInEventMutation, ParticipateInEventMutationVariables>(ParticipateInEventDocument),
       options
     );
 export const SingleUserDocument = `
