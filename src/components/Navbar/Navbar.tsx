@@ -42,8 +42,8 @@ const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
     isLogged && Object.values(routes).filter((val) => val.display.logged);
 
   return (
-    <NavbarStyled className="flex items-center">
-      <div className="mr-auto">
+    <NavbarStyled className="flex items-center justify-between">
+      <div>
         <Link href="/">
           <a>
             <div>
@@ -54,7 +54,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
       </div>
       {unLoggedMenu && unLoggedMenu.length > 0 && (
         <Menu
-          className="flex navbar__desktop-navigation"
+          className="flex navbar__desktop-navigation flex-1 justify-end"
           theme="dark"
           mode="horizontal"
         >
@@ -70,7 +70,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
       )}
       {loggedMenu && loggedMenu.length > 0 && (
         <Menu
-          className="flex navbar__desktop-navigation"
+          className="flex navbar__desktop-navigation flex-1 justify-end"
           theme="dark"
           mode="horizontal"
         >
@@ -82,10 +82,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
               </Menu.Item>
             );
           })}
-          <Menu.Item
-            key="settings"
-            style={{ marginLeft: 'auto', padding: '0', display: 'flex' }}
-          >
+          <Menu.Item key="settings" style={{ padding: '0', display: 'flex' }}>
             <UserSettings />
           </Menu.Item>
         </Menu>
