@@ -6,6 +6,8 @@ import { MailTwoTone, LockTwoTone } from '@ant-design/icons';
 import { useCreateUserMutation } from 'src/generated/gqlQueries';
 import { useTranslation } from 'react-i18next';
 import { signIn } from 'next-auth/react';
+import { routes } from 'src/routes/routes';
+import { useRouter } from 'next/router';
 
 export interface RegisterProps {}
 
@@ -15,6 +17,7 @@ const Register: React.FunctionComponent<RegisterProps> = ({}) => {
   const { t } = useTranslation();
   const [loginError, setError] = useState<IApiError | null>();
   const [isLogin, setLogin] = useState(false);
+  const router = useRouter();
 
   return (
     <Form
@@ -47,6 +50,7 @@ const Register: React.FunctionComponent<RegisterProps> = ({}) => {
                 notification.success({
                   message: t('You have been logged in'),
                 });
+                router.push(routes.myAccount.href);
               }
             })
             .finally(() => setLogin(false));

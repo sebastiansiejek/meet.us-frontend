@@ -5,6 +5,8 @@ import { IApiError } from 'src/types/IApiError';
 import { MailTwoTone, LockTwoTone } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import { routes } from 'src/routes/routes';
 
 export interface LoginProps {}
 
@@ -13,6 +15,7 @@ const Login: React.FunctionComponent<LoginProps> = ({}) => {
   const [form] = Form.useForm();
   const [error, setError] = useState<IApiError | null>();
   const [isLogin, setLogin] = useState(false);
+  const router = useRouter();
 
   return (
     <Form
@@ -39,6 +42,7 @@ const Login: React.FunctionComponent<LoginProps> = ({}) => {
               notification.success({
                 message: t('You have been logged in'),
               });
+              router.push(routes.myAccount.href);
             }
           })
           .finally(() => setLogin(false));
