@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "yarn graphql:codegen && next -p 3001",
     "build": "next build",
-    "start": "next start -p 3001",
+    "start": "next start -p $PORT",
     "analyze": "ANALYZE=true next build",
     "type-check": "tsc",
     "pre-commit": "lint-staged",
