@@ -35,7 +35,11 @@ const NavbarStyled = styled(Header)`
 const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
   const { t } = useTranslation();
   const session = useSession();
-  const isLogged = session.data;
+  const isLogged = !!session.data;
+  const unLoggedMenu =
+    !isLogged && Object.values(routes).filter((val) => val.display.unLogged);
+  const loggedMenu =
+    isLogged && Object.values(routes).filter((val) => val.display.logged);
 
   return (
     <NavbarStyled className="flex items-center">
@@ -48,33 +52,44 @@ const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
           </a>
         </Link>
       </div>
-      <Menu
-        className="flex navbar__desktop-navigation"
-        theme="dark"
-        mode="horizontal"
-      >
-        {Object.values(routes).map(({ href, title, display }) => {
-          const key = JSON.stringify({ href, display });
-          return (
-            <Menu.Item key={key}>
-              {isLogged && display.logged && (
+      {unLoggedMenu && unLoggedMenu.length > 0 && (
+        <Menu
+          className="flex navbar__desktop-navigation"
+          theme="dark"
+          mode="horizontal"
+        >
+          {unLoggedMenu.map(({ href, title, display }) => {
+            const key = `${href}-${display}`;
+            return (
+              <Menu.Item key={key}>
                 <Link href={href}>{t(title)}</Link>
-              )}
-              {!isLogged && display.unLogged && (
+              </Menu.Item>
+            );
+          })}
+        </Menu>
+      )}
+      {loggedMenu && loggedMenu.length > 0 && (
+        <Menu
+          className="flex navbar__desktop-navigation"
+          theme="dark"
+          mode="horizontal"
+        >
+          {loggedMenu.map(({ href, title, display }) => {
+            const key = `${href}-${display}`;
+            return (
+              <Menu.Item key={key}>
                 <Link href={href}>{t(title)}</Link>
-              )}
-            </Menu.Item>
-          );
-        })}
-        {isLogged && (
+              </Menu.Item>
+            );
+          })}
           <Menu.Item
             key="settings"
             style={{ marginLeft: 'auto', padding: '0', display: 'flex' }}
           >
             <UserSettings />
           </Menu.Item>
-        )}
-      </Menu>
+        </Menu>
+      )}
       <MobileMenu />
     </NavbarStyled>
   );

@@ -4,7 +4,6 @@ import availableLanguages from 'src/data/availableLanguage';
 import styled from 'styled-components';
 import { Menu, Dropdown, notification } from 'antd';
 import { SettingFilled } from '@ant-design/icons';
-import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 import { routes } from 'src/routes/routes';
@@ -29,7 +28,6 @@ const UserSettingsStyled = styled.div`
 `;
 
 const UserSettings: React.FunctionComponent<UserSettingsProps> = ({}) => {
-  const dispatch = useDispatch();
   const { i18n, t } = useTranslation();
   const { pathname } = useRouter();
 
