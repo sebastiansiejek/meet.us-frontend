@@ -3,7 +3,6 @@ import 'src/styles/leaflet.css';
 import GlobalStyles from 'src/styles/GlobalStyles';
 import Main from 'src/components/templates/Main';
 import NProgress from 'nprogress';
-import Navbar from 'src/components/Navbar';
 import Router from 'next/router';
 import store from 'src/store/store';
 import { AppProps } from 'next/dist/shared/lib/router/router';
@@ -31,7 +30,6 @@ const MyApp: React.FC<AppProps> = ({
         <QueryClientProvider client={queryClient}>
           <Hydrate state={pageProps.dehydratedState}>
             <GlobalStyles />
-            <Navbar />
             <Main Component={Component} pageProps={pageProps} />
           </Hydrate>
           <ReactQueryDevtools />
