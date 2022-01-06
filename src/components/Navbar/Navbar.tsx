@@ -66,6 +66,9 @@ const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
               </Menu.Item>
             );
           })}
+          <Menu.Item key="settings" style={{ padding: '0', display: 'flex' }}>
+            <UserSettings />
+          </Menu.Item>
         </Menu>
       )}
       {loggedMenu && loggedMenu.length > 0 && (
