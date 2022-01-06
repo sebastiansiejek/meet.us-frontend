@@ -12,7 +12,6 @@
     "graphql:codegen:watch": "graphql-codegen --config codegen.yml -r dotenv/config --watch"
   },
   "engines": {
-    "node": "16.x",
     "npm": ">=8.0.0"
   },
   "dependencies": {
@@ -30,6 +29,7 @@
     "leaflet": "^1.7.1",
     "lodash": "^4.17.21",
     "next": "^11.1.2",
+    "next-auth": "^4.0.6",
     "next-compose-plugins": "^2.2.1",
     "next-i18next": "^8.9.0",
     "next-plugin-antd-less": "^1.4.4",

@@ -1,19 +1,21 @@
 import FormOutput from '../Form/FormOutput';
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, Input, Button, notification } from 'antd';
 import { IApiError } from 'src/types/IApiError';
 import { MailTwoTone, LockTwoTone } from '@ant-design/icons';
-import { useLogin } from 'src/hooks/useLogin';
 import { useTranslation } from 'react-i18next';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import { routes } from 'src/routes/routes';
 
 export interface LoginProps {}
 
 const Login: React.FunctionComponent<LoginProps> = ({}) => {
   const { t } = useTranslation();
-  const {
-    mutate: { mutateAsync, error, isLoading },
-  } = useLogin();
   const [form] = Form.useForm();
+  const [error, setError] = useState<IApiError | null>();
+  const [isLogin, setLogin] = useState(false);
+  const router = useRouter();
 
   return (
     <Form
@@ -21,15 +23,29 @@ const Login: React.FunctionComponent<LoginProps> = ({}) => {
       onFinish={(formData) => {
         const { login, password } = formData;
 
-        mutateAsync({
-          email: login,
+        setLogin(true);
+        signIn('credentials', {
+          login,
           password,
-        }).then(() => {
-          form.resetFields();
-          notification.success({
-            message: t('You have been logged in'),
-          });
-        });
+          redirect: false,
+        })
+          .then((res: any) => {
+            if (res.error) {
+              setError({
+                data: {
+                  message: res.error,
+                },
+              });
+            } else {
+              setError(null);
+              form.resetFields();
+              notification.success({
+                message: t('You have been logged in'),
+              });
+              router.push(routes.myAccount.href);
+            }
+          })
+          .finally(() => setLogin(false));
       }}
     >
       <Form.Item
@@ -53,7 +69,7 @@ const Login: React.FunctionComponent<LoginProps> = ({}) => {
       <Button
         type="primary"
         htmlType="submit"
-        loading={isLoading}
+        loading={isLogin}
         className="block mx-auto"
       >
         {t('Sign in')}

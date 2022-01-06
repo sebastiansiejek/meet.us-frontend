@@ -6,13 +6,14 @@ import { PageHeader as AntdHeader } from 'antd';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
-import { useLogin } from 'src/hooks/useLogin';
+import { useSession } from 'next-auth/react';
 
 const IndexPage = () => {
   const { query } = useRouter();
   const q = !isUndefined(query.q) ? query.q : '';
   const { t } = useTranslation();
-  const { isLogged } = useLogin();
+  const session = useSession();
+  const isLogged = session.data;
 
   return (
     <div>
