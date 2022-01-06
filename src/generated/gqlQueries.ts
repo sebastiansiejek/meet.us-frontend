@@ -83,6 +83,7 @@ export type Event = {
   isArchive: Scalars['Boolean'];
   lat: Scalars['Float'];
   lng: Scalars['Float'];
+  loggedInParticipants?: Maybe<Participant>;
   maxParticipants?: Maybe<Scalars['Int']>;
   participants?: Maybe<Array<Participant>>;
   startDate: Scalars['DateTime'];
@@ -279,6 +280,7 @@ export type Query = {
   participantsEvents: ParticipantListResponse;
   tokenIsValid: IsValid;
   user: User;
+  userLoggedEvents: EventResponse;
   userParticipation: ParticipantListResponse;
   users: UserResponse;
 };
@@ -324,6 +326,22 @@ export type QueryParticipantsEventsArgs = {
 
 export type QueryUserArgs = {
   id: Scalars['String'];
+};
+
+
+export type QueryUserLoggedEventsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  distance?: Maybe<Scalars['Float']>;
+  first?: Maybe<Scalars['Float']>;
+  last?: Maybe<Scalars['Float']>;
+  latitude?: Maybe<Scalars['Float']>;
+  longitude?: Maybe<Scalars['Float']>;
+  orderField?: Maybe<Scalars['String']>;
+  orderSort?: Maybe<Scalars['String']>;
+  query?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['String']>;
 };
 
 
@@ -608,9 +626,9 @@ export const useSingleEventPageQuery = <
       TData = SingleEventPageQuery,
       TError = unknown
     >(
-      variables: SingleEventPageQueryVariables,
+      variables: SingleEventPageQueryVariables, 
       options?: UseQueryOptions<SingleEventPageQuery, TError, TData>
-    ) =>
+    ) => 
     useQuery<SingleEventPageQuery, TError, TData>(
       ['SingleEventPage', variables],
       useFetchData<SingleEventPageQuery, SingleEventPageQueryVariables>(SingleEventPageDocument).bind(null, variables),
@@ -659,9 +677,9 @@ export const useEventsQuery = <
       TData = EventsQuery,
       TError = unknown
     >(
-      variables: EventsQueryVariables,
+      variables: EventsQueryVariables, 
       options?: UseQueryOptions<EventsQuery, TError, TData>
-    ) =>
+    ) => 
     useQuery<EventsQuery, TError, TData>(
       ['Events', variables],
       useFetchData<EventsQuery, EventsQueryVariables>(EventsDocument).bind(null, variables),
@@ -706,9 +724,9 @@ export const useEventsOnMapQuery = <
       TData = EventsOnMapQuery,
       TError = unknown
     >(
-      variables: EventsOnMapQueryVariables,
+      variables: EventsOnMapQueryVariables, 
       options?: UseQueryOptions<EventsOnMapQuery, TError, TData>
-    ) =>
+    ) => 
     useQuery<EventsOnMapQuery, TError, TData>(
       ['EventsOnMap', variables],
       useFetchData<EventsOnMapQuery, EventsOnMapQueryVariables>(EventsOnMapDocument).bind(null, variables),
@@ -735,9 +753,9 @@ export const useFindUserEventsQuery = <
       TData = FindUserEventsQuery,
       TError = unknown
     >(
-      variables: FindUserEventsQueryVariables,
+      variables: FindUserEventsQueryVariables, 
       options?: UseQueryOptions<FindUserEventsQuery, TError, TData>
-    ) =>
+    ) => 
     useQuery<FindUserEventsQuery, TError, TData>(
       ['FindUserEvents', variables],
       useFetchData<FindUserEventsQuery, FindUserEventsQueryVariables>(FindUserEventsDocument).bind(null, variables),
@@ -753,9 +771,8 @@ export const DeleteEventDocument = `
 export const useDeleteEventMutation = <
       TError = unknown,
       TContext = unknown
-    >(options?: UseMutationOptions<DeleteEventMutation, TError, DeleteEventMutationVariables, TContext>) =>
+    >(options?: UseMutationOptions<DeleteEventMutation, TError, DeleteEventMutationVariables, TContext>) => 
     useMutation<DeleteEventMutation, TError, DeleteEventMutationVariables, TContext>(
-      'DeleteEvent',
       useFetchData<DeleteEventMutation, DeleteEventMutationVariables>(DeleteEventDocument),
       options
     );
@@ -771,9 +788,8 @@ export const UpdateEventDocument = `
 export const useUpdateEventMutation = <
       TError = unknown,
       TContext = unknown
-    >(options?: UseMutationOptions<UpdateEventMutation, TError, UpdateEventMutationVariables, TContext>) =>
+    >(options?: UseMutationOptions<UpdateEventMutation, TError, UpdateEventMutationVariables, TContext>) => 
     useMutation<UpdateEventMutation, TError, UpdateEventMutationVariables, TContext>(
-      'UpdateEvent',
       useFetchData<UpdateEventMutation, UpdateEventMutationVariables>(UpdateEventDocument),
       options
     );
@@ -793,9 +809,8 @@ export const CreateEventDocument = `
 export const useCreateEventMutation = <
       TError = unknown,
       TContext = unknown
-    >(options?: UseMutationOptions<CreateEventMutation, TError, CreateEventMutationVariables, TContext>) =>
+    >(options?: UseMutationOptions<CreateEventMutation, TError, CreateEventMutationVariables, TContext>) => 
     useMutation<CreateEventMutation, TError, CreateEventMutationVariables, TContext>(
-      'CreateEvent',
       useFetchData<CreateEventMutation, CreateEventMutationVariables>(CreateEventDocument),
       options
     );
@@ -811,9 +826,8 @@ export const ParticipateInEventDocument = `
 export const useParticipateInEventMutation = <
       TError = unknown,
       TContext = unknown
-    >(options?: UseMutationOptions<ParticipateInEventMutation, TError, ParticipateInEventMutationVariables, TContext>) =>
+    >(options?: UseMutationOptions<ParticipateInEventMutation, TError, ParticipateInEventMutationVariables, TContext>) => 
     useMutation<ParticipateInEventMutation, TError, ParticipateInEventMutationVariables, TContext>(
-      'participateInEvent',
       useFetchData<ParticipateInEventMutation, ParticipateInEventMutationVariables>(ParticipateInEventDocument),
       options
     );
@@ -831,9 +845,9 @@ export const useSingleUserQuery = <
       TData = SingleUserQuery,
       TError = unknown
     >(
-      variables: SingleUserQueryVariables,
+      variables: SingleUserQueryVariables, 
       options?: UseQueryOptions<SingleUserQuery, TError, TData>
-    ) =>
+    ) => 
     useQuery<SingleUserQuery, TError, TData>(
       ['singleUser', variables],
       useFetchData<SingleUserQuery, SingleUserQueryVariables>(SingleUserDocument).bind(null, variables),
@@ -853,9 +867,9 @@ export const useCurrentUserQuery = <
       TData = CurrentUserQuery,
       TError = unknown
     >(
-      variables?: CurrentUserQueryVariables,
+      variables?: CurrentUserQueryVariables, 
       options?: UseQueryOptions<CurrentUserQuery, TError, TData>
-    ) =>
+    ) => 
     useQuery<CurrentUserQuery, TError, TData>(
       variables === undefined ? ['CurrentUser'] : ['CurrentUser', variables],
       useFetchData<CurrentUserQuery, CurrentUserQueryVariables>(CurrentUserDocument).bind(null, variables),
@@ -872,9 +886,9 @@ export const useCurrentUserIdQuery = <
       TData = CurrentUserIdQuery,
       TError = unknown
     >(
-      variables?: CurrentUserIdQueryVariables,
+      variables?: CurrentUserIdQueryVariables, 
       options?: UseQueryOptions<CurrentUserIdQuery, TError, TData>
-    ) =>
+    ) => 
     useQuery<CurrentUserIdQuery, TError, TData>(
       variables === undefined ? ['CurrentUserId'] : ['CurrentUserId', variables],
       useFetchData<CurrentUserIdQuery, CurrentUserIdQueryVariables>(CurrentUserIdDocument).bind(null, variables),
@@ -900,9 +914,9 @@ export const useUsersQuery = <
       TData = UsersQuery,
       TError = unknown
     >(
-      variables?: UsersQueryVariables,
+      variables?: UsersQueryVariables, 
       options?: UseQueryOptions<UsersQuery, TError, TData>
-    ) =>
+    ) => 
     useQuery<UsersQuery, TError, TData>(
       variables === undefined ? ['Users'] : ['Users', variables],
       useFetchData<UsersQuery, UsersQueryVariables>(UsersDocument).bind(null, variables),
@@ -918,9 +932,8 @@ export const LoginDocument = `
 export const useLoginMutation = <
       TError = unknown,
       TContext = unknown
-    >(options?: UseMutationOptions<LoginMutation, TError, LoginMutationVariables, TContext>) =>
+    >(options?: UseMutationOptions<LoginMutation, TError, LoginMutationVariables, TContext>) => 
     useMutation<LoginMutation, TError, LoginMutationVariables, TContext>(
-      'Login',
       useFetchData<LoginMutation, LoginMutationVariables>(LoginDocument),
       options
     );
@@ -934,9 +947,8 @@ export const CreateUserDocument = `
 export const useCreateUserMutation = <
       TError = unknown,
       TContext = unknown
-    >(options?: UseMutationOptions<CreateUserMutation, TError, CreateUserMutationVariables, TContext>) =>
+    >(options?: UseMutationOptions<CreateUserMutation, TError, CreateUserMutationVariables, TContext>) => 
     useMutation<CreateUserMutation, TError, CreateUserMutationVariables, TContext>(
-      'CreateUser',
       useFetchData<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument),
       options
     );
@@ -951,9 +963,8 @@ export const ActivateUserDocument = `
 export const useActivateUserMutation = <
       TError = unknown,
       TContext = unknown
-    >(options?: UseMutationOptions<ActivateUserMutation, TError, ActivateUserMutationVariables, TContext>) =>
+    >(options?: UseMutationOptions<ActivateUserMutation, TError, ActivateUserMutationVariables, TContext>) => 
     useMutation<ActivateUserMutation, TError, ActivateUserMutationVariables, TContext>(
-      'ActivateUser',
       useFetchData<ActivateUserMutation, ActivateUserMutationVariables>(ActivateUserDocument),
       options
     );
@@ -969,9 +980,8 @@ export const UpdateUserDocument = `
 export const useUpdateUserMutation = <
       TError = unknown,
       TContext = unknown
-    >(options?: UseMutationOptions<UpdateUserMutation, TError, UpdateUserMutationVariables, TContext>) =>
+    >(options?: UseMutationOptions<UpdateUserMutation, TError, UpdateUserMutationVariables, TContext>) => 
     useMutation<UpdateUserMutation, TError, UpdateUserMutationVariables, TContext>(
-      'UpdateUser',
       useFetchData<UpdateUserMutation, UpdateUserMutationVariables>(UpdateUserDocument),
       options
     );

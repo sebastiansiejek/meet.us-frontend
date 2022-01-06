@@ -8,8 +8,8 @@
     "analyze": "ANALYZE=true next build",
     "type-check": "tsc",
     "pre-commit": "lint-staged",
-    "graphql:codegen": "graphql-codegen --config codegen.yml -r dotenv/config",
-    "graphql:codegen:watch": "graphql-codegen --config codegen.yml -r dotenv/config --watch"
+    "graphql:codegen": "DOTENV_CONFIG_PATH=./.env.local graphql-codegen --config codegen.yml -r dotenv/config",
+    "graphql:codegen:watch": "DOTENV_CONFIG_PATH=./.env.local graphql-codegen --config codegen.yml -r dotenv/config --watch"
   },
   "engines": {
     "npm": ">=8.0.0"
