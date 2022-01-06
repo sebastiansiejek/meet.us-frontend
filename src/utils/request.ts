@@ -1,12 +1,18 @@
+import { getSession } from 'next-auth/react';
+
 export const request = async (
   query: string,
   variables = {},
   locale?: string,
 ) => {
+  const session = await getSession();
+  const accessToken = session?.accessToken;
+
   const res = await fetch(process.env.NEXT_PUBLIC_API_ENDPOINT, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      ...(accessToken && ({ Authorization: `Bearer ${accessToken}` } as any)),
       'Accept-Language': locale
         ? locale
         : (typeof document !== 'undefined' &&
