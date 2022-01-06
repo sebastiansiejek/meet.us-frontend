@@ -12,7 +12,6 @@
     "graphql:codegen:watch": "graphql-codegen --config codegen.yml -r dotenv/config --watch"
   },
   "engines": {
-    "node": "16.x",
     "npm": ">=8.0.0"
   },
   "dependencies": {
