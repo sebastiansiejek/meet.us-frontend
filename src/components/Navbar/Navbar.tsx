@@ -1,14 +1,14 @@
 import Link from 'next/link';
 import Logo from '../Logo';
+import MobileMenu from '../MobileMenu';
 import React from 'react';
+import UserSettings from '../UserSettings';
+import styled from 'styled-components';
 import { Layout } from 'antd';
 import { Menu } from 'antd';
+import { routes } from 'src/routes/routes';
 import { useTranslation } from 'react-i18next';
-import { paths } from 'src/data/paths';
-import UserSettings from '../UserSettings';
-import MobileMenu from '../MobileMenu';
-import styled from 'styled-components';
-import { useSelector } from 'react-redux';
+import { useSession } from 'next-auth/react';
 
 const { Header } = Layout;
 
@@ -34,11 +34,16 @@ const NavbarStyled = styled(Header)`
 
 const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
   const { t } = useTranslation();
-  const isLogged = useSelector((state: any) => state.user.token);
+  const session = useSession();
+  const isLogged = !!session.data;
+  const unLoggedMenu =
+    !isLogged && Object.values(routes).filter((val) => val.display.unLogged);
+  const loggedMenu =
+    isLogged && Object.values(routes).filter((val) => val.display.logged);
 
   return (
-    <NavbarStyled className="flex items-center">
-      <div className="mr-auto">
+    <NavbarStyled className="flex items-center justify-between">
+      <div>
         <Link href="/">
           <a>
             <div>
@@ -47,27 +52,44 @@ const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
           </a>
         </Link>
       </div>
-      <Menu
-        className="flex navbar__desktop-navigation"
-        theme="dark"
-        mode="horizontal"
-      >
-        {paths.map(({ href, title, display }) => (
-          <Menu.Item key={href}>
-            {isLogged !== 'null' && display.logged && (
-              <Link href={href}>{t(title)}</Link>
-            )}
-            {isLogged === 'null' && display.unLogged && (
-              <Link href={href}>{t(title)}</Link>
-            )}
-          </Menu.Item>
-        ))}
-        <Menu.Item
-          style={{ marginLeft: 'auto', padding: '0', display: 'flex' }}
+      {unLoggedMenu && unLoggedMenu.length > 0 && (
+        <Menu
+          className="flex navbar__desktop-navigation flex-1 justify-end"
+          theme="dark"
+          mode="horizontal"
         >
-          {isLogged !== 'null' && <UserSettings />}
-        </Menu.Item>
-      </Menu>
+          {unLoggedMenu.map(({ href, title, display }) => {
+            const key = `${href}-${display}`;
+            return (
+              <Menu.Item key={key}>
+                <Link href={href}>{t(title)}</Link>
+              </Menu.Item>
+            );
+          })}
+          <Menu.Item key="settings" style={{ padding: '0', display: 'flex' }}>
+            <UserSettings />
+          </Menu.Item>
+        </Menu>
+      )}
+      {loggedMenu && loggedMenu.length > 0 && (
+        <Menu
+          className="flex navbar__desktop-navigation flex-1 justify-end"
+          theme="dark"
+          mode="horizontal"
+        >
+          {loggedMenu.map(({ href, title, display }) => {
+            const key = `${href}-${display}`;
+            return (
+              <Menu.Item key={key}>
+                <Link href={href}>{t(title)}</Link>
+              </Menu.Item>
+            );
+          })}
+          <Menu.Item key="settings" style={{ padding: '0', display: 'flex' }}>
+            <UserSettings />
+          </Menu.Item>
+        </Menu>
+      )}
       <MobileMenu />
     </NavbarStyled>
   );

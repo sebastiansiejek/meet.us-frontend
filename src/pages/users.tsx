@@ -1,5 +1,5 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import UsersCard from 'src/UsersCard';
+import UsersCard from 'src/components/UsersCard';
 import PageHeader from 'src/components/PageHeader';
 import Container from 'src/components/Container';
 

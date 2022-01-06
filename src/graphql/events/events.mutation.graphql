@@ -1,0 +1,83 @@
+mutation DeleteEvent($id: String!) {
+  removeEvent(id: $id) {
+    title
+  }
+}
+
+mutation UpdateEvent(
+  $id: String!
+  $title: String!
+  $description: String!
+  $startDate: DateTime!
+  $endDate: DateTime!
+  $maxParticipants: Int!
+  $type: Float
+) {
+  updateEvent(
+    updateEventInput: {
+      id: $id
+      title: $title
+      description: $description
+      startDate: $startDate
+      endDate: $endDate
+      maxParticipants: $maxParticipants
+      type: $type
+    }
+  ) {
+    id
+  }
+}
+
+input CreateEventAddressInput {
+  city: String!
+  countryCode: String!
+  countryName: String!
+  county: String!
+  district: String!
+  label: String!
+  postalCode: String!
+  state: String!
+}
+
+mutation CreateEvent(
+  $title: String!
+  $description: String!
+  $startDate: DateTime!
+  $endDate: DateTime!
+  $maxParticipants: Int!
+  $type: Float
+  $lat: Float!
+  $lng: Float!
+  $eventAddress: CreateEventAddressInput!
+) {
+  createEvent(
+    createEventInput: {
+      title: $title
+      description: $description
+      startDate: $startDate
+      endDate: $endDate
+      maxParticipants: $maxParticipants
+      type: $type
+      lat: $lat
+      lng: $lng
+      eventAddress: $eventAddress
+    }
+  ) {
+    id
+    title
+    description
+    startDate
+    type
+  }
+}
+
+mutation participateInEvent($eventId: String! $type: Float!) {
+    participateInEvent(participateInEvent: {
+        eventId: $eventId
+        type: $type
+    }) {
+        event {
+            id
+        }
+    }
+}

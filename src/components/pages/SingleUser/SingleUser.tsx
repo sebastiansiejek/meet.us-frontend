@@ -1,6 +1,5 @@
 import { UserOutlined } from '@ant-design/icons';
-import { Card, Col, Row } from 'antd';
-import Avatar from 'antd/lib/avatar/avatar';
+import { Card, Col, Row, Avatar } from 'antd';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Container from 'src/components/Container';

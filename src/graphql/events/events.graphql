@@ -16,32 +16,6 @@ query SingleEventPage($id: String!) {
   }
 }
 
-mutation CreateEvent(
-  $title: String!
-  $description: String!
-  $startDate: DateTime!
-  $endDate: DateTime!
-  $maxParticipants: Int!
-  $type: Float
-) {
-  createEvent(
-    createEventInput: {
-      title: $title
-      description: $description
-      startDate: $startDate
-      endDate: $endDate
-      maxParticipants: $maxParticipants
-      type: $type
-    }
-  ) {
-    id
-    title
-    description
-    startDate
-    type
-  }
-}
-
 query Events(
   $first: Float!
   $query: String!
@@ -68,6 +42,8 @@ query Events(
           endDate
           type
           state
+          lat
+          lng
         }
         cursor
       }
@@ -85,33 +61,46 @@ query Events(
   }
 }
 
-mutation DeleteEvent($id: String!) {
-  removeEvent(id: $id) {
-    title
-  }
-}
-
-mutation UpdateEvent(
-  $id: String!
-  $title: String!
-  $description: String!
-  $startDate: DateTime!
-  $endDate: DateTime!
-  $maxParticipants: Int!
-  $type: Float
+query EventsOnMap(
+  $first: Float!
+  $state: String
+  $latitude: Float
+  $longitude: Float
+  $distance: Float
+  $orderField: String
+  $after: String
+  $orderSort: String
 ) {
-  updateEvent(
-    updateEventInput: {
-      id: $id
-      title: $title
-      description: $description
-      startDate: $startDate
-      endDate: $endDate
-      maxParticipants: $maxParticipants
-      type: $type
-    }
+  events(
+    first: $first
+    state: $state
+    latitude: $latitude
+    longitude: $longitude
+    distance: $distance
+    orderField: $orderField
+    after: $after
+    orderSort: $orderSort
   ) {
-    id
+    page {
+      edges {
+        node {
+          id
+          title
+          type
+          state
+          lat
+          lng
+        }
+      }
+      pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
+      }
+    }
+    pageData {
+      count
+    }
   }
 }
 

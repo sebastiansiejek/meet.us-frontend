@@ -1,43 +1,72 @@
-import { Button, Typography } from 'antd';
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import Link from 'next/link';
 import Container from 'src/components/Container';
 import EventCards from 'src/components/Events/EventCards';
 import HeroSearchBanner from 'src/components/HeroSearchBanner';
+import Link from 'next/link';
+import dynamic from 'next/dynamic';
+import { Button, Typography, Spin } from 'antd';
 import { Event, useEventsQuery } from 'src/generated/gqlQueries';
+import { routes } from 'src/routes/routes';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'next-i18next';
 
 const IndexPage = () => {
+  const [state, setState] = useState('DURING');
+
   const { data } = useEventsQuery({
     first: 6,
     orderField: 'startDate',
     orderSort: 'DESC',
     query: '',
-    state: 'DURING',
+    state,
   });
 
+  useEffect(() => {
+    if (
+      data?.events.page.edges &&
+      data.events.page.edges.length === 0 &&
+      state === 'DURING'
+    ) {
+      setState('FUTURE');
+    }
+  }, [data]);
+
   const { t } = useTranslation();
+  const events = data?.events.page.edges as [{ node: Event }];
+
+  const EventsMap = useMemo(
+    () =>
+      dynamic(() => import('src/components/EventsMap'), {
+        loading: () => <Spin />,
+        ssr: false,
+      }),
+    [],
+  );
 
   return (
     <>
       <HeroSearchBanner />
-      {data?.events.page.edges && (
-        <>
-          <Container>
+      <Container>
+        {data?.events.page.edges && (
+          <>
             <Typography.Title level={2} className="text-center">
-              {t('During events')}
+              {state === 'DURING' && t('During events')}
+              {state === 'FUTURE' && t('Upcoming events')}
             </Typography.Title>
-            <EventCards events={data.events.page.edges as [{ node: Event }]} />
-            <Link href="/events" passHref>
+            <EventCards events={events} />
+            <Link href={routes.events.href} passHref>
               <a className="flex justify-center">
                 <Button type="primary" className="mt-8">
                   {t('See all events')}
                 </Button>
               </a>
             </Link>
-          </Container>
-        </>
-      )}
+          </>
+        )}
+        <div className="mt-20">
+          <EventsMap />
+        </div>
+      </Container>
     </>
   );
 };

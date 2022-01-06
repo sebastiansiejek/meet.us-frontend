@@ -68,5 +68,13 @@
     "Ascending by date": "Rosnąco przez datę",
     "Descending by date": "Malejąco przez datę",
     "Ascending by start date": "Rosnąco przez datę rozpoczęcia",
-    "Descending by start date": "Malejąco przez datę rozpoczęcia"
+    "Descending by start date": "Malejąco przez datę rozpoczęcia",
+    "Sport": "Sport",
+    "Party": "Impreza",
+    "Chatting": "Spotkanie towarzyskie",
+    "User not activated": "Konto nie jest aktywne",
+    "You have been logged out": "Zostałeś wylogowany",
+    "Invalid password": "Nieprawidłowe hasło",
+    "Follow": "Obserwuj",
+    "Join": "Dołącz"
 }

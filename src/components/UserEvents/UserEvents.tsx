@@ -18,6 +18,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import EventModal from '../Events/EventModal';
 import { useQueryClient } from 'react-query';
+import { routes } from 'src/routes/routes';
 
 export interface UserEventsProps {
   userId: string;
@@ -87,7 +88,7 @@ const UserEvents: React.FunctionComponent<UserEventsProps> = ({ userId }) => {
                 title: t('See more'),
                 dataIndex: 'id',
                 render: (id: string) => (
-                  <Link href={`/events/${id}`} passHref>
+                  <Link href={`${routes.events.href}/${id}`} passHref>
                     <a href="">
                       <Button type="primary">{t('See')}</Button>
                     </a>

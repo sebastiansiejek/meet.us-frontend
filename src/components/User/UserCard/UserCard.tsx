@@ -1,7 +1,8 @@
-import Avatar from 'antd/lib/avatar/avatar';
-import React from 'react';
-import { UserOutlined } from '@ant-design/icons';
 import CardLink from 'src/components/CardLink';
+import React from 'react';
+import { Avatar } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
+import { routes } from 'src/routes/routes';
 
 export interface UserCardProps {
   firstName: string;
@@ -19,7 +20,7 @@ const UserCard: React.FunctionComponent<UserCardProps> = ({
   return (
     <CardLink
       linkProps={{
-        href: `/users/${id}`,
+        href: `${routes.users.href}/${id}`,
       }}
     >
       <div className="flex items-center w-full">

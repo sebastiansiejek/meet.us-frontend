@@ -1,6 +1,7 @@
 import { useSingleEventPageQuery } from 'src/generated/gqlQueries';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Event from 'src/components/pages/Event';
+
 interface IEventPage {
   id: string;
 }
@@ -11,7 +12,9 @@ const EventPage: React.FC<IEventPage> = ({ id }) => {
   });
 
   if (data && data.event) {
-    return <Event data={data} />;
+    return <div>
+      <Event data={data} />
+    </div>;
   }
 
   return <></>;

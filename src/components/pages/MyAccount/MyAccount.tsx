@@ -25,7 +25,7 @@ const MyAccount: React.FunctionComponent<MyAccountProps> = ({}) => {
         <Collapse>
           <Panel
             header={
-              <div className="flex items-center">
+              <div className="inline-flex items-center">
                 <ContactsTwoTone className="mr-2" />
                 {t('Personal data')}
               </div>

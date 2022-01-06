@@ -1,5 +1,1 @@
-export const getMapEventTypes = (): Array<string> => [
-  'Sport',
-  'Impreza',
-  'Spotkanie towarzyskie',
-];
+export const getMapEventTypes: Array<string> = ['Sport', 'Party', 'Chatting'];

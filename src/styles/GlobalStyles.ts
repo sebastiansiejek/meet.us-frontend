@@ -1,5 +1,3 @@
-import 'antd/dist/antd.less';
-import 'antd/lib/style/themes/default.less';
 import 'nprogress/nprogress.css';
 import { createGlobalStyle } from 'styled-components';
 
@@ -36,6 +34,11 @@ const GlobalStyles = createGlobalStyle`
   #nprogress {
     .bar {
       background: #2A9D8F;
+    }
+
+    .spinner-icon {
+      border-top-color: #2A9D8F;
+      border-left-color: #2A9D8F;
     }
   }
 

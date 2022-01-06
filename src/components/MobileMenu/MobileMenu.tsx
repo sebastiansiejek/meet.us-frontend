@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { Menu } from 'antd';
 import { useTranslation } from 'react-i18next';
-import { paths } from 'src/data/paths';
+import { routes } from 'src/routes/routes';
 import UserSettings from '../UserSettings';
 import Hamburger from 'hamburger-react';
 import styled from 'styled-components';
 import Logo from '../Logo';
-import classname from 'classnames';
+import clsx from 'clsx';
 
 export interface MobileMenuProps {}
 
@@ -63,7 +63,7 @@ const MobileMenu: React.FunctionComponent<MobileMenuProps> = ({}) => {
         toggle={() => setOpen(!isOpen)}
       />
       <div
-        className={`navbar__mobile-navigation ${classname({
+        className={`navbar__mobile-navigation ${clsx({
           'is-open': isOpen,
         })}`}
       >
@@ -76,12 +76,16 @@ const MobileMenu: React.FunctionComponent<MobileMenuProps> = ({}) => {
           />
         </div>
         <Menu theme="dark" mode="vertical">
-          {paths.map(({ href, title }) => (
-            <Menu.Item key={href} onClick={() => handleClick()}>
-              <Link href={href}>{t(title)}</Link>
-            </Menu.Item>
-          ))}
+          {Object.values(routes).map(({ href, title, display }) => {
+            const key = JSON.stringify({ href, display });
+            return (
+              <Menu.Item key={key} onClick={() => handleClick()}>
+                <Link href={href}>{t(title)}</Link>
+              </Menu.Item>
+            );
+          })}
           <Menu.Item
+            key="settings"
             style={{ padding: '0', display: 'flex' }}
             onClick={() => handleClick()}
           >
