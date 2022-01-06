@@ -13,7 +13,7 @@ import { SingleEventPageQuery } from 'src/generated/gqlQueries';
 import { useTranslation } from 'react-i18next';
 import { getDateReadableFormat } from 'src/utils/date';
 import EventParticipateActions from '../../EventParticipateActions/EventParticipateActions';
-import { useLogin } from '../../../hooks/useLogin';
+import { useSession } from 'next-auth/react';
 
 export interface EventProps {
   data: SingleEventPageQuery;
@@ -22,7 +22,8 @@ export interface EventProps {
 const Event: React.FunctionComponent<EventProps> = ({ data }) => {
   const { Title, Paragraph } = Typography;
   const { t, i18n } = useTranslation();
-  const { isLogged } = useLogin();
+  const session = useSession();
+  const isLogged = session.data;
 
   const { event } = data;
 

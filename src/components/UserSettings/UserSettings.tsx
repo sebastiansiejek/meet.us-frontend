@@ -4,11 +4,11 @@ import availableLanguages from 'src/data/availableLanguage';
 import styled from 'styled-components';
 import { Menu, Dropdown, notification } from 'antd';
 import { SettingFilled } from '@ant-design/icons';
-import { logout } from 'src/store/slices/userSlice';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 import { routes } from 'src/routes/routes';
+import { signOut } from 'next-auth/react';
 
 export interface UserSettingsProps {}
 
@@ -51,7 +51,7 @@ const UserSettings: React.FunctionComponent<UserSettingsProps> = ({}) => {
           </Menu.ItemGroup>
           <Menu.Item
             onClick={() => {
-              dispatch(logout());
+              signOut({ redirect: false });
               notification.open({
                 message: t('You have been logged out'),
               });

@@ -7,8 +7,8 @@ import styled from 'styled-components';
 import { Layout } from 'antd';
 import { Menu } from 'antd';
 import { routes } from 'src/routes/routes';
-import { useLogin } from 'src/hooks/useLogin';
 import { useTranslation } from 'react-i18next';
+import { useSession } from 'next-auth/react';
 
 const { Header } = Layout;
 
@@ -34,7 +34,8 @@ const NavbarStyled = styled(Header)`
 
 const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
   const { t } = useTranslation();
-  const { isLogged } = useLogin();
+  const session = useSession();
+  const isLogged = session.data;
 
   return (
     <NavbarStyled className="flex items-center">

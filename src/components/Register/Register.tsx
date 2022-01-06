@@ -1,19 +1,20 @@
 import FormOutput from 'src/components/Form/FormOutput';
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, Input, Button, notification } from 'antd';
 import { IApiError } from 'src/types/IApiError';
 import { MailTwoTone, LockTwoTone } from '@ant-design/icons';
 import { useCreateUserMutation } from 'src/generated/gqlQueries';
-import { useLogin } from 'src/hooks/useLogin';
 import { useTranslation } from 'react-i18next';
+import { signIn } from 'next-auth/react';
 
 export interface RegisterProps {}
 
 const Register: React.FunctionComponent<RegisterProps> = ({}) => {
   const [form] = Form.useForm();
-  const loginMutation = useLogin();
   const { error, isLoading, mutateAsync } = useCreateUserMutation();
   const { t } = useTranslation();
+  const [loginError, setError] = useState<IApiError | null>();
+  const [isLogin, setLogin] = useState(false);
 
   return (
     <Form
@@ -25,20 +26,30 @@ const Register: React.FunctionComponent<RegisterProps> = ({}) => {
           email: login,
           password,
         }).then(() => {
+          form.resetFields();
           notification.success({
             message: t('Your account has been created'),
           });
-          loginMutation.mutate
-            .mutateAsync({
-              email: login,
-              password,
+          setLogin(true);
+          signIn('credentials', {
+            login,
+            password,
+            redirect: false,
+          })
+            .then((res: any) => {
+              if (res.error) {
+                setError({
+                  data: {
+                    message: res.error,
+                  },
+                });
+              } else {
+                notification.success({
+                  message: t('You have been logged in'),
+                });
+              }
             })
-            .then(() => {
-              form.resetFields();
-              notification.success({
-                message: t('You have been logged in'),
-              });
-            });
+            .finally(() => setLogin(false));
         });
       }}
     >
@@ -59,11 +70,11 @@ const Register: React.FunctionComponent<RegisterProps> = ({}) => {
       >
         <Input.Password placeholder={t('Password')} prefix={<LockTwoTone />} />
       </Form.Item>
-      <FormOutput error={error as IApiError} />
+      <FormOutput error={(error as IApiError) || loginError} />
       <Button
         type="primary"
         htmlType="submit"
-        loading={isLoading || loginMutation.mutate.isLoading}
+        loading={isLoading || isLogin}
         className="block mx-auto"
       >
         {t('Sign up')}
