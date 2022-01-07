@@ -9,6 +9,7 @@ import { routes } from 'src/routes/routes';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'next-i18next';
+import JoinUs from 'src/components/JoinUs';
 
 const IndexPage = () => {
   const [state, setState] = useState('DURING');
@@ -65,6 +66,9 @@ const IndexPage = () => {
         )}
         <div className="mt-20">
           <EventsMap />
+        </div>
+        <div className="mt-40">
+          <JoinUs />
         </div>
       </Container>
     </>
