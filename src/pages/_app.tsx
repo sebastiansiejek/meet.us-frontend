@@ -4,10 +4,8 @@ import GlobalStyles from 'src/styles/GlobalStyles';
 import Main from 'src/components/templates/Main';
 import NProgress from 'nprogress';
 import Router from 'next/router';
-import store from 'src/store/store';
 import { AppProps } from 'next/dist/shared/lib/router/router';
 import { Hydrate } from 'react-query/hydration';
-import { Provider } from 'react-redux';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { appWithTranslation } from 'next-i18next';
@@ -26,15 +24,13 @@ const MyApp: React.FC<AppProps> = ({
 
   return (
     <SessionProvider session={session}>
-      <Provider store={store}>
-        <QueryClientProvider client={queryClient}>
-          <Hydrate state={pageProps.dehydratedState}>
-            <GlobalStyles />
-            <Main Component={Component} pageProps={pageProps} />
-          </Hydrate>
-          <ReactQueryDevtools />
-        </QueryClientProvider>
-      </Provider>
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={pageProps.dehydratedState}>
+          <GlobalStyles />
+          <Main Component={Component} pageProps={pageProps} />
+        </Hydrate>
+        <ReactQueryDevtools />
+      </QueryClientProvider>
     </SessionProvider>
   );
 };
