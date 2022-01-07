@@ -9,6 +9,7 @@ import { Menu } from 'antd';
 import { routes } from 'src/routes/routes';
 import { useTranslation } from 'react-i18next';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 
 const { Header } = Layout;
 
@@ -36,6 +37,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
   const { t } = useTranslation();
   const session = useSession();
   const isLogged = !!session.data;
+  const { pathname } = useRouter();
   const unLoggedMenu =
     !isLogged && Object.values(routes).filter((val) => val.display.unLogged);
   const loggedMenu =
@@ -57,11 +59,11 @@ const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
           className="flex navbar__desktop-navigation flex-1 justify-end"
           theme="dark"
           mode="horizontal"
+          selectedKeys={[pathname]}
         >
-          {unLoggedMenu.map(({ href, title, display }) => {
-            const key = `${href}-${display}`;
+          {unLoggedMenu.map(({ href, title }) => {
             return (
-              <Menu.Item key={key}>
+              <Menu.Item key={href}>
                 <Link href={href}>{t(title)}</Link>
               </Menu.Item>
             );
@@ -76,11 +78,11 @@ const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
           className="flex navbar__desktop-navigation flex-1 justify-end"
           theme="dark"
           mode="horizontal"
+          selectedKeys={[pathname]}
         >
-          {loggedMenu.map(({ href, title, display }) => {
-            const key = `${href}-${display}`;
+          {loggedMenu.map(({ href, title }) => {
             return (
-              <Menu.Item key={key}>
+              <Menu.Item key={href}>
                 <Link href={href}>{t(title)}</Link>
               </Menu.Item>
             );
