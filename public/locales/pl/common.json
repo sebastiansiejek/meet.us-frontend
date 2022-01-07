@@ -76,5 +76,6 @@
     "You have been logged out": "Zostałeś wylogowany",
     "Invalid password": "Nieprawidłowe hasło",
     "Follow": "Obserwuj",
-    "Join": "Dołącz"
+    "Join": "Dołącz",
+    "Token is incorrect": "Token jest niepoprawny"
 }

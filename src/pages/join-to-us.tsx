@@ -4,6 +4,8 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GetServerSidePropsContext } from 'next';
 import { getSession } from 'next-auth/react';
 import { routes } from 'src/routes/routes';
+import ActivateUser from 'src/components/ActivateUser';
+import Container from 'src/components/Container';
 
 const JoinToUsStyled = styled.div`
   margin-top: 3rem;
@@ -11,6 +13,9 @@ const JoinToUsStyled = styled.div`
 
 const JoinToUs = () => (
   <JoinToUsStyled>
+    <Container>
+      <ActivateUser />
+    </Container>
     <JoinUs />
   </JoinToUsStyled>
 );

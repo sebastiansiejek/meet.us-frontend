@@ -1,5 +1,4 @@
 import React from 'react';
-import ActivateUser from 'src/components/ActivateUser';
 import Container from 'src/components/Container';
 import UserEvents from 'src/components/UserEvents';
 import PageHeader from 'src/components/PageHeader';
@@ -36,7 +35,6 @@ const MyAccount: React.FunctionComponent<MyAccountProps> = ({}) => {
           </Panel>
         </Collapse>
       </div>
-      <ActivateUser />
       {userId && <UserEvents userId={userId} />}
     </Container>
   );
