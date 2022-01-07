@@ -1,9 +1,9 @@
 import Container from 'src/components/Container';
-import React from 'react';
+import React, { useMemo } from 'react';
 import UserCard from 'src/components/User/UserCard';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { Card, Col, Row, Typography } from 'antd';
+import { Card, Col, Row, Typography, Spin } from 'antd';
 import {
   ClockCircleTwoTone,
   UsergroupAddOutlined,
@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { getDateReadableFormat } from 'src/utils/date';
 import EventParticipateActions from '../../EventParticipateActions/EventParticipateActions';
 import { useSession } from 'next-auth/react';
-
+import dynamic from 'next/dynamic';
 export interface EventProps {
   data: SingleEventPageQuery;
 }
@@ -25,10 +25,18 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
   const session = useSession();
   const isLogged = session.data;
 
-  const { event } = data;
-
-  const { title, description, startDate, endDate, user, maxParticipants } =
-    event;
+  const {
+    event: {
+      title,
+      description,
+      startDate,
+      endDate,
+      user,
+      maxParticipants,
+      lat,
+      lng,
+    },
+  } = data;
 
   const { firstName, lastname, nickname, id } = user;
 
@@ -37,6 +45,15 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
   dayjs.extend(relativeTime);
 
   const fromNow = dayjs(startDate).locale(i18n.language).fromNow();
+
+  const SingleEventMap = useMemo(
+    () =>
+      dynamic(() => import('src/components/pages/Event/SingleEventMap'), {
+        loading: () => <Spin />,
+        ssr: false,
+      }),
+    [],
+  );
 
   return (
     <Container>
@@ -82,9 +99,14 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
           </Col>
         </Row>
       )}
+      {lat > 0 && lng > 0 && (
+        <div className="mt-10">
+          <SingleEventMap {...data.event} />
+        </div>
+      )}
       {isLogged && (
         <div className="mt-10">
-          <EventParticipateActions eventId={event.id} />
+          <EventParticipateActions eventId={id} />
         </div>
       )}
     </Container>

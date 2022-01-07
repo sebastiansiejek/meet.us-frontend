@@ -11,11 +11,7 @@ import {
   TileLayer,
   useMapEvents,
 } from 'react-leaflet';
-
-const icons = {
-  0: '/images/icons/sport.svg',
-  1: '/images/icons/party.svg',
-};
+import { eventCategoryIcons } from 'src/utils/events';
 
 type IEventType = {
   node?:
@@ -114,15 +110,13 @@ const EventsMap: React.FunctionComponent = () => {
     <MapContainer
       center={[centerCoords.lat, centerCoords.lng]}
       zoom={12}
-      scrollWheelZoom={false}
       style={{ height: '50vh', width: '100%' }}
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       {currentEvents.map((event) => {
         // @ts-ignore
         const { lat, lng, title, id, type } = event.node;
-        // @ts-ignore
-        const iconUrl = icons[type] || '';
+        const iconUrl = eventCategoryIcons[type as 0 | 1] || '';
 
         const icon = new Icon({
           iconUrl,

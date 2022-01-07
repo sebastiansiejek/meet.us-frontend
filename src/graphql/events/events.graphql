@@ -7,6 +7,8 @@ query SingleEventPage($id: String!) {
     endDate
     maxParticipants
     type
+    lat
+    lng
     user {
       id
       firstName
