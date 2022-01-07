@@ -12,9 +12,11 @@ const EventPage: React.FC<IEventPage> = ({ id }) => {
   });
 
   if (data && data.event) {
-    return <div>
-      <Event data={data} />
-    </div>;
+    return (
+      <div>
+        <Event data={data} />
+      </div>
+    );
   }
 
   return <></>;
