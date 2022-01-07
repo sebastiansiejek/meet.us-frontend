@@ -10,6 +10,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'next-i18next';
 import JoinUs from 'src/components/JoinUs';
+import { useSession } from 'next-auth/react';
 
 const IndexPage = () => {
   const [state, setState] = useState('DURING');
@@ -34,6 +35,8 @@ const IndexPage = () => {
 
   const { t } = useTranslation();
   const events = data?.events.page.edges as [{ node: Event }];
+  const session = useSession();
+  const isLogged = !!session.data;
 
   const EventsMap = useMemo(
     () =>
@@ -67,9 +70,11 @@ const IndexPage = () => {
         <div className="mt-20">
           <EventsMap />
         </div>
-        <div className="mt-40">
-          <JoinUs />
-        </div>
+        {!isLogged && (
+          <div className="mt-40">
+            <JoinUs />
+          </div>
+        )}
       </Container>
     </>
   );
