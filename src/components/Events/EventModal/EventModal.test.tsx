@@ -3,13 +3,13 @@ import React from 'react';
 import EventModal, { EventModalProps } from './EventModal';
 
 describe('EventModal', () => {
-    const defaultProps: EventModalProps = {};
+  const defaultProps: EventModalProps = {};
 
-    it('should render', () => {
-        const props = { ...defaultProps };
-        const { asFragment, queryByText } = render(<EventModal {...props} />);
+  it('should render', () => {
+    const props = { ...defaultProps };
+    const { asFragment, queryByText } = render(<EventModal {...props} />);
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('EventModal')).toBeTruthy();
-    });
+    expect(asFragment()).toMatchSnapshot();
+    expect(queryByText('EventModal')).toBeTruthy();
+  });
 });

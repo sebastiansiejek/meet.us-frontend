@@ -3,13 +3,13 @@ import React from 'react';
 import Container, { ContainerProps } from './Container';
 
 describe('Container', () => {
-    const defaultProps: ContainerProps = {};
+  const defaultProps: ContainerProps = {};
 
-    it('should render', () => {
-        const props = { ...defaultProps };
-        const { asFragment, queryByText } = render(<Container {...props} />);
+  it('should render', () => {
+    const props = { ...defaultProps };
+    const { asFragment, queryByText } = render(<Container {...props} />);
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('Container')).toBeTruthy();
-    });
+    expect(asFragment()).toMatchSnapshot();
+    expect(queryByText('Container')).toBeTruthy();
+  });
 });

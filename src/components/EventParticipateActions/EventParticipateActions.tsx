@@ -11,23 +11,29 @@ const options = [
   {
     type: 2,
     label: 'Join',
-  }
-]
+  },
+];
 
 function EventParticipateActions({ eventId }: { eventId: string }) {
-  const participateInEventMutation = useParticipateInEventMutation()
-  const {t} = useTranslation()
+  const participateInEventMutation = useParticipateInEventMutation();
+  const { t } = useTranslation();
 
   return (
     <div className={'flex flex-wrap -mr-2 -ml-2'}>
-      {options.map(option => (
-        <div className='mr-2 ml-2' key={option.type}>
-          <Button loading={participateInEventMutation.isLoading} onClick={() => {
-            participateInEventMutation.mutate({
-              type: option.type,
-              eventId: eventId,
-            })
-          }} type={"primary"}>{t(option.label)}</Button>
+      {options.map((option) => (
+        <div className="mr-2 ml-2" key={option.type}>
+          <Button
+            loading={participateInEventMutation.isLoading}
+            onClick={() => {
+              participateInEventMutation.mutate({
+                type: option.type,
+                eventId: eventId,
+              });
+            }}
+            type={'primary'}
+          >
+            {t(option.label)}
+          </Button>
         </div>
       ))}
     </div>

@@ -18,7 +18,9 @@ export type Scalars = {
 export type AccessToken = {
   __typename?: 'AccessToken';
   accessToken: Scalars['String'];
+  accessTokenExpires: Scalars['Float'];
   refreshToken: Scalars['String'];
+  user: User;
 };
 
 export type ActivateUserInput = {

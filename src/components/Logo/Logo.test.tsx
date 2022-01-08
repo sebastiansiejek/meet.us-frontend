@@ -3,13 +3,13 @@ import React from 'react';
 import Logo, { LogoProps } from './Logo';
 
 describe('Logo', () => {
-    const defaultProps: LogoProps = {};
+  const defaultProps: LogoProps = {};
 
-    it('should render', () => {
-        const props = { ...defaultProps };
-        const { asFragment, queryByText } = render(<Logo {...props} />);
+  it('should render', () => {
+    const props = { ...defaultProps };
+    const { asFragment, queryByText } = render(<Logo {...props} />);
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('Logo')).toBeTruthy();
-    });
+    expect(asFragment()).toMatchSnapshot();
+    expect(queryByText('Logo')).toBeTruthy();
+  });
 });

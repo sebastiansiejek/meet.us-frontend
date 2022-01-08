@@ -1,14 +1,21 @@
 {
   "presets": ["next/babel"],
-  "plugins": [["import", { "libraryName": "antd", "style": true }], ["styled-components", { "ssr": true }], ["inline-react-svg", {
-    "svgo": {
-      "plugins": [
-        {
-          "name": "removeAttrs",
-          "params": { "attrs": "(data-name)" }
-        },
-        "cleanupIDs",
-      ]
-    }
-  }]]
+  "plugins": [
+    ["import", { "libraryName": "antd", "style": true }],
+    ["styled-components", { "ssr": true }],
+    [
+      "inline-react-svg",
+      {
+        "svgo": {
+          "plugins": [
+            {
+              "name": "removeAttrs",
+              "params": { "attrs": "(data-name)" }
+            },
+            "cleanupIDs"
+          ]
+        }
+      }
+    ]
+  ]
 }

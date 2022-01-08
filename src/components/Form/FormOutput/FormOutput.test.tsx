@@ -3,13 +3,13 @@ import React from 'react';
 import FormOutput, { FormOutputProps } from './FormOutput';
 
 describe('FormOutput', () => {
-    const defaultProps: FormOutputProps = {};
+  const defaultProps: FormOutputProps = {};
 
-    it('should render', () => {
-        const props = { ...defaultProps };
-        const { asFragment, queryByText } = render(<FormOutput {...props} />);
+  it('should render', () => {
+    const props = { ...defaultProps };
+    const { asFragment, queryByText } = render(<FormOutput {...props} />);
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('FormOutput')).toBeTruthy();
-    });
+    expect(asFragment()).toMatchSnapshot();
+    expect(queryByText('FormOutput')).toBeTruthy();
+  });
 });

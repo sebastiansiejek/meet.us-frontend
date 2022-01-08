@@ -3,13 +3,13 @@ import React from 'react';
 import PartyAnimation, { PartyAnimationProps } from './PartyAnimation';
 
 describe('PartyAnimation', () => {
-    const defaultProps: PartyAnimationProps = {};
+  const defaultProps: PartyAnimationProps = {};
 
-    it('should render', () => {
-        const props = { ...defaultProps };
-        const { asFragment, queryByText } = render(<PartyAnimation {...props} />);
+  it('should render', () => {
+    const props = { ...defaultProps };
+    const { asFragment, queryByText } = render(<PartyAnimation {...props} />);
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('PartyAnimation')).toBeTruthy();
-    });
+    expect(asFragment()).toMatchSnapshot();
+    expect(queryByText('PartyAnimation')).toBeTruthy();
+  });
 });

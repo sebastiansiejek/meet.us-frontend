@@ -3,13 +3,13 @@ import React from 'react';
 import EventsWithSearch, { EventsWithSearchProps } from './EventsWithSearch';
 
 describe('EventsWithSearch', () => {
-    const defaultProps: EventsWithSearchProps = {};
+  const defaultProps: EventsWithSearchProps = {};
 
-    it('should render', () => {
-        const props = { ...defaultProps };
-        const { asFragment, queryByText } = render(<EventsWithSearch {...props} />);
+  it('should render', () => {
+    const props = { ...defaultProps };
+    const { asFragment, queryByText } = render(<EventsWithSearch {...props} />);
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('EventsWithSearch')).toBeTruthy();
-    });
+    expect(asFragment()).toMatchSnapshot();
+    expect(queryByText('EventsWithSearch')).toBeTruthy();
+  });
 });

@@ -3,13 +3,13 @@ import React from 'react';
 import JoinUs, { JoinUsProps } from './JoinUs';
 
 describe('JoinUs', () => {
-    const defaultProps: JoinUsProps = {};
+  const defaultProps: JoinUsProps = {};
 
-    it('should render', () => {
-        const props = { ...defaultProps };
-        const { asFragment, queryByText } = render(<JoinUs {...props} />);
+  it('should render', () => {
+    const props = { ...defaultProps };
+    const { asFragment, queryByText } = render(<JoinUs {...props} />);
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('JoinUs')).toBeTruthy();
-    });
+    expect(asFragment()).toMatchSnapshot();
+    expect(queryByText('JoinUs')).toBeTruthy();
+  });
 });

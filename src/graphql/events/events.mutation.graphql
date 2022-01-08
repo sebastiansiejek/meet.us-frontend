@@ -71,13 +71,10 @@ mutation CreateEvent(
   }
 }
 
-mutation participateInEvent($eventId: String! $type: Float!) {
-    participateInEvent(participateInEvent: {
-        eventId: $eventId
-        type: $type
-    }) {
-        event {
-            id
-        }
+mutation participateInEvent($eventId: String!, $type: Float!) {
+  participateInEvent(participateInEvent: { eventId: $eventId, type: $type }) {
+    event {
+      id
     }
+  }
 }

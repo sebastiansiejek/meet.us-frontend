@@ -3,13 +3,13 @@ import React from 'react';
 import Calendar, { CalendarProps } from './Calendar';
 
 describe('Calendar', () => {
-    const defaultProps: CalendarProps = {};
+  const defaultProps: CalendarProps = {};
 
-    it('should render', () => {
-        const props = { ...defaultProps };
-        const { asFragment, queryByText } = render(<Calendar {...props} />);
+  it('should render', () => {
+    const props = { ...defaultProps };
+    const { asFragment, queryByText } = render(<Calendar {...props} />);
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('Calendar')).toBeTruthy();
-    });
+    expect(asFragment()).toMatchSnapshot();
+    expect(queryByText('Calendar')).toBeTruthy();
+  });
 });

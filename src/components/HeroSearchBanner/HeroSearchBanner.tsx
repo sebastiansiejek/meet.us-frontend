@@ -36,17 +36,18 @@ const HeroSearchBannerStyled = styled.div`
   }
 `;
 
-const HeroSearchBanner: React.FunctionComponent<HeroSearchBannerProps> = ({}) => {
-  return (
-    <HeroSearchBannerStyled className="relative overflow-hidden mb-24">
-      <PartyAnimation className="hero-search-banner__image" />
-      <Container className="relative">
-        <div className="hero-search-banner__container">
-          <SearchBar />
-        </div>
-      </Container>
-    </HeroSearchBannerStyled>
-  );
-};
+const HeroSearchBanner: React.FunctionComponent<HeroSearchBannerProps> =
+  ({}) => {
+    return (
+      <HeroSearchBannerStyled className="relative overflow-hidden mb-24">
+        <PartyAnimation className="hero-search-banner__image" />
+        <Container className="relative">
+          <div className="hero-search-banner__container">
+            <SearchBar />
+          </div>
+        </Container>
+      </HeroSearchBannerStyled>
+    );
+  };
 
 export default HeroSearchBanner;

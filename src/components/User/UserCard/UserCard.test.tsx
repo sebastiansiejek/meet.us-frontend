@@ -3,13 +3,13 @@ import React from 'react';
 import UserCard, { UserCardProps } from './UserCard';
 
 describe('UserCard', () => {
-    const defaultProps: UserCardProps = {};
+  const defaultProps: UserCardProps = {};
 
-    it('should render', () => {
-        const props = { ...defaultProps };
-        const { asFragment, queryByText } = render(<UserCard {...props} />);
+  it('should render', () => {
+    const props = { ...defaultProps };
+    const { asFragment, queryByText } = render(<UserCard {...props} />);
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('UserCard')).toBeTruthy();
-    });
+    expect(asFragment()).toMatchSnapshot();
+    expect(queryByText('UserCard')).toBeTruthy();
+  });
 });
