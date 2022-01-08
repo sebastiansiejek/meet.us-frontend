@@ -8,6 +8,8 @@
     "analyze": "ANALYZE=true next build",
     "type-check": "tsc",
     "pre-commit": "lint-staged",
+    "format": "prettier . --write '!.next/**/*'",
+    "lint": "eslint --fix",
     "graphql:codegen": "graphql-codegen --config codegen.yml -r dotenv/config",
     "graphql:codegen:watch": "graphql-codegen --config codegen.yml -r dotenv/config --watch"
   },
@@ -67,6 +69,8 @@
     "autoprefixer": "^10.3.7",
     "babel-plugin-import": "^1.13.3",
     "babel-plugin-inline-react-svg": "^2.0.1",
+    "eslint": "7.32.0",
+    "eslint-config-next": "12.0.7",
     "husky": "^7.0.4",
     "lint-staged": "^11.2.4",
     "postcss": "^8.3.11",
@@ -75,10 +79,7 @@
   },
   "license": "MIT",
   "lint-staged": {
-    "*.ts": [
-      "prettier --write",
-      "tslint --fix",
-      "git add"
-    ]
+    "*.{ts,tsx,js,jsx}": "yarn run lint",
+    "*.{ts,tsx,js,jsx,css,md}": "yarn run format"
   }
 }
