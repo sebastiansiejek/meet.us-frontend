@@ -77,5 +77,7 @@
   "Invalid password": "Nieprawidłowe hasło",
   "Follow": "Obserwuj",
   "Join": "Dołącz",
-  "Token is incorrect": "Token jest niepoprawny"
+  "Token is incorrect": "Token jest niepoprawny",
+  "You are following event": "Obserwujesz wydarzenie",
+  "You joined to event": "Uczestnicznysz w wydarzeniu"
 }
