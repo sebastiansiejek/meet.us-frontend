@@ -19,9 +19,12 @@ const EventModal: React.FunctionComponent<EventModalProps> = ({
   const { t } = useTranslation();
 
   let eventQuery = null;
-  if (id && isEdit) {
-    eventQuery = useSingleEventPageQuery({ id: id });
-  }
+  eventQuery = useSingleEventPageQuery(
+    { id: id ? id : '' },
+    {
+      enabled: !!id,
+    },
+  );
 
   const title = isEdit ? t('Edit event') : t('Add event');
 
