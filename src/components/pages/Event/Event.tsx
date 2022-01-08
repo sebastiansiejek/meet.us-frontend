@@ -43,6 +43,7 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
   const startDateFormat = getDateReadableFormat(startDate, i18n.language);
   const endDateFormat = getDateReadableFormat(endDate, i18n.language);
   dayjs.extend(relativeTime);
+  const isActive = dayjs(endDate).diff(dayjs()) > 0 ? true : false;
 
   const fromNow = dayjs(startDate).locale(i18n.language).fromNow();
 
@@ -104,7 +105,7 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
           <SingleEventMap {...data.event} />
         </div>
       )}
-      {isLogged && (
+      {isLogged && isActive && (
         <div className="mt-10">
           <EventParticipateActions eventId={id} />
         </div>
