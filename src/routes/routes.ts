@@ -15,14 +15,6 @@ export const routes = {
       unLogged: true,
     },
   },
-  users: {
-    href: '/users',
-    title: 'Users',
-    display: {
-      logged: true,
-      unLogged: true,
-    },
-  },
   myAccount: {
     href: '/my-account',
     title: 'My account',
