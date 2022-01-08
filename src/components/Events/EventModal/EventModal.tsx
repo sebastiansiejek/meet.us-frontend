@@ -17,9 +17,7 @@ const EventModal: React.FunctionComponent<EventModalProps> = ({
 }) => {
   const [isOpen, setOpen] = useState(false);
   const { t } = useTranslation();
-
-  let eventQuery = null;
-  eventQuery = useSingleEventPageQuery(
+  const eventQuery = useSingleEventPageQuery(
     { id: id ? id : '' },
     {
       enabled: !!id,
@@ -41,7 +39,10 @@ const EventModal: React.FunctionComponent<EventModalProps> = ({
         <EventForm
           initialValues={{
             ...((eventQuery?.data?.event &&
-              formatResponse(eventQuery?.data?.event)) as any),
+              formatResponse({
+                ...eventQuery.data.event,
+                placeLabel: eventQuery.data.event?.eventAddress?.label,
+              } as any)) as any),
           }}
           setOpen={setOpen}
         />

@@ -554,7 +554,7 @@ export type SingleEventPageQueryVariables = Exact<{
 }>;
 
 
-export type SingleEventPageQuery = { __typename?: 'Query', event: { __typename?: 'Event', id: string, title: string, description: string, startDate: any, endDate: any, maxParticipants?: number | null | undefined, type: number, lat: number, lng: number, user: { __typename?: 'User', id: string, firstName?: string | null | undefined, lastname?: string | null | undefined, nickname?: string | null | undefined } } };
+export type SingleEventPageQuery = { __typename?: 'Query', event: { __typename?: 'Event', id: string, title: string, description: string, startDate: any, endDate: any, maxParticipants?: number | null | undefined, type: number, lat: number, lng: number, eventAddress?: { __typename?: 'EventAddress', city?: string | null | undefined, state?: string | null | undefined, postalCode?: string | null | undefined, countryCode?: string | null | undefined, countryName?: string | null | undefined, county?: string | null | undefined, district?: string | null | undefined, label?: string | null | undefined } | null | undefined, user: { __typename?: 'User', id: string, firstName?: string | null | undefined, lastname?: string | null | undefined, nickname?: string | null | undefined } } };
 
 export type EventsQueryVariables = Exact<{
   first: Scalars['Float'];
@@ -604,6 +604,9 @@ export type UpdateEventMutationVariables = Exact<{
   endDate: Scalars['DateTime'];
   maxParticipants: Scalars['Int'];
   type?: Maybe<Scalars['Float']>;
+  lat: Scalars['Float'];
+  lng: Scalars['Float'];
+  eventAddress: CreateEventAddressInput;
 }>;
 
 
@@ -701,6 +704,16 @@ export const SingleEventPageDocument = `
     type
     lat
     lng
+    eventAddress {
+      city
+      state
+      postalCode
+      countryCode
+      countryName
+      county
+      district
+      label
+    }
     user {
       id
       firstName
@@ -865,9 +878,9 @@ export const useDeleteEventMutation = <
       options
     );
 export const UpdateEventDocument = `
-    mutation UpdateEvent($id: String!, $title: String!, $description: String!, $startDate: DateTime!, $endDate: DateTime!, $maxParticipants: Int!, $type: Float) {
+    mutation UpdateEvent($id: String!, $title: String!, $description: String!, $startDate: DateTime!, $endDate: DateTime!, $maxParticipants: Int!, $type: Float, $lat: Float!, $lng: Float!, $eventAddress: CreateEventAddressInput!) {
   updateEvent(
-    updateEventInput: {id: $id, title: $title, description: $description, startDate: $startDate, endDate: $endDate, maxParticipants: $maxParticipants, type: $type}
+    updateEventInput: {id: $id, title: $title, description: $description, startDate: $startDate, endDate: $endDate, maxParticipants: $maxParticipants, type: $type, lat: $lat, lng: $lng, eventAddress: $eventAddress}
   ) {
     id
   }

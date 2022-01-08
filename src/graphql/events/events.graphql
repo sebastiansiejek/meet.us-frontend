@@ -9,6 +9,16 @@ query SingleEventPage($id: String!) {
     type
     lat
     lng
+    eventAddress {
+      city
+      state
+      postalCode
+      countryCode
+      countryName
+      county
+      district
+      label
+    }
     user {
       id
       firstName
