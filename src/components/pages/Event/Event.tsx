@@ -35,10 +35,11 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
       maxParticipants,
       lat,
       lng,
+      id,
     },
   } = data;
 
-  const { firstName, lastname, nickname, id } = user;
+  const { firstName, lastname, nickname } = user;
 
   const startDateFormat = getDateReadableFormat(startDate, i18n.language);
   const endDateFormat = getDateReadableFormat(endDate, i18n.language);
@@ -95,7 +96,7 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
               nickname={nickname}
               firstName={firstName}
               lastName={lastname}
-              id={id}
+              id={user.id}
             />
           </Col>
         </Row>
