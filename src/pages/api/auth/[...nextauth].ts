@@ -13,7 +13,7 @@ export default (req: NextApiRequest, res: NextApiResponse) =>
         authorize: async (credentials: any) => {
           try {
             const res = await request(
-              `mutation Login($email: String!, $password: String!) {login(loginUserInput: {email: $email, password: $password}) { accessToken, accessTokenExpires }}`,
+              `mutation Login($email: String!, $password: String!) {login(loginUserInput: {email: $email, password: $password}) { accessToken, accessTokenExpires, user {id} }}`,
               {
                 email: credentials?.login,
                 password: credentials?.password,
@@ -22,7 +22,7 @@ export default (req: NextApiRequest, res: NextApiResponse) =>
 
             return res;
           } catch (error: any) {
-            throw new Error(error.data.message);
+            throw new Error(error.error);
           }
         },
       }),
@@ -31,11 +31,10 @@ export default (req: NextApiRequest, res: NextApiResponse) =>
     callbacks: {
       async jwt({ token, user }: any) {
         if (user?.login?.accessToken) {
-          const { accessToken, accessTokenExpires } = user.login;
+          const { login } = user;
 
-          token.accessToken = accessToken;
-          token.jwt = accessToken;
-          token.exp = accessTokenExpires;
+          token = { ...token, ...login };
+          token.exp = login.accessTokenExpires;
         }
 
         if (Date.now() > token.exp) {
@@ -46,9 +45,7 @@ export default (req: NextApiRequest, res: NextApiResponse) =>
       },
       async session({ session, token }) {
         if (token.accessToken) {
-          const { accessToken } = token;
-          session.accessToken = accessToken;
-          session.jwt = accessToken;
+          session = { ...session, ...token };
         }
 
         return session;
