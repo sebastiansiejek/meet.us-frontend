@@ -41,7 +41,10 @@ const EventModal: React.FunctionComponent<EventModalProps> = ({
         <EventForm
           initialValues={{
             ...((eventQuery?.data?.event &&
-              formatResponse(eventQuery?.data?.event)) as any),
+              formatResponse({
+                ...eventQuery.data.event,
+                placeLabel: eventQuery.data.event?.eventAddress?.label,
+              } as any)) as any),
           }}
           setOpen={setOpen}
         />

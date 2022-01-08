@@ -1,6 +1,15 @@
-import { Form, Input, Button, DatePicker, notification, Select } from 'antd';
+import {
+  Form,
+  Input,
+  Button,
+  DatePicker,
+  notification,
+  Select,
+  Spin,
+} from 'antd';
 import dayjs from 'dayjs';
-import React from 'react';
+import { debounce } from 'lodash';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import FormOutput from 'src/components/Form/FormOutput';
@@ -9,6 +18,8 @@ import {
   useCreateEventMutation,
   useUpdateEventMutation,
 } from 'src/generated/gqlQueries';
+import useGeocodeSearchQuery from 'src/queries/useGeocodeSearchQuery';
+import { IGeocodeSearchApiGetItem } from 'src/services/api/here/GeocodeSearchApi';
 import { IApiError } from 'src/types/IApiError';
 import { getMapEventTypes } from 'src/types/IEvent';
 
@@ -25,6 +36,8 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
   const [form] = Form.useForm();
   const { TextArea } = Input;
   const { t } = useTranslation();
+  const [searchPlaceString, setSearchPlaceString] = useState('');
+  const [place, setPlace] = useState<IGeocodeSearchApiGetItem>();
 
   const createEventMutation = useCreateEventMutation({
     onSuccess: () => {
@@ -51,43 +64,47 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
 
   const Option = Select.Option;
 
+  const geocodeSearchQuery = useGeocodeSearchQuery(
+    {
+      q: searchPlaceString,
+    },
+    {
+      enabled: !!searchPlaceString,
+    },
+  );
+
   return (
     <Form
       form={form}
       initialValues={initialValues}
       onFinish={({ title, description, dates, maxParticipants, type }) => {
-        if (initialValues.id) {
-          updateEventMutation.mutate({
-            id: initialValues.id,
+        if (place) {
+          const params = {
             title,
             description,
             startDate: dates[0].format('YYYY-MM-DD HH:mm'),
             endDate: dates[1].format('YYYY-MM-DD HH:mm'),
             maxParticipants: parseInt(maxParticipants, 10),
             type,
-          });
-        } else {
-          createEventMutation.mutate({
-            title,
-            description,
-            startDate: dates[0].format('YYYY-MM-DD HH:mm'),
-            endDate: dates[1].format('YYYY-MM-DD HH:mm'),
-            maxParticipants: parseInt(maxParticipants, 10),
-            type,
-            // TODO: set lat and lng from API
-            lat: 0,
-            lng: 0,
+            lat: place.position.lat || 0,
+            lng: place.position.lng || 0,
             eventAddress: {
-              city: '',
-              state: '',
-              postalCode: '',
-              countryCode: '',
-              countryName: '',
-              county: '',
-              district: '',
-              label: '',
+              city: place.address.city || '',
+              state: place.address.state || '',
+              postalCode: place.address.postalCode || '',
+              countryCode: place.address.countryCode || '',
+              countryName: place.address.countryName || '',
+              county: place.address.county || '',
+              district: place.address.district || '',
+              label: place.address.label,
             },
-          });
+          };
+
+          if (initialValues.id) {
+            updateEventMutation.mutate({ id: initialValues.id, ...params });
+          } else {
+            createEventMutation.mutate(params);
+          }
         }
       }}
     >
@@ -135,6 +152,43 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
             );
           })}
         </Select>
+      </Form.Item>
+      <Form.Item
+        name="placeLabel"
+        rules={[
+          {
+            required: true,
+            message: t('Select event place'),
+          },
+        ]}
+      >
+        <Select
+          options={geocodeSearchQuery.data?.data.items.map((place: any) => {
+            const { title } = place;
+
+            return {
+              label: title,
+              value: title,
+            };
+          })}
+          filterOption={false}
+          showSearch
+          notFoundContent={
+            geocodeSearchQuery.isLoading ? <Spin size="small" /> : null
+          }
+          onSelect={(value) => {
+            setPlace(
+              geocodeSearchQuery.data?.data.items.find(
+                (item) => item.title === value,
+              ),
+            );
+          }}
+          loading={geocodeSearchQuery.isLoading}
+          placeholder={t('Event place')}
+          onSearch={debounce((value) => {
+            setSearchPlaceString(value);
+          }, 300)}
+        />
       </Form.Item>
       <Form.Item
         name="maxParticipants"

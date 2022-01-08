@@ -554,7 +554,7 @@ export type SingleEventPageQueryVariables = Exact<{
 }>;
 
 
-export type SingleEventPageQuery = { __typename?: 'Query', event: { __typename?: 'Event', id: string, title: string, description: string, startDate: any, endDate: any, maxParticipants?: number | null | undefined, type: number, lat: number, lng: number, user: { __typename?: 'User', id: string, firstName?: string | null | undefined, lastname?: string | null | undefined, nickname?: string | null | undefined } } };
+export type SingleEventPageQuery = { __typename?: 'Query', event: { __typename?: 'Event', id: string, title: string, description: string, startDate: any, endDate: any, maxParticipants?: number | null | undefined, type: number, lat: number, lng: number, eventAddress?: { __typename?: 'EventAddress', label?: string | null | undefined } | null | undefined, user: { __typename?: 'User', id: string, firstName?: string | null | undefined, lastname?: string | null | undefined, nickname?: string | null | undefined } } };
 
 export type EventsQueryVariables = Exact<{
   first: Scalars['Float'];
@@ -701,6 +701,9 @@ export const SingleEventPageDocument = `
     type
     lat
     lng
+    eventAddress {
+      label
+    }
     user {
       id
       firstName

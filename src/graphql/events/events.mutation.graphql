@@ -4,6 +4,17 @@ mutation DeleteEvent($id: String!) {
   }
 }
 
+input CreateEventAddressInput {
+  city: String!
+  countryCode: String!
+  countryName: String!
+  county: String!
+  district: String!
+  label: String!
+  postalCode: String!
+  state: String!
+}
+
 mutation UpdateEvent(
   $id: String!
   $title: String!
@@ -22,21 +33,13 @@ mutation UpdateEvent(
       endDate: $endDate
       maxParticipants: $maxParticipants
       type: $type
+      lat: $lat
+      lng: $lng
+      eventAddress: $eventAddress
     }
   ) {
     id
   }
-}
-
-input CreateEventAddressInput {
-  city: String!
-  countryCode: String!
-  countryName: String!
-  county: String!
-  district: String!
-  label: String!
-  postalCode: String!
-  state: String!
 }
 
 mutation CreateEvent(

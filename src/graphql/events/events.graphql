@@ -9,6 +9,9 @@ query SingleEventPage($id: String!) {
     type
     lat
     lng
+    eventAddress {
+      label
+    }
     user {
       id
       firstName
