@@ -86,6 +86,7 @@ export type Event = {
   loggedInParticipants?: Maybe<Participant>;
   maxParticipants?: Maybe<Scalars['Int']>;
   participants?: Maybe<Array<Participant>>;
+  rate?: Maybe<Scalars['Float']>;
   startDate: Scalars['DateTime'];
   state?: Maybe<Scalars['String']>;
   title: Scalars['String'];
@@ -146,6 +147,7 @@ export type Mutation = {
   createUser: User;
   login: AccessToken;
   participateInEvent: Participant;
+  rateEvent: Rating;
   refresh: AccessToken;
   removeEvent: Event;
   removeUser: User;
@@ -188,6 +190,11 @@ export type MutationLoginArgs = {
 
 export type MutationParticipateInEventArgs = {
   participateInEvent: ParticipantUpdate;
+};
+
+
+export type MutationRateEventArgs = {
+  rateEvent: RatingUpdate;
 };
 
 
@@ -277,11 +284,14 @@ export type Query = {
   event: Event;
   events: EventResponse;
   findCompany: Company;
+  loggedFindOne: Event;
   participantsEvents: ParticipantListResponse;
+  ratingsEvents: RatingListResponse;
   tokenIsValid: IsValid;
   user: User;
   userLoggedEvents: EventResponse;
   userParticipation: ParticipantListResponse;
+  userRates: RatingListResponse;
   users: UserResponse;
 };
 
@@ -307,6 +317,11 @@ export type QueryEventsArgs = {
 };
 
 
+export type QueryLoggedFindOneArgs = {
+  id: Scalars['String'];
+};
+
+
 export type QueryParticipantsEventsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -320,6 +335,22 @@ export type QueryParticipantsEventsArgs = {
   orderSort?: Maybe<Scalars['String']>;
   query?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['Float']>;
+  userId?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryRatingsEventsArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  distance?: Maybe<Scalars['Float']>;
+  eventId?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Float']>;
+  last?: Maybe<Scalars['Float']>;
+  latitude?: Maybe<Scalars['Float']>;
+  longitude?: Maybe<Scalars['Float']>;
+  orderField?: Maybe<Scalars['String']>;
+  orderSort?: Maybe<Scalars['String']>;
+  query?: Maybe<Scalars['String']>;
   userId?: Maybe<Scalars['String']>;
 };
 
@@ -360,6 +391,20 @@ export type QueryUserParticipationArgs = {
 };
 
 
+export type QueryUserRatesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  distance?: Maybe<Scalars['Float']>;
+  first?: Maybe<Scalars['Float']>;
+  last?: Maybe<Scalars['Float']>;
+  latitude?: Maybe<Scalars['Float']>;
+  longitude?: Maybe<Scalars['Float']>;
+  orderField?: Maybe<Scalars['String']>;
+  orderSort?: Maybe<Scalars['String']>;
+  query?: Maybe<Scalars['String']>;
+};
+
+
 export type QueryUsersArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -370,6 +415,45 @@ export type QueryUsersArgs = {
   longitude?: Maybe<Scalars['Float']>;
   orderField?: Maybe<Scalars['String']>;
   orderSort?: Maybe<Scalars['String']>;
+};
+
+export type Rating = {
+  __typename?: 'Rating';
+  event: Event;
+  id: Scalars['String'];
+  rate: Scalars['Float'];
+  user: User;
+};
+
+export type RatingConnection = {
+  __typename?: 'RatingConnection';
+  edges?: Maybe<Array<RatingEdge>>;
+  pageInfo?: Maybe<RatingPageInfo>;
+};
+
+export type RatingEdge = {
+  __typename?: 'RatingEdge';
+  cursor?: Maybe<Scalars['String']>;
+  node?: Maybe<Rating>;
+};
+
+export type RatingListResponse = {
+  __typename?: 'RatingListResponse';
+  page: RatingConnection;
+  pageData?: Maybe<PageData>;
+};
+
+export type RatingPageInfo = {
+  __typename?: 'RatingPageInfo';
+  endCursor?: Maybe<Scalars['String']>;
+  hasNextPage: Scalars['Boolean'];
+  hasPreviousPage: Scalars['Boolean'];
+  startCursor?: Maybe<Scalars['String']>;
+};
+
+export type RatingUpdate = {
+  eventId: Scalars['String'];
+  rate: Scalars['Float'];
 };
 
 export type RefreshUserToken = {

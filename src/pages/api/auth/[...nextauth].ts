@@ -1,3 +1,4 @@
+import { getRefreshToken } from './../../../utils/token';
 import { request } from 'src/utils/request';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import NextAuth from 'next-auth';
@@ -12,7 +13,7 @@ export default (req: NextApiRequest, res: NextApiResponse) =>
         authorize: async (credentials: any) => {
           try {
             const res = await request(
-              `mutation Login($email: String!, $password: String!) {login(loginUserInput: {email: $email, password: $password}) { accessToken }}`,
+              `mutation Login($email: String!, $password: String!) {login(loginUserInput: {email: $email, password: $password}) { accessToken, accessTokenExpires }}`,
               {
                 email: credentials?.login,
                 password: credentials?.password,
@@ -30,13 +31,18 @@ export default (req: NextApiRequest, res: NextApiResponse) =>
     callbacks: {
       async jwt({ token, user }: any) {
         if (user?.login?.accessToken) {
-          const { accessToken } = user.login;
+          const { accessToken, accessTokenExpires } = user.login;
 
           token.accessToken = accessToken;
           token.jwt = accessToken;
+          token.exp = accessTokenExpires;
         }
 
-        return Promise.resolve(token);
+        if (Date.now() > token.exp) {
+          return token;
+        }
+
+        return getRefreshToken(token);
       },
       async session({ session, token }) {
         if (token.accessToken) {
@@ -45,7 +51,7 @@ export default (req: NextApiRequest, res: NextApiResponse) =>
           session.jwt = accessToken;
         }
 
-        return Promise.resolve(session);
+        return session;
       },
     },
   });
