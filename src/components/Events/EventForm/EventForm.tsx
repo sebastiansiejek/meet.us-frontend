@@ -25,7 +25,7 @@ import { getMapEventTypes } from 'src/types/IEvent';
 
 export interface EventFormProps {
   setOpen: Function;
-  initialValues: SingleEventPageQuery['event'];
+  initialValues: SingleEventPageQuery['event'] | any;
 }
 
 const EventForm: React.FunctionComponent<EventFormProps> = ({
@@ -36,18 +36,24 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
   const [form] = Form.useForm();
   const { TextArea } = Input;
   const { t } = useTranslation();
-  const [searchPlaceString, setSearchPlaceString] = useState('');
-  const [place, setPlace] = useState<IGeocodeSearchApiGetItem>();
+  const [searchPlaceString, setSearchPlaceString] = useState();
+  const [place, setPlace] = useState<IGeocodeSearchApiGetItem>({
+    address: initialValues.eventAddress,
+  } as any);
+
+  const onSuccessHandler = () => {
+    form.resetFields();
+    queryClient.invalidateQueries('FindUserEvents');
+    queryClient.invalidateQueries('SearchEvents');
+    setOpen(false);
+  };
 
   const createEventMutation = useCreateEventMutation({
     onSuccess: () => {
       notification.success({
         message: t('Event has been created'),
       });
-      form.resetFields();
-      setOpen(false);
-      queryClient.invalidateQueries('FindUserEvents');
-      queryClient.invalidateQueries('SearchEvents');
+      onSuccessHandler();
     },
   });
 
@@ -56,9 +62,7 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
       notification.success({
         message: t('Event has been updated'),
       });
-      form.resetFields();
-      setOpen(false);
-      queryClient.invalidateQueries('FindUserEvents');
+      onSuccessHandler();
     },
   });
 
@@ -86,8 +90,8 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
             endDate: dates[1].format('YYYY-MM-DD HH:mm'),
             maxParticipants: parseInt(maxParticipants, 10),
             type,
-            lat: place.position.lat || 0,
-            lng: place.position.lng || 0,
+            lat: place?.position?.lat || initialValues.lat,
+            lng: place?.position?.lng || initialValues.lng,
             eventAddress: {
               city: place.address.city || '',
               state: place.address.state || '',
@@ -177,11 +181,12 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
             geocodeSearchQuery.isLoading ? <Spin size="small" /> : null
           }
           onSelect={(value) => {
-            setPlace(
-              geocodeSearchQuery.data?.data.items.find(
-                (item) => item.title === value,
-              ),
+            const selectedPlace = geocodeSearchQuery.data?.data.items.find(
+              (item) => item.title === value,
             );
+            if (selectedPlace) {
+              setPlace(selectedPlace);
+            }
           }}
           loading={geocodeSearchQuery.isLoading}
           placeholder={t('Event place')}
@@ -209,7 +214,7 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
       <Button
         type="primary"
         htmlType="submit"
-        loading={createEventMutation.isLoading}
+        loading={createEventMutation.isLoading || updateEventMutation.isLoading}
       >
         {t('Save')}
       </Button>

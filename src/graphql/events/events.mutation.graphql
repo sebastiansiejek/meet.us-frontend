@@ -23,6 +23,9 @@ mutation UpdateEvent(
   $endDate: DateTime!
   $maxParticipants: Int!
   $type: Float
+  $lat: Float!
+  $lng: Float!
+  $eventAddress: CreateEventAddressInput!
 ) {
   updateEvent(
     updateEventInput: {

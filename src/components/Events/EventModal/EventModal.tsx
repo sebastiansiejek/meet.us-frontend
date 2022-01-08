@@ -17,9 +17,7 @@ const EventModal: React.FunctionComponent<EventModalProps> = ({
 }) => {
   const [isOpen, setOpen] = useState(false);
   const { t } = useTranslation();
-
-  let eventQuery = null;
-  eventQuery = useSingleEventPageQuery(
+  const eventQuery = useSingleEventPageQuery(
     { id: id ? id : '' },
     {
       enabled: !!id,
