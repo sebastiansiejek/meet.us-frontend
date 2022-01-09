@@ -45,5 +45,7 @@ export const request = async (
         callbackUrl: routes.joinToUs.href,
       });
     }
+
+    throw error;
   }
 };
