@@ -68,6 +68,10 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
           <Card className="h-full">
             <Title>{title}</Title>
             <Paragraph>{description}</Paragraph>
+            <Paragraph className="flex items-center">
+              <ClockCircleTwoTone className="mr-3" />
+              {fromNow}
+            </Paragraph>
             {isLogged && isActive && (
               <div className="mt-10 mb-4">
                 <EventParticipateActions eventId={id} />
@@ -77,10 +81,6 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
         </Col>
         <Col span={24} md={8} className="mt-7">
           <Card className="w-full">
-            <Paragraph className="flex items-center">
-              <ClockCircleTwoTone className="mr-3" />
-              {fromNow}
-            </Paragraph>
             <Paragraph className="flex items-center">
               <CalendarTwoTone className="mr-3" />
               <div>
