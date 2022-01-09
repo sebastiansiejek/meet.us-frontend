@@ -89,11 +89,13 @@ export type Event = {
   maxParticipants?: Maybe<Scalars['Int']>;
   participants?: Maybe<Array<Participant>>;
   rate?: Maybe<Scalars['Float']>;
+  score: Scalars['Float'];
   startDate: Scalars['DateTime'];
   state?: Maybe<Scalars['String']>;
   title: Scalars['String'];
   type: Scalars['Float'];
   user: User;
+  visitCount: Scalars['Float'];
 };
 
 export type EventAddress = {
@@ -740,6 +742,8 @@ export const useSingleEventPageQuery = <
       useFetchData<SingleEventPageQuery, SingleEventPageQueryVariables>(SingleEventPageDocument).bind(null, variables),
       options
     );
+useSingleEventPageQuery.getKey = (variables: SingleEventPageQueryVariables) => ['SingleEventPage', variables];
+
 export const EventsDocument = `
     query Events($first: Float!, $query: String!, $orderField: String, $orderSort: String, $after: String, $state: String) {
   events(
@@ -791,6 +795,8 @@ export const useEventsQuery = <
       useFetchData<EventsQuery, EventsQueryVariables>(EventsDocument).bind(null, variables),
       options
     );
+useEventsQuery.getKey = (variables: EventsQueryVariables) => ['Events', variables];
+
 export const EventsOnMapDocument = `
     query EventsOnMap($first: Float!, $state: String, $latitude: Float, $longitude: Float, $distance: Float, $orderField: String, $after: String, $orderSort: String) {
   events(
@@ -838,6 +844,8 @@ export const useEventsOnMapQuery = <
       useFetchData<EventsOnMapQuery, EventsOnMapQueryVariables>(EventsOnMapDocument).bind(null, variables),
       options
     );
+useEventsOnMapQuery.getKey = (variables: EventsOnMapQueryVariables) => ['EventsOnMap', variables];
+
 export const FindUserEventsDocument = `
     query FindUserEvents($userId: String!) {
   userEvents(userId: $userId) {
@@ -867,6 +875,8 @@ export const useFindUserEventsQuery = <
       useFetchData<FindUserEventsQuery, FindUserEventsQueryVariables>(FindUserEventsDocument).bind(null, variables),
       options
     );
+useFindUserEventsQuery.getKey = (variables: FindUserEventsQueryVariables) => ['FindUserEvents', variables];
+
 export const DeleteEventDocument = `
     mutation DeleteEvent($id: String!) {
   removeEvent(id: $id) {
@@ -957,6 +967,8 @@ export const useSingleUserQuery = <
       useFetchData<SingleUserQuery, SingleUserQueryVariables>(SingleUserDocument).bind(null, variables),
       options
     );
+useSingleUserQuery.getKey = (variables: SingleUserQueryVariables) => ['singleUser', variables];
+
 export const CurrentUserDocument = `
     query CurrentUser {
   currentUser {
@@ -979,6 +991,8 @@ export const useCurrentUserQuery = <
       useFetchData<CurrentUserQuery, CurrentUserQueryVariables>(CurrentUserDocument).bind(null, variables),
       options
     );
+useCurrentUserQuery.getKey = (variables?: CurrentUserQueryVariables) => variables === undefined ? ['CurrentUser'] : ['CurrentUser', variables];
+
 export const CurrentUserIdDocument = `
     query CurrentUserId {
   currentUser {
@@ -998,6 +1012,8 @@ export const useCurrentUserIdQuery = <
       useFetchData<CurrentUserIdQuery, CurrentUserIdQueryVariables>(CurrentUserIdDocument).bind(null, variables),
       options
     );
+useCurrentUserIdQuery.getKey = (variables?: CurrentUserIdQueryVariables) => variables === undefined ? ['CurrentUserId'] : ['CurrentUserId', variables];
+
 export const UsersDocument = `
     query Users {
   users {
@@ -1026,6 +1042,8 @@ export const useUsersQuery = <
       useFetchData<UsersQuery, UsersQueryVariables>(UsersDocument).bind(null, variables),
       options
     );
+useUsersQuery.getKey = (variables?: UsersQueryVariables) => variables === undefined ? ['Users'] : ['Users', variables];
+
 export const LoginDocument = `
     mutation Login($email: String!, $password: String!) {
   login(loginUserInput: {email: $email, password: $password}) {
