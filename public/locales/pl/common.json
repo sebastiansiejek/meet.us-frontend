@@ -72,7 +72,7 @@
   "Sport": "Sport",
   "Party": "Impreza",
   "Chatting": "Spotkanie towarzyskie",
-  "User not activated": "Konto nie jest aktywne",
+  "Error: User not activated": "Konto nie jest aktywne",
   "You have been logged out": "Zostałeś wylogowany",
   "Invalid password": "Nieprawidłowe hasło",
   "Follow": "Obserwuj",
@@ -84,5 +84,6 @@
   "Event place": "Miejsce wydarzenia",
   "Add to google calendar": "Dodaj do kalendarza google",
   "You unfollowed this event": "Przestałeś obserwować to wydarzenie",
-  "You left this event": "Opuściłeś wydarzenie"
+  "You left this event": "Opuściłeś wydarzenie",
 }
+
