@@ -89,39 +89,39 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
       <Container>
         <SearchBar value={`${initSearchQuery}`} />
       </Container>
-      {events && (
-        <div className="flex flex-col mt-12">
-          <Container className="flex flex-wrap flex-col md:items-center md:flex-row w-full">
-            <div>
-              <Select
-                onChange={sortByStateHandler}
-                placeholder={t('Select status of events')}
-                className="ml-auto w-full md:w-2/5"
-                loading={isLoading}
-                defaultValue={state}
-                value={state}
-              >
-                <Option value="FUTURE">{t('Upcoming')}</Option>
-                <Option value="DURING">{t('During')}</Option>
-                <Option value="PAST">{t('Past')}</Option>
-              </Select>
-              <Select
-                onChange={sortChangeHandler}
-                placeholder={t('Select status of events')}
-                className="ml-auto w-full md:w-2/5"
-                loading={isLoading}
-                defaultValue={orderSort}
-                value={orderSort}
-              >
-                <Option value="ASC">{t('Ascending by start date')}</Option>
-                <Option value="DESC">{t('Descending by start date')}</Option>
-              </Select>
-            </div>
-            <div className="md:ml-auto space-x-2">
-              <UnorderedListOutlined onClick={() => setLayout('list')} />
-              <TableOutlined onClick={() => setLayout('grid')} />
-            </div>
-          </Container>
+      <div className="flex flex-col mt-12">
+        <Container className="flex flex-wrap flex-col md:items-center md:flex-row w-full">
+          <div>
+            <Select
+              onChange={sortByStateHandler}
+              placeholder={t('Select status of events')}
+              className="ml-auto w-full md:w-2/5"
+              loading={isLoading}
+              defaultValue={state}
+              value={state}
+            >
+              <Option value="FUTURE">{t('Upcoming')}</Option>
+              <Option value="DURING">{t('During')}</Option>
+              <Option value="PAST">{t('Past')}</Option>
+            </Select>
+            <Select
+              onChange={sortChangeHandler}
+              placeholder={t('Select status of events')}
+              className="ml-auto w-full md:w-2/5"
+              loading={isLoading}
+              defaultValue={orderSort}
+              value={orderSort}
+            >
+              <Option value="ASC">{t('Ascending by start date')}</Option>
+              <Option value="DESC">{t('Descending by start date')}</Option>
+            </Select>
+          </div>
+          <div className="md:ml-auto space-x-2">
+            <UnorderedListOutlined onClick={() => setLayout('list')} />
+            <TableOutlined onClick={() => setLayout('grid')} />
+          </div>
+        </Container>
+        {events && events.length > 0 && (
           <div>
             <InfiniteScroll
               style={{
@@ -170,8 +170,8 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
               )}
             </InfiniteScroll>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </>
   );
 };
