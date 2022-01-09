@@ -82,5 +82,7 @@
   "You joined to event": "Uczestnicznysz w wydarzeniu",
   "Select event place": "Wybierz miejsce wydarzenia",
   "Event place": "Miejsce wydarzenia",
-  "Add to google calendar": "Dodaj do kalendarza google"
+  "Add to google calendar": "Dodaj do kalendarza google",
+  "You unfollowed this event": "Przestałeś obserwować to wydarzenie",
+  "You left this event": "Opuściłeś wydarzenie"
 }

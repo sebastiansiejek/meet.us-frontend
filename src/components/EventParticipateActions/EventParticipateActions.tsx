@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { Button, notification as AntdNotification } from 'antd';
 import { useTranslation } from 'next-i18next';
 import { useParticipateInEventMutation } from '../../generated/gqlQueries';
@@ -10,12 +10,14 @@ const options = [
   {
     type: 1,
     label: 'Follow',
-    notification: 'You are following event',
+    notificationUp: 'You are following event',
+    notificationCancel: 'You unfollowed this event',
   },
   {
     type: 2,
     label: 'Join',
-    notification: 'You joined to event',
+    notificationUp: 'You joined to event',
+    notificationCancel: 'You left this event',
   },
 ];
 
@@ -29,38 +31,48 @@ function EventParticipateActions({
   const participateInEventMutation = useParticipateInEventMutation();
   const { t } = useTranslation();
   const queryClient = useQueryClient();
+  const [activeType, setActiveType] =
+    useState<IEventParticipant>(participantType);
+
+  const filteredOptions = useMemo(
+    () =>
+      options.filter(
+        ({ type }) => (activeType === 2 && type === 2) || activeType !== 2,
+      ),
+    [activeType],
+  );
 
   return (
     <div className={'flex flex-wrap -mr-2 -ml-2'}>
-      {options
-        .filter(
-          ({ type }) =>
-            (participantType === 2 && type === 2) || participantType !== 2,
-        )
-        .map(({ type, notification, label }) => (
+      {filteredOptions.map(
+        ({ type, notificationUp, notificationCancel, label }) => (
           <div className="mr-2 ml-2" key={type}>
             <Button
               loading={participateInEventMutation.isLoading}
-              icon={participantType === type && <CheckCircleTwoTone />}
+              icon={activeType === type && <CheckCircleTwoTone />}
               className="flex items-center"
               onClick={() => {
                 participateInEventMutation
                   .mutateAsync({
-                    type: participantType === type ? 0 : type,
+                    type: activeType === type ? 0 : type,
                     eventId,
                   })
-                  .then(() => {
-                    if (type > 0) {
-                      AntdNotification.info({
-                        message: t(notification),
-                      });
-                    }
-                    queryClient.invalidateQueries([
-                      'SingleEventPage',
-                      {
-                        id: eventId,
-                      },
-                    ]);
+                  .then((res) => {
+                    const { type } = res.participateInEvent;
+
+                    AntdNotification.info({
+                      message:
+                        type > 0 ? t(notificationUp) : t(notificationCancel),
+                    });
+
+                    queryClient
+                      .invalidateQueries([
+                        'SingleEventPage',
+                        {
+                          id: eventId,
+                        },
+                      ])
+                      .then(() => setActiveType(type as IEventParticipant));
                   });
               }}
               type={'primary'}
@@ -68,7 +80,8 @@ function EventParticipateActions({
               {t(label)}
             </Button>
           </div>
-        ))}
+        ),
+      )}
     </div>
   );
 }

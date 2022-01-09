@@ -635,7 +635,7 @@ export type ParticipateInEventMutationVariables = Exact<{
 }>;
 
 
-export type ParticipateInEventMutation = { __typename?: 'Mutation', participateInEvent: { __typename?: 'Participant', event: { __typename?: 'Event', id: string } } };
+export type ParticipateInEventMutation = { __typename?: 'Mutation', participateInEvent: { __typename?: 'Participant', type: number } };
 
 export type SingleUserQueryVariables = Exact<{
   id: Scalars['String'];
@@ -923,9 +923,7 @@ export const useCreateEventMutation = <
 export const ParticipateInEventDocument = `
     mutation participateInEvent($eventId: String!, $type: Float!) {
   participateInEvent(participateInEvent: {eventId: $eventId, type: $type}) {
-    event {
-      id
-    }
+    type
   }
 }
     `;
