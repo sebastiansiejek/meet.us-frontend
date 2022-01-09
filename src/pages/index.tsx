@@ -11,6 +11,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'next-i18next';
 import JoinUs from 'src/components/JoinUs';
 import { useSession } from 'next-auth/react';
+import RecommendedUserEvents from 'src/components/RecommendedUserEvents';
 
 const IndexPage = () => {
   const [state, setState] = useState('DURING');
@@ -51,8 +52,11 @@ const IndexPage = () => {
     <>
       <HeroSearchBanner />
       <Container>
+        <div className="mt-32">
+          <RecommendedUserEvents />
+        </div>
         {data?.events.page.edges && (
-          <>
+          <div className="mt-32">
             <Typography.Title level={2} className="text-center">
               {state === 'DURING' && t('During events')}
               {state === 'FUTURE' && t('Upcoming events')}
@@ -65,9 +69,9 @@ const IndexPage = () => {
                 </Button>
               </a>
             </Link>
-          </>
+          </div>
         )}
-        <div className="mt-20">
+        <div className="mt-32">
           <EventsMap />
         </div>
         {!isLogged && (
@@ -80,6 +84,7 @@ const IndexPage = () => {
   );
 };
 
+// TODO: Get events on server side
 export const getStaticProps = async ({ locale }: any) => ({
   props: {
     ...(await serverSideTranslations(locale, ['common'])),
