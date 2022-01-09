@@ -593,6 +593,15 @@ export type FindUserEventsQueryVariables = Exact<{
 
 export type FindUserEventsQuery = { __typename?: 'Query', userEvents: { __typename?: 'EventResponse', page: { __typename?: 'EventConnection', edges?: Array<{ __typename?: 'EventEdge', node?: { __typename?: 'Event', id: string, title: string, description: string, startDate: any, endDate: any } | null | undefined }> | null | undefined } } };
 
+export type RelatedUserEventsQueryVariables = Exact<{
+  userId: Scalars['String'];
+  first?: Maybe<Scalars['Float']>;
+  state?: Maybe<Scalars['String']>;
+}>;
+
+
+export type RelatedUserEventsQuery = { __typename?: 'Query', events: { __typename?: 'EventResponse', page: { __typename?: 'EventConnection', edges?: Array<{ __typename?: 'EventEdge', node?: { __typename?: 'Event', id: string, title: string, description: string, startDate: any, endDate: any, type: number } | null | undefined }> | null | undefined } } };
+
 export type DeleteEventMutationVariables = Exact<{
   id: Scalars['String'];
 }>;
@@ -876,6 +885,38 @@ export const useFindUserEventsQuery = <
       options
     );
 useFindUserEventsQuery.getKey = (variables: FindUserEventsQueryVariables) => ['FindUserEvents', variables];
+
+export const RelatedUserEventsDocument = `
+    query RelatedUserEvents($userId: String!, $first: Float, $state: String) {
+  events(userId: $userId, orderField: "score", first: $first, state: $state) {
+    page {
+      edges {
+        node {
+          id
+          title
+          description
+          startDate
+          endDate
+          type
+        }
+      }
+    }
+  }
+}
+    `;
+export const useRelatedUserEventsQuery = <
+      TData = RelatedUserEventsQuery,
+      TError = unknown
+    >(
+      variables: RelatedUserEventsQueryVariables, 
+      options?: UseQueryOptions<RelatedUserEventsQuery, TError, TData>
+    ) => 
+    useQuery<RelatedUserEventsQuery, TError, TData>(
+      ['RelatedUserEvents', variables],
+      useFetchData<RelatedUserEventsQuery, RelatedUserEventsQueryVariables>(RelatedUserEventsDocument).bind(null, variables),
+      options
+    );
+useRelatedUserEventsQuery.getKey = (variables: RelatedUserEventsQueryVariables) => ['RelatedUserEvents', variables];
 
 export const DeleteEventDocument = `
     mutation DeleteEvent($id: String!) {

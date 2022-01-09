@@ -134,3 +134,20 @@ query FindUserEvents($userId: String!) {
     }
   }
 }
+
+query RelatedUserEvents($userId: String!, $first: Float, $state: String) {
+  events(userId: $userId, orderField: "score", first: $first, state: $state) {
+    page {
+      edges {
+        node {
+          id
+          title
+          description
+          startDate
+          endDate
+          type
+        }
+      }
+    }
+  }
+}
