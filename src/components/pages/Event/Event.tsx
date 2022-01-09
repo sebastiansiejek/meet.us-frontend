@@ -17,6 +17,7 @@ import EventParticipateActions from '../../EventParticipateActions/EventParticip
 import { useSession } from 'next-auth/react';
 import dynamic from 'next/dynamic';
 import { google } from 'calendar-link';
+import { IEventParticipant } from 'src/types/IEvent';
 
 export interface EventProps {
   data: SingleEventPageQuery;
@@ -40,6 +41,7 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
       lng,
       id,
       eventAddress,
+      loggedInParticipants,
     },
   } = data;
 
@@ -74,7 +76,12 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
             </Paragraph>
             {isLogged && isActive && (
               <div className="mt-10 mb-4">
-                <EventParticipateActions eventId={id} />
+                <EventParticipateActions
+                  eventId={id}
+                  participantType={
+                    loggedInParticipants?.type as IEventParticipant
+                  }
+                />
               </div>
             )}
           </Card>

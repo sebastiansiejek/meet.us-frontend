@@ -19,11 +19,17 @@ const GlobalStyles = createGlobalStyle`
     font-size: 1.6rem;
   }
 
-  .anticon path {
+  .anticon {
+    > svg {
+      vertical-align: baseline;
+    }
+
+    path {
     fill: #2A9D8F;
 
-    &[fill="#e6f7ff"] {
-      fill: #beefe9;
+      &[fill="#e6f7ff"] {
+        fill: #beefe9;
+      }
     }
   }
 

@@ -1,7 +1,10 @@
 import React from 'react';
-import { Button, notification } from 'antd';
+import { Button, notification as AntdNotification } from 'antd';
 import { useTranslation } from 'next-i18next';
 import { useParticipateInEventMutation } from '../../generated/gqlQueries';
+import { IEventParticipant } from 'src/types/IEvent';
+import { CheckCircleTwoTone } from '@ant-design/icons';
+import { useQueryClient } from 'react-query';
 
 const options = [
   {
@@ -16,34 +19,56 @@ const options = [
   },
 ];
 
-function EventParticipateActions({ eventId }: { eventId: string }) {
+function EventParticipateActions({
+  eventId,
+  participantType,
+}: {
+  eventId: string;
+  participantType: IEventParticipant;
+}) {
   const participateInEventMutation = useParticipateInEventMutation();
   const { t } = useTranslation();
+  const queryClient = useQueryClient();
 
   return (
     <div className={'flex flex-wrap -mr-2 -ml-2'}>
-      {options.map((option) => (
-        <div className="mr-2 ml-2" key={option.type}>
-          <Button
-            loading={participateInEventMutation.isLoading}
-            onClick={() => {
-              participateInEventMutation
-                .mutateAsync({
-                  type: option.type,
-                  eventId,
-                })
-                .then(() => {
-                  notification.info({
-                    message: t(option.notification),
+      {options
+        .filter(
+          ({ type }) =>
+            (participantType === 2 && type === 2) || participantType !== 2,
+        )
+        .map(({ type, notification, label }) => (
+          <div className="mr-2 ml-2" key={type}>
+            <Button
+              loading={participateInEventMutation.isLoading}
+              icon={participantType === type && <CheckCircleTwoTone />}
+              className="flex items-center"
+              onClick={() => {
+                participateInEventMutation
+                  .mutateAsync({
+                    type: participantType === type ? 0 : type,
+                    eventId,
+                  })
+                  .then(() => {
+                    if (type > 0) {
+                      AntdNotification.info({
+                        message: t(notification),
+                      });
+                    }
+                    queryClient.invalidateQueries([
+                      'SingleEventPage',
+                      {
+                        id: eventId,
+                      },
+                    ]);
                   });
-                });
-            }}
-            type={'primary'}
-          >
-            {t(option.label)}
-          </Button>
-        </div>
-      ))}
+              }}
+              type={'primary'}
+            >
+              {t(label)}
+            </Button>
+          </div>
+        ))}
     </div>
   );
 }

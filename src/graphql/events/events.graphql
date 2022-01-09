@@ -1,5 +1,5 @@
-query SingleEventPage($id: String!) {
-  event(id: $id) {
+query SingleEventPage($id: String!, $userId: String) {
+  event(id: $id, userId: $userId) {
     id
     title
     description
@@ -9,6 +9,9 @@ query SingleEventPage($id: String!) {
     type
     lat
     lng
+    loggedInParticipants {
+      type
+    }
     eventAddress {
       city
       state
