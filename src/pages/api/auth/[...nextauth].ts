@@ -4,7 +4,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import NextAuth from 'next-auth';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-export default (req: NextApiRequest, res: NextApiResponse) =>
+const AuthHandler = (req: NextApiRequest, res: NextApiResponse) =>
   NextAuth(req, res, {
     providers: [
       CredentialsProvider({
@@ -52,3 +52,5 @@ export default (req: NextApiRequest, res: NextApiResponse) =>
       },
     },
   });
+
+export default AuthHandler;
