@@ -11,7 +11,6 @@ import dayjs from 'dayjs';
 import { debounce } from 'lodash';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useQueryClient } from 'react-query';
 import FormOutput from 'src/components/Form/FormOutput';
 import {
   SingleEventPageQuery,
