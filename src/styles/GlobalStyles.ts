@@ -51,6 +51,10 @@ const GlobalStyles = createGlobalStyle`
   .ant-table-content {
     overflow-x: scroll;
   }
+
+  .splide__pagination__page.is-active {
+    background: #2A9D8F;
+  }
 `;
 
 export default GlobalStyles;

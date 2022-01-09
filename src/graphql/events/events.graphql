@@ -134,3 +134,31 @@ query FindUserEvents($userId: String!) {
     }
   }
 }
+
+query RecommendedUserEvents(
+  $userId: String!
+  $first: Float
+  $state: String
+  $orderSort: String
+) {
+  events(
+    userId: $userId
+    orderField: "score"
+    first: $first
+    state: $state
+    orderSort: $orderSort
+  ) {
+    page {
+      edges {
+        node {
+          id
+          title
+          description
+          startDate
+          endDate
+          type
+        }
+      }
+    }
+  }
+}
