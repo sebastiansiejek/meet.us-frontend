@@ -31,7 +31,7 @@ const EventPage: React.FC<IEventPage> = ({ id, userId }) => {
 export const getServerSideProps = async (ctx: any) => {
   const { params, locale } = ctx;
   const session: any = await getSession(ctx);
-  const userId = session?.user?.id;
+  const userId = session?.user?.id || false;
 
   return {
     props: {
