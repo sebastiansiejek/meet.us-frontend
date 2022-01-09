@@ -117,7 +117,7 @@ query EventsOnMap(
 }
 
 query FindUserEvents($userId: String!) {
-  events(userId: $userId) {
+  userEvents(userId: $userId) {
     page {
       edges {
         node {

@@ -286,12 +286,12 @@ export type Query = {
   event: Event;
   events: EventResponse;
   findCompany: Company;
-  loggedFindOne: Event;
+  findForEdit: Event;
   participantsEvents: ParticipantListResponse;
   ratingsEvents: RatingListResponse;
   tokenIsValid: IsValid;
   user: User;
-  userLoggedEvents: EventResponse;
+  userEvents: EventResponse;
   userParticipation: ParticipantListResponse;
   userRates: RatingListResponse;
   users: UserResponse;
@@ -300,6 +300,7 @@ export type Query = {
 
 export type QueryEventArgs = {
   id: Scalars['String'];
+  userId?: Maybe<Scalars['String']>;
 };
 
 
@@ -319,7 +320,7 @@ export type QueryEventsArgs = {
 };
 
 
-export type QueryLoggedFindOneArgs = {
+export type QueryFindForEditArgs = {
   id: Scalars['String'];
 };
 
@@ -362,7 +363,7 @@ export type QueryUserArgs = {
 };
 
 
-export type QueryUserLoggedEventsArgs = {
+export type QueryUserEventsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   distance?: Maybe<Scalars['Float']>;
@@ -374,7 +375,7 @@ export type QueryUserLoggedEventsArgs = {
   orderSort?: Maybe<Scalars['String']>;
   query?: Maybe<Scalars['String']>;
   state?: Maybe<Scalars['String']>;
-  userId?: Maybe<Scalars['String']>;
+  userId: Scalars['String'];
 };
 
 
@@ -587,7 +588,7 @@ export type FindUserEventsQueryVariables = Exact<{
 }>;
 
 
-export type FindUserEventsQuery = { __typename?: 'Query', events: { __typename?: 'EventResponse', page: { __typename?: 'EventConnection', edges?: Array<{ __typename?: 'EventEdge', node?: { __typename?: 'Event', id: string, title: string, description: string, startDate: any, endDate: any } | null | undefined }> | null | undefined } } };
+export type FindUserEventsQuery = { __typename?: 'Query', userEvents: { __typename?: 'EventResponse', page: { __typename?: 'EventConnection', edges?: Array<{ __typename?: 'EventEdge', node?: { __typename?: 'Event', id: string, title: string, description: string, startDate: any, endDate: any } | null | undefined }> | null | undefined } } };
 
 export type DeleteEventMutationVariables = Exact<{
   id: Scalars['String'];
@@ -835,7 +836,7 @@ export const useEventsOnMapQuery = <
     );
 export const FindUserEventsDocument = `
     query FindUserEvents($userId: String!) {
-  events(userId: $userId) {
+  userEvents(userId: $userId) {
     page {
       edges {
         node {

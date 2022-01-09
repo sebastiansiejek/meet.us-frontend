@@ -41,7 +41,7 @@ const UserEvents: React.FunctionComponent<UserEventsProps> = ({ userId }) => {
     },
   });
 
-  const events = data && data.events.page.edges?.map((edge) => edge.node);
+  const events = data && data.userEvents?.page?.edges?.map((edge) => edge.node);
 
   return (
     <>
