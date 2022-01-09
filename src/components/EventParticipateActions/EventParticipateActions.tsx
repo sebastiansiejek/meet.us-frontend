@@ -1,7 +1,10 @@
 import React, { useMemo, useState } from 'react';
 import { Button, notification as AntdNotification } from 'antd';
 import { useTranslation } from 'next-i18next';
-import { useParticipateInEventMutation } from '../../generated/gqlQueries';
+import {
+  useParticipateInEventMutation,
+  useSingleUserQuery,
+} from '../../generated/gqlQueries';
 import { IEventParticipant } from 'src/types/IEvent';
 import { CheckCircleTwoTone } from '@ant-design/icons';
 import { useQueryClient } from 'react-query';
@@ -67,7 +70,9 @@ function EventParticipateActions({
 
                     queryClient
                       .invalidateQueries([
-                        'SingleEventPage',
+                        useSingleUserQuery.getKey({
+                          id: eventId,
+                        })[0],
                         {
                           id: eventId,
                         },
