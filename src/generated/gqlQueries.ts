@@ -593,14 +593,15 @@ export type FindUserEventsQueryVariables = Exact<{
 
 export type FindUserEventsQuery = { __typename?: 'Query', userEvents: { __typename?: 'EventResponse', page: { __typename?: 'EventConnection', edges?: Array<{ __typename?: 'EventEdge', node?: { __typename?: 'Event', id: string, title: string, description: string, startDate: any, endDate: any } | null | undefined }> | null | undefined } } };
 
-export type RelatedUserEventsQueryVariables = Exact<{
+export type RecommendedUserEventsQueryVariables = Exact<{
   userId: Scalars['String'];
   first?: Maybe<Scalars['Float']>;
   state?: Maybe<Scalars['String']>;
+  orderSort?: Maybe<Scalars['String']>;
 }>;
 
 
-export type RelatedUserEventsQuery = { __typename?: 'Query', events: { __typename?: 'EventResponse', page: { __typename?: 'EventConnection', edges?: Array<{ __typename?: 'EventEdge', node?: { __typename?: 'Event', id: string, title: string, description: string, startDate: any, endDate: any, type: number } | null | undefined }> | null | undefined } } };
+export type RecommendedUserEventsQuery = { __typename?: 'Query', events: { __typename?: 'EventResponse', page: { __typename?: 'EventConnection', edges?: Array<{ __typename?: 'EventEdge', node?: { __typename?: 'Event', id: string, title: string, description: string, startDate: any, endDate: any, type: number } | null | undefined }> | null | undefined } } };
 
 export type DeleteEventMutationVariables = Exact<{
   id: Scalars['String'];
@@ -886,9 +887,15 @@ export const useFindUserEventsQuery = <
     );
 useFindUserEventsQuery.getKey = (variables: FindUserEventsQueryVariables) => ['FindUserEvents', variables];
 
-export const RelatedUserEventsDocument = `
-    query RelatedUserEvents($userId: String!, $first: Float, $state: String) {
-  events(userId: $userId, orderField: "score", first: $first, state: $state) {
+export const RecommendedUserEventsDocument = `
+    query RecommendedUserEvents($userId: String!, $first: Float, $state: String, $orderSort: String) {
+  events(
+    userId: $userId
+    orderField: "score"
+    first: $first
+    state: $state
+    orderSort: $orderSort
+  ) {
     page {
       edges {
         node {
@@ -904,19 +911,19 @@ export const RelatedUserEventsDocument = `
   }
 }
     `;
-export const useRelatedUserEventsQuery = <
-      TData = RelatedUserEventsQuery,
+export const useRecommendedUserEventsQuery = <
+      TData = RecommendedUserEventsQuery,
       TError = unknown
     >(
-      variables: RelatedUserEventsQueryVariables, 
-      options?: UseQueryOptions<RelatedUserEventsQuery, TError, TData>
+      variables: RecommendedUserEventsQueryVariables, 
+      options?: UseQueryOptions<RecommendedUserEventsQuery, TError, TData>
     ) => 
-    useQuery<RelatedUserEventsQuery, TError, TData>(
-      ['RelatedUserEvents', variables],
-      useFetchData<RelatedUserEventsQuery, RelatedUserEventsQueryVariables>(RelatedUserEventsDocument).bind(null, variables),
+    useQuery<RecommendedUserEventsQuery, TError, TData>(
+      ['RecommendedUserEvents', variables],
+      useFetchData<RecommendedUserEventsQuery, RecommendedUserEventsQueryVariables>(RecommendedUserEventsDocument).bind(null, variables),
       options
     );
-useRelatedUserEventsQuery.getKey = (variables: RelatedUserEventsQueryVariables) => ['RelatedUserEvents', variables];
+useRecommendedUserEventsQuery.getKey = (variables: RecommendedUserEventsQueryVariables) => ['RecommendedUserEvents', variables];
 
 export const DeleteEventDocument = `
     mutation DeleteEvent($id: String!) {

@@ -28,6 +28,7 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
   const { t, i18n } = useTranslation();
   const session = useSession();
   const isLogged = session.data;
+  console.log(session);
 
   const {
     event: {
