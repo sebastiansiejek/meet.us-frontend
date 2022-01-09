@@ -73,6 +73,10 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
         ]);
       }
 
+      if (state === 'DURING' && events.length == 0) {
+        setEventState('FUTURE');
+      }
+
       setIsNextPage(data.events.page.pageInfo?.hasNextPage || false);
     }
   }, [data, endCursor]);
