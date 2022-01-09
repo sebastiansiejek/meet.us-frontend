@@ -8,6 +8,7 @@ import {
   ClockCircleTwoTone,
   UsergroupAddOutlined,
   CalendarTwoTone,
+  PushpinTwoTone,
 } from '@ant-design/icons';
 import { SingleEventPageQuery } from 'src/generated/gqlQueries';
 import { useTranslation } from 'react-i18next';
@@ -92,6 +93,12 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
               <Paragraph className="flex items-center">
                 <UsergroupAddOutlined className="mr-3 mb-0" />
                 {t('Maximum members')}: {maxParticipants}
+              </Paragraph>
+            )}
+            {eventAddress && (
+              <Paragraph className="flex items-center">
+                <PushpinTwoTone className="mr-3" />
+                {eventAddress.label}
               </Paragraph>
             )}
             <a
