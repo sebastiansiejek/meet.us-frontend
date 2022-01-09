@@ -7,6 +7,7 @@ import { Collapse } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { ContactsTwoTone } from '@ant-design/icons';
 import { useCurrentUserIdQuery } from 'src/generated/gqlQueries';
+import EventModal from 'src/components/Events/EventModal';
 
 export interface MyAccountProps {}
 
@@ -35,7 +36,12 @@ const MyAccount: React.FunctionComponent<MyAccountProps> = ({}) => {
           </Panel>
         </Collapse>
       </div>
-      {userId && <UserEvents userId={userId} />}
+      {userId && (
+        <div>
+          <UserEvents userId={userId} />
+          <EventModal />
+        </div>
+      )}
     </Container>
   );
 };
