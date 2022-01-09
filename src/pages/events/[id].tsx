@@ -1,19 +1,20 @@
 import { useSingleEventPageQuery } from 'src/generated/gqlQueries';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Event from 'src/components/pages/Event';
-import { useSession } from 'next-auth/react';
+import { getSession, useSession } from 'next-auth/react';
 
 interface IEventPage {
   id: string;
+  userId?: string;
 }
 
-const EventPage: React.FC<IEventPage> = ({ id }) => {
+const EventPage: React.FC<IEventPage> = ({ id, userId }) => {
   const session: any = useSession();
   const loggedUserId = session.data?.user?.id;
 
   const { data } = useSingleEventPageQuery({
     id,
-    ...(loggedUserId && { userId: loggedUserId }),
+    ...((loggedUserId || userId) && { userId: loggedUserId || userId }),
   });
 
   if (data && data.event) {
@@ -27,17 +28,18 @@ const EventPage: React.FC<IEventPage> = ({ id }) => {
   return <></>;
 };
 
-export const getServerSideProps = async ({
-  params,
-  locale,
-}: {
-  params: { id: string };
-  locale: string;
-}) => ({
-  props: {
-    id: params.id,
-    ...(await serverSideTranslations(locale, ['common'])),
-  },
-});
+export const getServerSideProps = async (ctx: any) => {
+  const { params, locale } = ctx;
+  const session: any = await getSession(ctx);
+  const userId = session?.user?.id;
+
+  return {
+    props: {
+      id: params.id,
+      userId,
+      ...(await serverSideTranslations(locale, ['common'])),
+    },
+  };
+};
 
 export default EventPage;
