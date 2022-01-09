@@ -3,7 +3,7 @@ import React, { useMemo } from 'react';
 import UserCard from 'src/components/User/UserCard';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { Card, Col, Row, Typography, Spin } from 'antd';
+import { Card, Col, Row, Typography, Spin, Button } from 'antd';
 import {
   ClockCircleTwoTone,
   UsergroupAddOutlined,
@@ -15,6 +15,8 @@ import { getDateReadableFormat } from 'src/utils/date';
 import EventParticipateActions from '../../EventParticipateActions/EventParticipateActions';
 import { useSession } from 'next-auth/react';
 import dynamic from 'next/dynamic';
+import { google } from 'calendar-link';
+
 export interface EventProps {
   data: SingleEventPageQuery;
 }
@@ -36,6 +38,7 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
       lat,
       lng,
       id,
+      eventAddress,
     },
   } = data;
 
@@ -64,6 +67,11 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
           <Card className="h-full">
             <Title>{title}</Title>
             <Paragraph>{description}</Paragraph>
+            {isLogged && isActive && (
+              <div className="mt-10 mb-4">
+                <EventParticipateActions eventId={id} />
+              </div>
+            )}
           </Card>
         </Col>
         <Col span={24} md={8} className="mt-7">
@@ -86,6 +94,19 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
                 {t('Maximum members')}: {maxParticipants}
               </Paragraph>
             )}
+            <a
+              href={google({
+                title,
+                description: `${description}\n\n${window.location.href}`,
+                start: startDate,
+                end: endDate,
+                location: eventAddress?.label || '',
+              })}
+              rel="nofollow noreferrer"
+              target={'_blank'}
+            >
+              <Button>{t('Add to google calendar')}</Button>
+            </a>
           </Card>
         </Col>
       </Row>
@@ -104,11 +125,6 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
       {lat > 0 && lng > 0 && (
         <div className="mt-10">
           <SingleEventMap {...data.event} />
-        </div>
-      )}
-      {isLogged && isActive && (
-        <div className="mt-10">
-          <EventParticipateActions eventId={id} />
         </div>
       )}
     </Container>
