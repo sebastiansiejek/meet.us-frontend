@@ -18,6 +18,7 @@ import {
   useCreateEventMutation,
   useUpdateEventMutation,
 } from 'src/generated/gqlQueries';
+import useInvalidateEventQueries from 'src/hooks/useInvalidateEventQueries';
 import useGeocodeSearchQuery from 'src/queries/useGeocodeSearchQuery';
 import { IGeocodeSearchApiGetItem } from 'src/services/api/here/GeocodeSearchApi';
 import { IApiError } from 'src/types/IApiError';
@@ -32,7 +33,7 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
   setOpen,
   initialValues,
 }) => {
-  const queryClient = useQueryClient();
+  const invalidationEventQueries = useInvalidateEventQueries();
   const [form] = Form.useForm();
   const { TextArea } = Input;
   const { t } = useTranslation();
@@ -42,9 +43,7 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
   } as any);
 
   const onSuccessHandler = () => {
-    queryClient.invalidateQueries('FindUserEvents');
-    queryClient.invalidateQueries('SearchEvents');
-    queryClient.invalidateQueries('SingleEventPage');
+    invalidationEventQueries.invalidate();
     setOpen(false);
   };
 

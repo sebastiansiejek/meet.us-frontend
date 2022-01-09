@@ -17,8 +17,8 @@ import {
 } from 'src/generated/gqlQueries';
 import { useTranslation } from 'react-i18next';
 import EventModal from '../Events/EventModal';
-import { useQueryClient } from 'react-query';
 import { routes } from 'src/routes/routes';
+import useInvalidateEventQueries from 'src/hooks/useInvalidateEventQueries';
 
 export interface UserEventsProps {
   userId: string;
@@ -29,12 +29,11 @@ const UserEvents: React.FunctionComponent<UserEventsProps> = ({ userId }) => {
     userId,
   });
   const { t, i18n } = useTranslation();
-
-  const queryClient = useQueryClient();
+  const invalidationEventQueries = useInvalidateEventQueries();
 
   const deleteEventMutation = useDeleteEventMutation({
     onSuccess: () => {
-      queryClient.invalidateQueries('FindUserEvents');
+      invalidationEventQueries.invalidate();
       notification.success({
         message: t('Event has been removed'),
       });
