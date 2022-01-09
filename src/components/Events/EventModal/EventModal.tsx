@@ -20,7 +20,7 @@ const EventModal: React.FunctionComponent<EventModalProps> = ({
   const eventQuery = useSingleEventPageQuery(
     { id: id ? id : '' },
     {
-      enabled: !!id,
+      enabled: !!id && isOpen,
     },
   );
 
@@ -36,16 +36,18 @@ const EventModal: React.FunctionComponent<EventModalProps> = ({
         cancelText={t('Cancel')}
         footer=""
       >
-        <EventForm
-          initialValues={{
-            ...((eventQuery?.data?.event &&
-              formatResponse({
-                ...eventQuery.data.event,
-                placeLabel: eventQuery.data.event?.eventAddress?.label,
-              } as any)) as any),
-          }}
-          setOpen={setOpen}
-        />
+        {((isEdit && eventQuery?.data?.event) || !isEdit) && (
+          <EventForm
+            initialValues={{
+              ...((eventQuery?.data?.event &&
+                formatResponse({
+                  ...eventQuery.data.event,
+                  placeLabel: eventQuery.data.event?.eventAddress?.label,
+                } as any)) as any),
+            }}
+            setOpen={setOpen}
+          />
+        )}
       </Modal>
       <Button type="primary" onClick={() => setOpen(true)}>
         {title}

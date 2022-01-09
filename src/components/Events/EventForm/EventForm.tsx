@@ -42,14 +42,15 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
   } as any);
 
   const onSuccessHandler = () => {
-    form.resetFields();
     queryClient.invalidateQueries('FindUserEvents');
     queryClient.invalidateQueries('SearchEvents');
+    queryClient.invalidateQueries('SingleEventPage');
     setOpen(false);
   };
 
   const createEventMutation = useCreateEventMutation({
     onSuccess: () => {
+      form.resetFields();
       notification.success({
         message: t('Event has been created'),
       });
