@@ -37,7 +37,7 @@ const GlobalStyles = createGlobalStyle`
     fill: #fff;
   }
 
-  form .anticon.anticon-loading path {
+   .ant-btn-primary .anticon.anticon-loading path {
     fill: #fff;
   }
 
