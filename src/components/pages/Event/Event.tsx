@@ -9,6 +9,9 @@ import {
   UsergroupAddOutlined,
   CalendarTwoTone,
   PushpinTwoTone,
+  FacebookFilled,
+  GoogleCircleFilled,
+  GoogleSquareFilled,
 } from '@ant-design/icons';
 import { SingleEventPageQuery } from 'src/generated/gqlQueries';
 import { useTranslation } from 'react-i18next';
@@ -119,8 +122,19 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
               })}
               rel="nofollow noreferrer"
               target={'_blank'}
+              className="block"
             >
-              <Button>{t('Add to google calendar')}</Button>
+              <Button icon={<GoogleSquareFilled />}>
+                {t('Add to google calendar')}
+              </Button>
+            </a>
+            <a
+              href={`https://www.facebook.com/sharer.php?u=${window.location.href}`}
+              rel="nofollow noreferrer"
+              target={'_blank'}
+              className="block mt-4"
+            >
+              <Button icon={<FacebookFilled />}>{t('Share')}</Button>
             </a>
           </Card>
         </Col>

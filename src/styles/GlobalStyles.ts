@@ -33,7 +33,7 @@ const GlobalStyles = createGlobalStyle`
     }
   }
 
-  .ant-btn-primary path {
+  [data-icon="search"] path {
     fill: #fff;
   }
 
