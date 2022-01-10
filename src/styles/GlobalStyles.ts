@@ -33,6 +33,10 @@ const GlobalStyles = createGlobalStyle`
     }
   }
 
+  .ant-btn-primary path {
+    fill: #fff;
+  }
+
   form .anticon.anticon-loading path {
     fill: #fff;
   }

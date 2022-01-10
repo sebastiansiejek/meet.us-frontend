@@ -603,6 +603,14 @@ export type RecommendedUserEventsQueryVariables = Exact<{
 
 export type RecommendedUserEventsQuery = { __typename?: 'Query', events: { __typename?: 'EventResponse', page: { __typename?: 'EventConnection', edges?: Array<{ __typename?: 'EventEdge', node?: { __typename?: 'Event', id: string, title: string, description: string, startDate: any, endDate: any, type: number } | null | undefined }> | null | undefined } } };
 
+export type EventsSuggestionsQueryVariables = Exact<{
+  query: Scalars['String'];
+  first?: Maybe<Scalars['Float']>;
+}>;
+
+
+export type EventsSuggestionsQuery = { __typename?: 'Query', events: { __typename?: 'EventResponse', page: { __typename?: 'EventConnection', edges?: Array<{ __typename?: 'EventEdge', node?: { __typename?: 'Event', title: string, type: number } | null | undefined }> | null | undefined } } };
+
 export type DeleteEventMutationVariables = Exact<{
   id: Scalars['String'];
 }>;
@@ -924,6 +932,34 @@ export const useRecommendedUserEventsQuery = <
       options
     );
 useRecommendedUserEventsQuery.getKey = (variables: RecommendedUserEventsQueryVariables) => ['RecommendedUserEvents', variables];
+
+export const EventsSuggestionsDocument = `
+    query EventsSuggestions($query: String!, $first: Float) {
+  events(query: $query, first: $first) {
+    page {
+      edges {
+        node {
+          title
+          type
+        }
+      }
+    }
+  }
+}
+    `;
+export const useEventsSuggestionsQuery = <
+      TData = EventsSuggestionsQuery,
+      TError = unknown
+    >(
+      variables: EventsSuggestionsQueryVariables, 
+      options?: UseQueryOptions<EventsSuggestionsQuery, TError, TData>
+    ) => 
+    useQuery<EventsSuggestionsQuery, TError, TData>(
+      ['EventsSuggestions', variables],
+      useFetchData<EventsSuggestionsQuery, EventsSuggestionsQueryVariables>(EventsSuggestionsDocument).bind(null, variables),
+      options
+    );
+useEventsSuggestionsQuery.getKey = (variables: EventsSuggestionsQueryVariables) => ['EventsSuggestions', variables];
 
 export const DeleteEventDocument = `
     mutation DeleteEvent($id: String!) {

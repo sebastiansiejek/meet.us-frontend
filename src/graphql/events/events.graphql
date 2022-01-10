@@ -162,3 +162,16 @@ query RecommendedUserEvents(
     }
   }
 }
+
+query EventsSuggestions($query: String!, $first: Float) {
+  events(query: $query, first: $first) {
+    page {
+      edges {
+        node {
+          title
+          type
+        }
+      }
+    }
+  }
+}

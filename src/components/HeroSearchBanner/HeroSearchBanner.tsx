@@ -25,10 +25,14 @@ const HeroSearchBannerStyled = styled.div`
     width: 100%;
     height: 100%;
   }
-  .ant-select {
+
+  .hero-search-banner__container {
+    margin-bottom: 5vh;
+  }
+
+  .ant-select-selector {
     box-shadow: rgba(149, 157, 165, 0.9) 0px 8px 24px;
     min-width: 30rem;
-    margin-bottom: 5vh;
 
     @media (min-width: 1200px) {
       min-width: 45rem;
