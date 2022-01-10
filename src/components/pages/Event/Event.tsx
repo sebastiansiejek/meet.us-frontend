@@ -10,7 +10,6 @@ import {
   CalendarTwoTone,
   PushpinTwoTone,
   FacebookFilled,
-  GoogleCircleFilled,
   GoogleSquareFilled,
 } from '@ant-design/icons';
 import { SingleEventPageQuery } from 'src/generated/gqlQueries';
@@ -21,6 +20,7 @@ import { useSession } from 'next-auth/react';
 import dynamic from 'next/dynamic';
 import { google } from 'calendar-link';
 import { IEventParticipant } from 'src/types/IEvent';
+import useFormattedBetweenDate from 'src/hooks/useFormattedBetweenDate';
 
 export interface EventProps {
   data: SingleEventPageQuery;
@@ -31,7 +31,6 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
   const { t, i18n } = useTranslation();
   const session = useSession();
   const isLogged = session.data;
-  console.log(session);
 
   const {
     event: {
@@ -53,9 +52,9 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
 
   const startDateFormat = getDateReadableFormat(startDate, i18n.language);
   const endDateFormat = getDateReadableFormat(endDate, i18n.language);
+  const dateBetween = useFormattedBetweenDate(startDate, endDate).date;
   dayjs.extend(relativeTime);
   const isActive = dayjs(endDate).diff(dayjs()) > 0 ? true : false;
-
   const fromNow = dayjs(startDate).locale(i18n.language).fromNow();
 
   const SingleEventMap = useMemo(
@@ -99,6 +98,10 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
                 <span> - </span>
                 <time>{endDateFormat}</time>
               </div>
+            </Paragraph>
+            <Paragraph className="flex items-center">
+              <ClockCircleTwoTone className="mr-3" />
+              {t('Duration')}: {dateBetween}
             </Paragraph>
             {maxParticipants && (
               <Paragraph className="flex items-center">
