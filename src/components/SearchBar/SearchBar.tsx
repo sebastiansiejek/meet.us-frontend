@@ -84,6 +84,3 @@ const SearchBar: React.FunctionComponent<SearchBarProps> = ({ value = '' }) => {
 };
 
 export default SearchBar;
-function clg(arg0: string) {
-  throw new Error('Function not implemented.');
-}
