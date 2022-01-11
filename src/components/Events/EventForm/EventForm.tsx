@@ -179,10 +179,11 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
           notFoundContent={
             geocodeSearchQuery.isLoading ? <Spin size="small" /> : null
           }
-          onSelect={(value) => {
+          onSelect={(value: any) => {
             const selectedPlace = geocodeSearchQuery.data?.data.items.find(
               (item) => item.title === value,
             );
+
             if (selectedPlace) {
               setPlace(selectedPlace);
             }
