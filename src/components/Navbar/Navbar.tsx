@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Logo from '../Logo';
 import MenuLinks from './Menu';
 import MobileMenu from '../MobileMenu';
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Layout } from 'antd';
 import { routes } from 'src/routes/routes';
