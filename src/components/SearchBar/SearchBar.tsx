@@ -1,11 +1,13 @@
 import { AutoComplete, Input } from 'antd';
-import { debounce } from 'lodash';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useEventsSuggestionsQuery } from 'src/generated/gqlQueries';
 import { eventCategoryIcons } from 'src/utils/events';
 import Image from 'next/image';
+import Link from 'next/link';
+import { debounce } from 'lodash';
+import { routes } from 'src/routes/routes';
 
 export interface SearchBarProps {
   value?: string;
@@ -30,20 +32,30 @@ const SearchBar: React.FunctionComponent<SearchBarProps> = ({ value = '' }) => {
     eventsQuery.data?.events &&
     eventsQuery.data?.events.page.edges?.map(({ node }) => {
       const title = node?.title || '';
+      const id = node?.id || '';
       const type = parseInt(`${node?.type}`);
       const eventCategoryIcon = eventCategoryIcons[type as 0 | 1];
 
       return {
         value: title,
         label: (
-          <div className="flex items-center">
-            {eventCategoryIcon && (
-              <div className="mr-2">
-                <Image src={eventCategoryIcon} width={20} height={20} alt="" />
+          <Link href={routes.events.href + `/${id}`} passHref>
+            <a>
+              <div className="flex items-center">
+                {eventCategoryIcon && (
+                  <div className="mr-2">
+                    <Image
+                      src={eventCategoryIcon}
+                      width={20}
+                      height={20}
+                      alt=""
+                    />
+                  </div>
+                )}
+                {title}
               </div>
-            )}
-            {title}
-          </div>
+            </a>
+          </Link>
         ),
       };
     });
@@ -65,9 +77,6 @@ const SearchBar: React.FunctionComponent<SearchBarProps> = ({ value = '' }) => {
       onChange={debounce((value: string) => {
         setQuery(value);
       }, 150)}
-      onSelect={(value) => {
-        search(value);
-      }}
     >
       <Input.Search
         size="large"

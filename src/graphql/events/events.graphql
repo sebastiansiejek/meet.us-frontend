@@ -168,6 +168,7 @@ query EventsSuggestions($query: String!, $first: Float) {
     page {
       edges {
         node {
+          id
           title
           type
         }

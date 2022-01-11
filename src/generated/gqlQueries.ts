@@ -609,7 +609,7 @@ export type EventsSuggestionsQueryVariables = Exact<{
 }>;
 
 
-export type EventsSuggestionsQuery = { __typename?: 'Query', events: { __typename?: 'EventResponse', page: { __typename?: 'EventConnection', edges?: Array<{ __typename?: 'EventEdge', node?: { __typename?: 'Event', title: string, type: number } | null | undefined }> | null | undefined } } };
+export type EventsSuggestionsQuery = { __typename?: 'Query', events: { __typename?: 'EventResponse', page: { __typename?: 'EventConnection', edges?: Array<{ __typename?: 'EventEdge', node?: { __typename?: 'Event', id: string, title: string, type: number } | null | undefined }> | null | undefined } } };
 
 export type DeleteEventMutationVariables = Exact<{
   id: Scalars['String'];
@@ -939,6 +939,7 @@ export const EventsSuggestionsDocument = `
     page {
       edges {
         node {
+          id
           title
           type
         }
