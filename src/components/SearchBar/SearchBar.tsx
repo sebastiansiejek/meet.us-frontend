@@ -1,6 +1,6 @@
 import { AutoComplete, Input } from 'antd';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useEventsSuggestionsQuery } from 'src/generated/gqlQueries';
 import { eventCategoryIcons } from 'src/utils/events';
@@ -69,26 +69,32 @@ const SearchBar: React.FunctionComponent<SearchBarProps> = ({ value = '' }) => {
     });
   };
 
+  useEffect(() => {
+    setQuery(value);
+  }, [value]);
+
   return (
-    <AutoComplete
-      style={{ width: '100%' }}
-      defaultValue={value}
-      options={options || []}
-      onChange={debounce((value: string) => {
-        setQuery(value);
-      }, 150)}
-    >
-      <Input.Search
-        size="large"
-        placeholder={`${t('Event')}...`}
-        enterButton
-        type={'submit'}
-        loading={eventsQuery.isLoading}
-        onSearch={() => {
-          search(query);
-        }}
-      />
-    </AutoComplete>
+    <div>
+      <AutoComplete
+        style={{ width: '100%' }}
+        options={options || []}
+        value={query}
+        onChange={debounce((value: string) => {
+          setQuery(value);
+        }, 50)}
+      >
+        <Input.Search
+          size="large"
+          placeholder={`${t('Event')}...`}
+          enterButton
+          type={'submit'}
+          loading={eventsQuery.isLoading}
+          onSearch={() => {
+            search(query);
+          }}
+        />
+      </AutoComplete>
+    </div>
   );
 };
 
