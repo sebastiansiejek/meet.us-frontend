@@ -95,11 +95,11 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
       </Container>
       <div className="flex flex-col mt-12">
         <Container className="flex flex-wrap flex-col md:items-center md:flex-row w-full">
-          <div>
+          <div className="flex-1">
             <Select
               onChange={sortByStateHandler}
               placeholder={t('Select status of events')}
-              className="ml-auto w-full md:w-2/5"
+              className="ml-auto w-full md:max-w-md"
               loading={isLoading}
               defaultValue={state}
               value={state}
@@ -111,7 +111,7 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
             <Select
               onChange={sortChangeHandler}
               placeholder={t('Select status of events')}
-              className="ml-auto w-full md:w-2/5"
+              className="ml-auto w-full md:max-w-md"
               loading={isLoading}
               defaultValue={orderSort}
               value={orderSort}
