@@ -62,7 +62,7 @@ const SearchBar: React.FunctionComponent<SearchBarProps> = ({ value = '' }) => {
 
   const search = (query: string) => {
     router.push({
-      pathname: 'events',
+      pathname: routes.events.href,
       query: {
         q: query,
       },
