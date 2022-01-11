@@ -163,8 +163,8 @@ query RecommendedUserEvents(
   }
 }
 
-query EventsSuggestions($query: String!, $first: Float) {
-  events(query: $query, first: $first) {
+query EventsSuggestions($query: String!, $first: Float, $state: String) {
+  events(query: $query, first: $first, state: $state) {
     page {
       edges {
         node {

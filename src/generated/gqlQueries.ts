@@ -606,6 +606,7 @@ export type RecommendedUserEventsQuery = { __typename?: 'Query', events: { __typ
 export type EventsSuggestionsQueryVariables = Exact<{
   query: Scalars['String'];
   first?: Maybe<Scalars['Float']>;
+  state?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -934,8 +935,8 @@ export const useRecommendedUserEventsQuery = <
 useRecommendedUserEventsQuery.getKey = (variables: RecommendedUserEventsQueryVariables) => ['RecommendedUserEvents', variables];
 
 export const EventsSuggestionsDocument = `
-    query EventsSuggestions($query: String!, $first: Float) {
-  events(query: $query, first: $first) {
+    query EventsSuggestions($query: String!, $first: Float, $state: String) {
+  events(query: $query, first: $first, state: $state) {
     page {
       edges {
         node {

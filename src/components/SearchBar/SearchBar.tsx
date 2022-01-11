@@ -22,6 +22,7 @@ const SearchBar: React.FunctionComponent<SearchBarProps> = ({ value = '' }) => {
     {
       query,
       first: 5,
+      state: 'FUTURE',
     },
     {
       enabled: query.length >= 3,
