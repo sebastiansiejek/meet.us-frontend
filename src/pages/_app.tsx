@@ -10,6 +10,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { appWithTranslation } from 'next-i18next';
 import { SessionProvider } from 'next-auth/react';
+import Favicon from 'src/components/Favicon';
 
 const MyApp: React.FC<AppProps> = ({
   Component,
@@ -26,6 +27,7 @@ const MyApp: React.FC<AppProps> = ({
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
+          <Favicon />
           <GlobalStyles />
           <Main Component={Component} pageProps={pageProps} />
         </Hydrate>
