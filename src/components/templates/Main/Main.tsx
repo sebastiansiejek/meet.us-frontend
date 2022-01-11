@@ -22,7 +22,9 @@ const Main: React.FunctionComponent<MainProps> = ({ Component, pageProps }) => {
   return (
     <ConfigProvider locale={i18n.language === 'pl' ? localePl : localeEn}>
       <Navbar />
-      <Component {...pageProps} />
+      <div className="pt-24">
+        <Component {...pageProps} />
+      </div>
       <SiteFooter />
     </ConfigProvider>
   );
