@@ -62,24 +62,28 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
 
   useEffect(() => {
     if (data) {
+      const eventsFromApi = data.events.page.edges;
+
       if (endCursor === '') {
-        setEvents([...(data.events.page.edges as [{ node: Event }])]);
+        setEvents([...(eventsFromApi as [{ node: Event }])]);
       }
 
       if (endCursor !== '') {
-        setEvents([
-          ...events,
-          ...(data.events.page.edges as [{ node: Event }]),
-        ]);
+        setEvents([...events, ...(eventsFromApi as [{ node: Event }])]);
       }
 
       if (state === 'DURING' && events.length == 0) {
         setEventState('FUTURE');
       }
 
+      if (eventsFromApi?.length === 0) {
+        setEvents([]);
+        setEndCursor('');
+      }
+
       setIsNextPage(data.events.page.pageInfo?.hasNextPage || false);
     }
-  }, [data, endCursor]);
+  }, [data, endCursor, state]);
 
   const getMoreEvents = () => {
     if (data) {
