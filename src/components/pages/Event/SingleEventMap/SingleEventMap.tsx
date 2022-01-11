@@ -2,6 +2,7 @@ import React from 'react';
 import { MapContainer, Marker, TileLayer, Popup } from 'react-leaflet';
 import { eventCategoryIcons } from 'src/utils/events';
 import { Icon, Point } from 'leaflet';
+import { IEventParticipant } from 'src/types/IEvent';
 
 export interface SingleEventMapProps {
   type: number;
@@ -16,11 +17,7 @@ const SingleEventMap: React.FunctionComponent<SingleEventMapProps> = ({
   lat,
   lng,
 }) => {
-  const iconUrl = eventCategoryIcons[type as 0 | 1] || '';
-  const icon = new Icon({
-    iconUrl,
-    iconSize: new Point(40, 40),
-  });
+  const iconUrl = eventCategoryIcons[type as IEventParticipant] || '';
 
   return (
     <MapContainer
@@ -32,7 +29,12 @@ const SingleEventMap: React.FunctionComponent<SingleEventMapProps> = ({
       <Marker
         key={JSON.stringify({ lat, lng, title: title })}
         position={[lat, lng]}
-        icon={icon}
+        {...(iconUrl && {
+          icon: new Icon({
+            iconUrl,
+            iconSize: new Point(40, 40),
+          }),
+        })}
         title={title}
         eventHandlers={{
           mouseover: (e) => {

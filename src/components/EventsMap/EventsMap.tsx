@@ -12,6 +12,7 @@ import {
   useMapEvents,
 } from 'react-leaflet';
 import { eventCategoryIcons } from 'src/utils/events';
+import { IEventParticipant } from 'src/types/IEvent';
 
 type IEventType = {
   node?:
@@ -116,18 +117,18 @@ const EventsMap: React.FunctionComponent = () => {
       {currentEvents.map((event) => {
         // @ts-ignore
         const { lat, lng, title, id, type } = event.node;
-        const iconUrl = eventCategoryIcons[type as 0 | 1] || '';
-
-        const icon = new Icon({
-          iconUrl,
-          iconSize: new Point(40, 40),
-        });
+        const iconUrl = eventCategoryIcons[type as IEventParticipant] || '';
 
         return (
           <Marker
             key={JSON.stringify({ lat, lng, title: title })}
             position={[lat, lng]}
-            icon={icon}
+            {...(iconUrl && {
+              icon: new Icon({
+                iconUrl,
+                iconSize: new Point(40, 40),
+              }),
+            })}
             title={title}
             eventHandlers={{
               click: () => {
