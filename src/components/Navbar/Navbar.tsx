@@ -2,11 +2,13 @@ import Link from 'next/link';
 import Logo from '../Logo';
 import MenuLinks from './Menu';
 import MobileMenu from '../MobileMenu';
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Layout } from 'antd';
 import { routes } from 'src/routes/routes';
 import { useSession } from 'next-auth/react';
+import useWindowScrollDirection from 'src/hooks/useWindowScrollDirection';
+import clsx from 'clsx';
 
 const { Header } = Layout;
 
@@ -38,8 +40,18 @@ const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
   const loggedMenu =
     isLogged && Object.values(routes).filter((val) => val.display.logged);
 
+  const { isScrollDown } = useWindowScrollDirection();
+
   return (
-    <NavbarStyled className="flex items-center justify-between">
+    <NavbarStyled
+      className={clsx(
+        'flex items-center justify-between fixed top-0 z-40 w-full transition transform',
+        {
+          'translate-y-full': isScrollDown,
+          '-translate-y-full': isScrollDown,
+        },
+      )}
+    >
       <div>
         <Link href="/">
           <a>
