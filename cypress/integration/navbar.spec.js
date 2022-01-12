@@ -1,7 +1,7 @@
 /// <reference types="Cypress" />
 
 describe('Navbar', () => {
-  it('logo should redirect to homepage', () => {
+  it('click on site logo in navbar should redirect to homepage', () => {
     const homepageUrl = 'http://localhost:3001/';
 
     cy.visit(homepageUrl);
