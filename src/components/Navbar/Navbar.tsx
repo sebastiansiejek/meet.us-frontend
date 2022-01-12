@@ -52,7 +52,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
         },
       )}
     >
-      <div>
+      <div data-cy="navbar-logo">
         <Link href="/">
           <a>
             <div>

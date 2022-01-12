@@ -47,10 +47,12 @@ const Login: React.FunctionComponent<LoginProps> = ({}) => {
           })
           .finally(() => setLogin(false));
       }}
+      data-cy="login-form"
     >
       <Form.Item
         name="login"
         rules={[{ required: true, message: t('Please input your login') }]}
+        data-cy="login-form-login"
       >
         <Input
           placeholder={t('Login')}
@@ -62,6 +64,7 @@ const Login: React.FunctionComponent<LoginProps> = ({}) => {
       <Form.Item
         name="password"
         rules={[{ required: true, message: t('Please input your password') }]}
+        data-cy="login-form-password"
       >
         <Input.Password placeholder={t('Password')} prefix={<LockTwoTone />} />
       </Form.Item>
@@ -71,6 +74,7 @@ const Login: React.FunctionComponent<LoginProps> = ({}) => {
         htmlType="submit"
         loading={isLogin}
         className="block mx-auto"
+        data-cy="login-form-submit"
       >
         {t('Sign in')}
       </Button>
