@@ -21,7 +21,7 @@ const SingleUser: React.FunctionComponent<SingleUserProps> = ({ data }) => {
     <Container>
       <PageHeader title={nickname ? nickname : `${firstName} ${lastname}`} />
       <Row gutter={16}>
-        <Col span={24} md={16}>
+        <Col span={24} md={24}>
           <Card>
             <div className="flex items-center">
               <div className="mr-5">
@@ -35,11 +35,6 @@ const SingleUser: React.FunctionComponent<SingleUserProps> = ({ data }) => {
                 nickname && '"' + nickname + '"'
               } ${lastname}`}</strong>
             </div>
-          </Card>
-        </Col>
-        <Col span={24} md={8}>
-          <Card title={t('Contact details')}>
-            <a href={`mailto:${email}`}>{email}</a>
           </Card>
         </Col>
       </Row>
