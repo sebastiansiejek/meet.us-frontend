@@ -1,5 +1,7 @@
 # Meet.us
 
+[See demo](https://meet-us-frontend-inz.herokuapp.com/)
+
 ### Project for the Poznań University of Technology.
 
 This repository is dependent on the [meet-us.backend](https://github.com/sebastiansiejek/meet.us-backend) repository.
