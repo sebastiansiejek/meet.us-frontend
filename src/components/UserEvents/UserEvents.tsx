@@ -19,6 +19,7 @@ import { useTranslation } from 'react-i18next';
 import EventModal from '../Events/EventModal';
 import { routes } from 'src/routes/routes';
 import useInvalidateEventQueries from 'src/hooks/useInvalidateEventQueries';
+import EventStatistics from 'src/components/EventStatistics';
 
 export interface UserEventsProps {
   userId: string;
@@ -120,6 +121,11 @@ const UserEvents: React.FunctionComponent<UserEventsProps> = ({ userId }) => {
                     <Button danger>{t('Remove')}</Button>
                   </Popconfirm>
                 ),
+              },
+              {
+                title: t('Statistics'),
+                dataIndex: 'id',
+                render: (id: string) => <EventStatistics eventId={id} />,
               },
             ]}
           />
