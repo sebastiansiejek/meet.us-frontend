@@ -55,6 +55,7 @@ const RecommendedUserEvents: React.FunctionComponent<RecommendedUserEventsProps>
                 perPage: 3,
                 duplicated: false,
                 drag: true,
+                pagination: events.length > 3 ? true : false,
                 breakpoints: {
                   575: {
                     perPage: 1,
@@ -63,6 +64,7 @@ const RecommendedUserEvents: React.FunctionComponent<RecommendedUserEventsProps>
                   991: {
                     perPage: 2,
                     arrows: events.length > 2 ? true : false,
+                    pagination: events.length > 2 ? true : false,
                   },
                 },
               }}
