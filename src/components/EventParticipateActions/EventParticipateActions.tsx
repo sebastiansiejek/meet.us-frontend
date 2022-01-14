@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Button, notification as AntdNotification } from 'antd';
 import { useTranslation } from 'next-i18next';
 import {
@@ -24,18 +24,45 @@ const options = [
   },
 ];
 
+export interface ISetPeopleCountArgs {
+  goingCount?: number;
+  interestedCount?: number;
+}
+
+export interface EventParticipateActionsProps
+  extends Required<ISetPeopleCountArgs> {
+  eventId: string;
+  participantType: IEventParticipant;
+  setPeopleCount: ({
+    goingCount,
+    interestedCount,
+  }: ISetPeopleCountArgs) => void;
+}
+
 function EventParticipateActions({
   eventId,
   participantType,
-}: {
-  eventId: string;
-  participantType: IEventParticipant;
-}) {
+  setPeopleCount,
+  goingCount,
+  interestedCount,
+}: EventParticipateActionsProps) {
   const participateInEventMutation = useParticipateInEventMutation();
   const { t } = useTranslation();
   const queryClient = useQueryClient();
   const [activeType, setActiveType] =
     useState<IEventParticipant>(participantType);
+
+  const [goingCountState, setGoingCountState] = useState(goingCount || 0);
+  const [interestedCountState, setInterestedCountState] = useState(
+    interestedCount || 0,
+  );
+
+  useEffect(() => {
+    setPeopleCount({
+      goingCount: goingCountState,
+      interestedCount: interestedCountState,
+    });
+  }, [goingCountState, interestedCountState]);
 
   const filteredOptions = useMemo(
     () =>
@@ -61,12 +88,34 @@ function EventParticipateActions({
                     eventId,
                   })
                   .then((res) => {
-                    const { type } = res.participateInEvent;
+                    const currentType = res.participateInEvent.type;
 
                     AntdNotification.info({
                       message:
-                        type > 0 ? t(notificationUp) : t(notificationCancel),
+                        currentType > 0
+                          ? t(notificationUp)
+                          : t(notificationCancel),
                     });
+
+                    if (currentType === 0) {
+                      if (type === 1) {
+                        setInterestedCountState(interestedCountState - 1);
+                      }
+
+                      if (type === 2) {
+                        setGoingCountState(goingCountState - 1);
+                      }
+                    }
+
+                    if (currentType > 0) {
+                      if (type === 1) {
+                        setInterestedCountState(interestedCountState + 1);
+                      }
+
+                      if (type === 2) {
+                        setGoingCountState(goingCountState + 1);
+                      }
+                    }
 
                     queryClient
                       .invalidateQueries([
@@ -77,7 +126,9 @@ function EventParticipateActions({
                           id: eventId,
                         },
                       ])
-                      .then(() => setActiveType(type as IEventParticipant));
+                      .then(() =>
+                        setActiveType(currentType as IEventParticipant),
+                      );
                   });
               }}
               type={'primary'}

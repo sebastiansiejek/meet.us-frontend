@@ -245,10 +245,18 @@ export type PageData = {
 
 export type Participant = {
   __typename?: 'Participant';
+  count: Scalars['Float'];
+  date: Scalars['DateTime'];
   event: Event;
   id: Scalars['String'];
   type: Scalars['Float'];
   user: User;
+};
+
+export type ParticipantByDateResponse = {
+  __typename?: 'ParticipantByDateResponse';
+  count?: Maybe<Scalars['Float']>;
+  date?: Maybe<Scalars['String']>;
 };
 
 export type ParticipantConnection = {
@@ -289,6 +297,7 @@ export type Query = {
   events: EventResponse;
   findCompany: Company;
   findForEdit: Event;
+  participantsByDate: Array<ParticipantByDateResponse>;
   participantsEvents: ParticipantListResponse;
   ratingsEvents: RatingListResponse;
   tokenIsValid: IsValid;
@@ -324,6 +333,11 @@ export type QueryEventsArgs = {
 
 export type QueryFindForEditArgs = {
   id: Scalars['String'];
+};
+
+
+export type QueryParticipantsByDateArgs = {
+  eventId: Scalars['String'];
 };
 
 
@@ -562,7 +576,7 @@ export type SingleEventPageQueryVariables = Exact<{
 }>;
 
 
-export type SingleEventPageQuery = { __typename?: 'Query', event: { __typename?: 'Event', id: string, title: string, description: string, startDate: any, endDate: any, maxParticipants?: number | null | undefined, type: number, lat: number, lng: number, loggedInParticipants?: { __typename?: 'Participant', type: number } | null | undefined, eventAddress?: { __typename?: 'EventAddress', city?: string | null | undefined, state?: string | null | undefined, postalCode?: string | null | undefined, countryCode?: string | null | undefined, countryName?: string | null | undefined, county?: string | null | undefined, district?: string | null | undefined, label?: string | null | undefined } | null | undefined, user: { __typename?: 'User', id: string, firstName?: string | null | undefined, lastname?: string | null | undefined, nickname?: string | null | undefined } } };
+export type SingleEventPageQuery = { __typename?: 'Query', event: { __typename?: 'Event', id: string, title: string, description: string, startDate: any, endDate: any, maxParticipants?: number | null | undefined, type: number, lat: number, lng: number, goingCount?: number | null | undefined, interestedCount?: number | null | undefined, loggedInParticipants?: { __typename?: 'Participant', type: number } | null | undefined, eventAddress?: { __typename?: 'EventAddress', city?: string | null | undefined, state?: string | null | undefined, postalCode?: string | null | undefined, countryCode?: string | null | undefined, countryName?: string | null | undefined, county?: string | null | undefined, district?: string | null | undefined, label?: string | null | undefined } | null | undefined, user: { __typename?: 'User', id: string, firstName?: string | null | undefined, lastname?: string | null | undefined, nickname?: string | null | undefined } } };
 
 export type EventsQueryVariables = Exact<{
   first: Scalars['Float'];
@@ -734,6 +748,8 @@ export const SingleEventPageDocument = `
     type
     lat
     lng
+    goingCount
+    interestedCount
     loggedInParticipants {
       type
     }

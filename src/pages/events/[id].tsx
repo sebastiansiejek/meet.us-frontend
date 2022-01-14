@@ -18,11 +18,7 @@ const EventPage: React.FC<IEventPage> = ({ id, userId }) => {
   });
 
   if (data && data.event) {
-    return (
-      <div>
-        <Event data={data} />
-      </div>
-    );
+    return <Event data={data} />;
   }
 
   return <></>;

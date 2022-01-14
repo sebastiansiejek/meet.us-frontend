@@ -1,9 +1,9 @@
 import Container from 'src/components/Container';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import UserCard from 'src/components/User/UserCard';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { Card, Col, Row, Typography, Spin, Button } from 'antd';
+import { Card, Col, Row, Typography, Spin, Button, Tooltip } from 'antd';
 import {
   ClockCircleTwoTone,
   UsergroupAddOutlined,
@@ -11,11 +11,14 @@ import {
   PushpinTwoTone,
   FacebookFilled,
   GoogleSquareFilled,
+  TeamOutlined,
 } from '@ant-design/icons';
 import { SingleEventPageQuery } from 'src/generated/gqlQueries';
 import { useTranslation } from 'react-i18next';
 import { getDateReadableFormat } from 'src/utils/date';
-import EventParticipateActions from '../../EventParticipateActions/EventParticipateActions';
+import EventParticipateActions, {
+  ISetPeopleCountArgs,
+} from '../../EventParticipateActions/EventParticipateActions';
 import { useSession } from 'next-auth/react';
 import dynamic from 'next/dynamic';
 import { google } from 'calendar-link';
@@ -45,6 +48,8 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
       id,
       eventAddress,
       loggedInParticipants,
+      goingCount,
+      interestedCount,
     },
   } = data;
 
@@ -56,6 +61,16 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
   dayjs.extend(relativeTime);
   const isActive = dayjs(endDate).diff(dayjs()) > 0 ? true : false;
   const fromNow = dayjs(startDate).locale(i18n.language).fromNow();
+
+  const [goingCountState, setGoingCountState] = useState(goingCount || 0);
+  const [interestedCountState, setInterestedCountState] = useState(
+    interestedCount || 0,
+  );
+
+  const setPeopleCountHandler = (args: ISetPeopleCountArgs) => {
+    setGoingCountState(args.goingCount || goingCount || 0);
+    setInterestedCountState(args.interestedCount || interestedCount || 0);
+  };
 
   const SingleEventMap = useMemo(
     () =>
@@ -77,10 +92,29 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
               <ClockCircleTwoTone className="mr-3" />
               {fromNow}
             </Paragraph>
+            {interestedCountState !== 0 && (
+              <Paragraph className="flex items-center">
+                <Tooltip title={t('Interested')}>
+                  <TeamOutlined className="mr-3" />
+                  {interestedCountState}
+                </Tooltip>
+              </Paragraph>
+            )}
+            {goingCountState !== 0 && (
+              <Paragraph className="flex items-center">
+                <Tooltip title={t('Participants')}>
+                  <UsergroupAddOutlined className="mr-3" />
+                  {goingCountState}
+                </Tooltip>
+              </Paragraph>
+            )}
             {isLogged && isActive && (
               <div className="mt-10 mb-4">
                 <EventParticipateActions
+                  setPeopleCount={setPeopleCountHandler}
                   eventId={id}
+                  interestedCount={interestedCountState}
+                  goingCount={goingCountState}
                   participantType={
                     loggedInParticipants?.type as IEventParticipant
                   }

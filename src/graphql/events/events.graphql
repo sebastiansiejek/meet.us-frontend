@@ -9,6 +9,8 @@ query SingleEventPage($id: String!, $userId: String) {
     type
     lat
     lng
+    goingCount
+    interestedCount
     loggedInParticipants {
       type
     }
