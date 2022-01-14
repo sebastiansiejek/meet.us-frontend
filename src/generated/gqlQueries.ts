@@ -630,6 +630,13 @@ export type EventsSuggestionsQueryVariables = Exact<{
 
 export type EventsSuggestionsQuery = { __typename?: 'Query', events: { __typename?: 'EventResponse', page: { __typename?: 'EventConnection', edges?: Array<{ __typename?: 'EventEdge', node?: { __typename?: 'Event', id: string, title: string, type: number } | null | undefined }> | null | undefined } } };
 
+export type ParticipantsByDateQueryVariables = Exact<{
+  eventId: Scalars['String'];
+}>;
+
+
+export type ParticipantsByDateQuery = { __typename?: 'Query', participantsByDate: Array<{ __typename?: 'ParticipantByDateResponse', count?: number | null | undefined, date?: string | null | undefined }> };
+
 export type DeleteEventMutationVariables = Exact<{
   id: Scalars['String'];
 }>;
@@ -996,6 +1003,30 @@ export const useEventsSuggestionsQuery = <
     );
 
 useEventsSuggestionsQuery.getKey = (variables: EventsSuggestionsQueryVariables) => ['EventsSuggestions', variables];
+;
+
+export const ParticipantsByDateDocument = `
+    query ParticipantsByDate($eventId: String!) {
+  participantsByDate(eventId: $eventId) {
+    count
+    date
+  }
+}
+    `;
+export const useParticipantsByDateQuery = <
+      TData = ParticipantsByDateQuery,
+      TError = unknown
+    >(
+      variables: ParticipantsByDateQueryVariables,
+      options?: UseQueryOptions<ParticipantsByDateQuery, TError, TData>
+    ) =>
+    useQuery<ParticipantsByDateQuery, TError, TData>(
+      ['ParticipantsByDate', variables],
+      useFetchData<ParticipantsByDateQuery, ParticipantsByDateQueryVariables>(ParticipantsByDateDocument).bind(null, variables),
+      options
+    );
+
+useParticipantsByDateQuery.getKey = (variables: ParticipantsByDateQueryVariables) => ['ParticipantsByDate', variables];
 ;
 
 export const DeleteEventDocument = `
