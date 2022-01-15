@@ -114,6 +114,17 @@ const EventsMap: React.FunctionComponent = () => {
       style={{ height: '50vh', width: '100%' }}
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+      {coords && (
+        <Marker
+          position={[coords.latitude, coords.longitude]}
+          icon={
+            new Icon({
+              iconUrl: '/images/icons/me-map-point.png',
+              iconSize: new Point(40, 40),
+            })
+          }
+        />
+      )}
       {currentEvents.map((event) => {
         // @ts-ignore
         const { lat, lng, title, id, type } = event.node;
