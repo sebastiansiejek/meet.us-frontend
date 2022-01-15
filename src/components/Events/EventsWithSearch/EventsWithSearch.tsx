@@ -10,6 +10,9 @@ import Container from 'src/components/Container';
 import EventCardSkeleton from '../EventCardSkeleton';
 import { TableOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import EventHorizontal from '../EventHorizontal';
+import { eventsTypes } from 'src/utils/events';
+import { IEventIdTypes } from 'src/types/IEvent';
+import Image from 'next/image';
 
 export interface EventsWithSearchProps {
   initSearchQuery: string;
@@ -25,6 +28,7 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
   const [orderField, setOrderField] = useState('startDate');
   const [orderSort, setOrderSort] = useState('DESC');
   const [state, setEventState] = useState('DURING');
+  const [type, setType] = useState<IEventIdTypes | -1>(-1);
   const [layout, setLayout] = useState<'list' | 'grid'>('grid');
 
   const [endCursor, setEndCursor] = useState('');
@@ -38,6 +42,7 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
     orderSort,
     state,
     after: endCursor,
+    ...(type > -1 && { type }),
   });
 
   const sortByStateHandler = (value: string) => {
@@ -99,10 +104,32 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
       </Container>
       <div className="flex flex-col mt-12">
         <Container className="flex flex-wrap flex-col md:items-center md:flex-row w-full">
-          <div className="flex-1">
+          <div className="flex-1 flex flex-wrap flex-col md:items-center md:flex-row">
+            <Select
+              onChange={setType}
+              placeholder={t('Select status of events')}
+              className="ml-auto w-full md:max-w-sm"
+              loading={isLoading}
+              defaultValue={type}
+              value={type}
+            >
+              <Option key={-1} value={-1}>
+                {t('All types')}
+              </Option>
+              {eventsTypes.map(({ id, name, icon }) => {
+                return (
+                  <Option key={id} value={id}>
+                    <div className="flex">
+                      <Image src={icon} alt={name} width={20} height={20} />
+                      <div className="ml-2">{t(name)}</div>
+                    </div>
+                  </Option>
+                );
+              })}
+            </Select>
             <Select
               onChange={sortByStateHandler}
-              placeholder={t('Select status of events')}
+              placeholder={t('Select type of event')}
               className="ml-auto w-full md:max-w-md"
               loading={isLoading}
               defaultValue={state}
@@ -114,7 +141,7 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
             </Select>
             <Select
               onChange={sortChangeHandler}
-              placeholder={t('Select status of events')}
+              placeholder={t('Sort')}
               className="ml-auto w-full md:max-w-md"
               loading={isLoading}
               defaultValue={orderSort}

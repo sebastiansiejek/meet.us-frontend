@@ -89,7 +89,7 @@ export type Event = {
   maxParticipants?: Maybe<Scalars['Int']>;
   participants?: Maybe<Array<Participant>>;
   rate?: Maybe<Scalars['Float']>;
-  score: Scalars['Float'];
+  score?: Maybe<Scalars['Float']>;
   startDate: Scalars['DateTime'];
   state?: Maybe<Scalars['String']>;
   title: Scalars['String'];
@@ -327,6 +327,7 @@ export type QueryEventsArgs = {
   orderSort?: Maybe<Scalars['String']>;
   query?: Maybe<Scalars['String']>;
   state?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['Float']>;
   userId?: Maybe<Scalars['String']>;
 };
 
@@ -391,6 +392,7 @@ export type QueryUserEventsArgs = {
   orderSort?: Maybe<Scalars['String']>;
   query?: Maybe<Scalars['String']>;
   state?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['Float']>;
   userId: Scalars['String'];
 };
 
@@ -585,6 +587,7 @@ export type EventsQueryVariables = Exact<{
   orderSort?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   state?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['Float']>;
 }>;
 
 
@@ -794,7 +797,7 @@ export const useSingleEventPageQuery = <
 useSingleEventPageQuery.getKey = (variables: SingleEventPageQueryVariables) => ['SingleEventPage', variables];
 
 export const EventsDocument = `
-    query Events($first: Float!, $query: String!, $orderField: String, $orderSort: String, $after: String, $state: String) {
+    query Events($first: Float!, $query: String!, $orderField: String, $orderSort: String, $after: String, $state: String, $type: Float) {
   events(
     first: $first
     query: $query
@@ -802,6 +805,7 @@ export const EventsDocument = `
     orderSort: $orderSort
     state: $state
     after: $after
+    type: $type
   ) {
     page {
       edges {

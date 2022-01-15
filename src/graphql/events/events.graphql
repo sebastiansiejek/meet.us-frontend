@@ -40,6 +40,7 @@ query Events(
   $orderSort: String
   $after: String
   $state: String
+  $type: Float
 ) {
   events(
     first: $first
@@ -48,6 +49,7 @@ query Events(
     orderSort: $orderSort
     state: $state
     after: $after
+    type: $type
   ) {
     page {
       edges {

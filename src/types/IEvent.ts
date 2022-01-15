@@ -6,3 +6,4 @@ export const getMapEventTypes: Array<string> = ['Sport', 'Party', 'Chatting'];
  * 2 - Joined
  */
 export type IEventParticipant = 0 | 1 | 2;
+export type IEventIdTypes = 0 | 1 | 2;
