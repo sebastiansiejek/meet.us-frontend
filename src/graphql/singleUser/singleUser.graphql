@@ -9,6 +9,7 @@ query singleUser(
     firstName
     email
     nickname
+    description
   }
   userEvents(
     userId: $id
@@ -38,6 +39,8 @@ query CurrentUser {
     firstName
     email
     nickname
+    description
+    sex
   }
 }
 

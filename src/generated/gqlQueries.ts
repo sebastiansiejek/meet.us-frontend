@@ -694,12 +694,12 @@ export type SingleUserQueryVariables = Exact<{
 }>;
 
 
-export type SingleUserQuery = { __typename?: 'Query', user: { __typename?: 'User', lastname?: string | null | undefined, firstName?: string | null | undefined, email: string, nickname?: string | null | undefined }, userEvents: { __typename?: 'EventResponse', page: { __typename?: 'EventConnection', edges?: Array<{ __typename?: 'EventEdge', node?: { __typename?: 'Event', id: string, title: string, description: string, startDate: any, endDate: any, type: number, state?: string | null | undefined } | null | undefined }> | null | undefined } } };
+export type SingleUserQuery = { __typename?: 'Query', user: { __typename?: 'User', lastname?: string | null | undefined, firstName?: string | null | undefined, email: string, nickname?: string | null | undefined, description?: string | null | undefined }, userEvents: { __typename?: 'EventResponse', page: { __typename?: 'EventConnection', edges?: Array<{ __typename?: 'EventEdge', node?: { __typename?: 'Event', id: string, title: string, description: string, startDate: any, endDate: any, type: number, state?: string | null | undefined } | null | undefined }> | null | undefined } } };
 
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', lastname?: string | null | undefined, firstName?: string | null | undefined, email: string, nickname?: string | null | undefined } };
+export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', lastname?: string | null | undefined, firstName?: string | null | undefined, email: string, nickname?: string | null | undefined, description?: string | null | undefined, sex?: number | null | undefined } };
 
 export type CurrentUserIdQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -709,7 +709,7 @@ export type CurrentUserIdQuery = { __typename?: 'Query', currentUser: { __typena
 export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UsersQuery = { __typename?: 'Query', users: { __typename?: 'UserResponse', page: { __typename?: 'UserConnection', edges?: Array<{ __typename?: 'UserEdge', node?: { __typename?: 'User', id: string, lastname?: string | null | undefined, firstName?: string | null | undefined, nickname?: string | null | undefined } | null | undefined }> | null | undefined } } };
+export type UsersQuery = { __typename?: 'Query', users: { __typename?: 'UserResponse', page: { __typename?: 'UserConnection', edges?: Array<{ __typename?: 'UserEdge', node?: { __typename?: 'User', id: string, lastname?: string | null | undefined, firstName?: string | null | undefined, nickname?: string | null | undefined, description?: string | null | undefined } | null | undefined }> | null | undefined } } };
 
 export type LoginMutationVariables = Exact<{
   email: Scalars['String'];
@@ -740,6 +740,8 @@ export type UpdateUserMutationVariables = Exact<{
   firstName?: Maybe<Scalars['String']>;
   lastname?: Maybe<Scalars['String']>;
   nickname?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  sex: Scalars['Float'];
 }>;
 
 
@@ -1094,6 +1096,7 @@ export const SingleUserDocument = `
     firstName
     email
     nickname
+    description
   }
   userEvents(
     userId: $id
@@ -1138,6 +1141,8 @@ export const CurrentUserDocument = `
     firstName
     email
     nickname
+    description
+    sex
   }
 }
     `;
@@ -1186,6 +1191,7 @@ export const UsersDocument = `
           lastname
           firstName
           nickname
+          description
         }
       }
     }
@@ -1253,9 +1259,9 @@ export const useActivateUserMutation = <
       options
     );
 export const UpdateUserDocument = `
-    mutation UpdateUser($password: String, $email: String, $firstName: String, $lastname: String, $nickname: String) {
+    mutation UpdateUser($password: String, $email: String, $firstName: String, $lastname: String, $nickname: String, $description: String, $sex: Float!) {
   updateUser(
-    updateUserInput: {password: $password, email: $email, firstName: $firstName, lastname: $lastname, nickname: $nickname}
+    updateUserInput: {password: $password, email: $email, firstName: $firstName, lastname: $lastname, nickname: $nickname, description: $description, sex: $sex}
   ) {
     id
   }

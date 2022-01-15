@@ -1,5 +1,5 @@
 import { UserOutlined } from '@ant-design/icons';
-import { Card, Col, Row, Avatar } from 'antd';
+import { Card, Col, Row, Avatar, Typography } from 'antd';
 import Title from 'antd/lib/typography/Title';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -13,7 +13,7 @@ export interface SingleUserProps {
 }
 
 const SingleUser: React.FunctionComponent<SingleUserProps> = ({ data }) => {
-  const { firstName, lastname, email, nickname } = data.user;
+  const { firstName, lastname, nickname, description } = data.user;
   const userEvents = data.userEvents;
   const { t } = useTranslation();
 
@@ -35,6 +35,11 @@ const SingleUser: React.FunctionComponent<SingleUserProps> = ({ data }) => {
                 nickname && '"' + nickname + '"'
               } ${lastname}`}</strong>
             </div>
+            {description && (
+              <Typography.Paragraph className="mt-4">
+                {description}
+              </Typography.Paragraph>
+            )}
           </Card>
         </Col>
       </Row>

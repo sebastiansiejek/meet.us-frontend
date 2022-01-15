@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Button, Spin, notification } from 'antd';
+import { Form, Input, Button, Spin, notification, Radio } from 'antd';
 import { LockTwoTone, MailTwoTone } from '@ant-design/icons';
 import {
   useCurrentUserQuery,
@@ -10,6 +10,7 @@ import pickBy from 'lodash/pickBy';
 import identity from 'lodash/identity';
 import FormOutput from 'src/components/Form/FormOutput';
 import { IApiError } from 'src/types/IApiError';
+import TextArea from 'antd/lib/input/TextArea';
 
 export interface UserDataFormProps {}
 
@@ -28,9 +29,12 @@ const UserDataForm: React.FunctionComponent<UserDataFormProps> = ({}) => {
             firstName: data.currentUser.firstName || '',
             lastname: data.currentUser.lastname || '',
             nickname: data.currentUser.nickname || '',
+            description: data.currentUser.description || '',
+            sex: data.currentUser.sex || 0,
           }}
           onFinish={(formData) => {
             updateUserMutation
+              // @ts-ignore
               .mutateAsync({
                 ...pickBy(formData, identity),
               })
@@ -78,12 +82,33 @@ const UserDataForm: React.FunctionComponent<UserDataFormProps> = ({}) => {
             <Input placeholder={t('Last name')} />
           </Form.Item>
           <Form.Item
+            name="sex"
+            rules={[{ required: true, message: t('Please input your sex') }]}
+          >
+            <Radio.Group defaultValue={0}>
+              <Radio value={0}>{t('Woman')}</Radio>
+              <Radio value={1}>{t('Man')}</Radio>
+            </Radio.Group>
+          </Form.Item>
+          <Form.Item
             name="nickname"
             rules={[
               { required: false, message: t('Please input your nickname') },
             ]}
           >
             <Input placeholder={t('Nickname')} />
+          </Form.Item>
+          <Form.Item
+            name="description"
+            rules={[
+              { required: false, message: t('Please input your description') },
+            ]}
+          >
+            <TextArea
+              rows={4}
+              className="resize-none"
+              placeholder={t('Description')}
+            />
           </Form.Item>
           <FormOutput error={updateUserMutation.error as IApiError} />
           <Button

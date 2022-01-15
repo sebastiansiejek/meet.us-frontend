@@ -21,6 +21,9 @@
   "Please input your first name": "Wpisz imię",
   "Please input your last name": "Wpisz nazwisko",
   "Please input your nickname": "Wpisz pseudonim",
+  "Please input your description": "Wpisz opis",
+  "Please input your sex": "Wybierz płeć",
+  "Sex": "Płeć",
   "Description is required": "Opis jest wymagany",
   "Title is required": "Tytuł jest wymagany",
   "Date is required": "Data jest wymagana",
@@ -102,5 +105,7 @@
   "Participants": "Uczestnicy",
   "Interested": "Zainteresowani",
   "Statistics": "Statystyki",
-  "Number of participants in days": "Liczba uczestników w dniach"
+  "Number of participants in days": "Liczba uczestników w dniach",
+  "Woman": "Kobieta",
+  "Man": "Mężczyzna"
 }
