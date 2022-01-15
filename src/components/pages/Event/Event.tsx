@@ -1,5 +1,5 @@
 import Container from 'src/components/Container';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import UserCard from 'src/components/User/UserCard';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
