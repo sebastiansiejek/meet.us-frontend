@@ -12,6 +12,7 @@ import { useTranslation } from 'next-i18next';
 import JoinUs from 'src/components/JoinUs';
 import { useSession } from 'next-auth/react';
 import RecommendedUserEvents from 'src/components/RecommendedUserEvents';
+import EventTypeTiles from 'src/components/EventTypeTiles';
 
 const IndexPage = () => {
   const [state, setState] = useState('DURING');
@@ -52,6 +53,9 @@ const IndexPage = () => {
     <>
       <HeroSearchBanner />
       <Container>
+        <div className="mt-32">
+          <EventTypeTiles />
+        </div>
         <div className="mt-32">
           <RecommendedUserEvents />
         </div>
