@@ -13,24 +13,24 @@ import EventHorizontal from '../EventHorizontal';
 import { eventsTypes } from 'src/utils/events';
 import { IEventIdTypes } from 'src/types/IEvent';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 export interface EventsWithSearchProps {
   initSearchQuery: string;
 }
 
+const Option = Select.Option;
+
 const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
   initSearchQuery,
 }) => {
-  const Option = Select.Option;
-
+  const router = useRouter();
   const { t } = useTranslation();
-
   const [orderField, setOrderField] = useState('startDate');
   const [orderSort, setOrderSort] = useState('DESC');
   const [state, setEventState] = useState('DURING');
   const [type, setType] = useState<IEventIdTypes | -1>(-1);
   const [layout, setLayout] = useState<'list' | 'grid'>('grid');
-
   const [endCursor, setEndCursor] = useState('');
   const [isNextPage, setIsNextPage] = useState(true);
   const [events, setEvents] = useState<Array<any>>([]);
@@ -64,6 +64,28 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
     setOrderField('startDate');
     setEndCursor('');
   };
+
+  useEffect(() => {
+    const { query } = router;
+    const queryType = Number(query.type);
+
+    if (queryType >= 0 && type !== queryType) {
+      setType(queryType as IEventIdTypes);
+    }
+  }, [router]);
+
+  useEffect(() => {
+    router.push(
+      {
+        query: {
+          ...router.query,
+          type,
+        },
+      },
+      undefined,
+      { shallow: true },
+    );
+  }, [type]);
 
   useEffect(() => {
     if (data) {
