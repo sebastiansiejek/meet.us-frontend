@@ -7,6 +7,9 @@ import { useRouter } from 'next/router';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import { eventCategoryIcons } from 'src/utils/events';
 import { IEventParticipant } from 'src/types/IEvent';
+// @ts-ignore
+import MarkerClusterGroup from 'react-leaflet-markercluster';
+import 'react-leaflet-markercluster/dist/styles.min.css';
 
 const EventsMap: React.FunctionComponent = () => {
   const router = useRouter();
@@ -37,7 +40,9 @@ const EventsMap: React.FunctionComponent = () => {
     state: 'DURING',
   }).data;
 
-  if (eventsOnMapData) {
+  const events = eventsOnMapData?.events.page.edges;
+
+  if (events) {
     return (
       <MapContainer
         center={[centerCoords.lat, centerCoords.lng]}
@@ -56,38 +61,41 @@ const EventsMap: React.FunctionComponent = () => {
             }
           />
         )}
-        {eventsOnMapData.events.page.edges?.map((event) => {
-          // @ts-ignore
-          const { lat, lng, title, id, type } = event.node;
-          const iconUrl = eventCategoryIcons[type as IEventParticipant] || '';
+        <MarkerClusterGroup>
+          {events.map((event) => {
+            // @ts-ignore
+            const { lat, lng, title, id, type } = event.node;
+            const iconUrl = eventCategoryIcons[type as IEventParticipant] || '';
 
-          return (
-            <Marker
-              key={JSON.stringify({ lat, lng, title: title })}
-              position={[lat, lng]}
-              {...(iconUrl && {
-                icon: new Icon({
-                  iconUrl,
-                  iconSize: new Point(40, 40),
-                }),
-              })}
-              title={title}
-              eventHandlers={{
-                click: () => {
-                  router.push(`${routes.events.href}/${id}`);
-                },
-                mouseover: (e) => {
-                  e.target.openPopup();
-                },
-                mouseout: (e) => {
-                  e.target.closePopup();
-                },
-              }}
-            >
-              <Popup>{title}</Popup>
-            </Marker>
-          );
-        })}
+            return (
+              <Marker
+                key={JSON.stringify({ lat, lng, title: title })}
+                position={[lat, lng]}
+                {...(iconUrl && {
+                  icon: new Icon({
+                    iconUrl,
+                    iconSize: new Point(40, 40),
+                  }),
+                })}
+                title={title}
+                eventHandlers={{
+                  click: () => {
+                    router.push(`${routes.events.href}/${id}`);
+                  },
+                  mouseover: (e) => {
+                    e.target.openPopup();
+                  },
+                  mouseout: (e) => {
+                    e.target.closePopup();
+                  },
+                }}
+              >
+                <Popup>{title}</Popup>
+              </Marker>
+            );
+          })}
+        </MarkerClusterGroup>
+        ;
       </MapContainer>
     );
   }
