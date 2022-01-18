@@ -22,15 +22,16 @@ const EventCard: React.FunctionComponent<EventCardProps> = ({ event }) => {
   const { Meta } = Card;
   const { i18n } = useTranslation();
   const { language } = i18n;
+  const { t } = useTranslation();
 
   dayjs.extend(relativeTime);
   dayjs.extend(duration);
 
-  const fromNow = dayjs(startDate).locale(language).fromNow();
-  const during = dayjs
-    .duration(dayjs().diff(endDate))
+  const fromNow = `${t('Start')} ${dayjs(startDate)
     .locale(language)
-    .humanize();
+    .fromNow()}`;
+  const past = `${dayjs(endDate).locale(language).fromNow()}`;
+  const during = `${t('End')} ${dayjs(endDate).locale(language).fromNow()}`;
 
   return (
     <CardLink
@@ -57,7 +58,8 @@ const EventCard: React.FunctionComponent<EventCardProps> = ({ event }) => {
             <CalendarTwoTone className="mr-3" />
             <time>
               {state === 'DURING' && during}
-              {state !== 'DURING' && fromNow}
+              {state === 'FUTURE' && fromNow}
+              {state === 'PAST' && past}
             </time>
           </div>
         </div>
