@@ -3,7 +3,6 @@ import Logo from '../Logo';
 import MenuLinks from './Menu';
 import MobileMenu from '../MobileMenu';
 import React from 'react';
-import styled from 'styled-components';
 import { Layout } from 'antd';
 import { routes } from 'src/routes/routes';
 import { useSession } from 'next-auth/react';
@@ -13,24 +12,6 @@ import clsx from 'clsx';
 const { Header } = Layout;
 
 export interface NavbarProps {}
-
-const NavbarStyled = styled(Header)`
-  @media (max-width: 992px) {
-    padding: 0 2rem;
-  }
-
-  .navbar__desktop-navigation {
-    @media (max-width: 992px) {
-      display: none;
-    }
-  }
-
-  .hamburger-react {
-    @media (min-width: 992px) {
-      display: none;
-    }
-  }
-`;
 
 const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
   const session = useSession();
@@ -43,30 +24,36 @@ const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
   const { isScrollDown } = useWindowScrollDirection();
 
   return (
-    <NavbarStyled
-      className={clsx(
-        'flex items-center justify-between fixed top-0 z-40 w-full transition transform',
-        {
-          'translate-y-full': isScrollDown,
-          '-translate-y-full': isScrollDown,
-        },
-      )}
+    <Header
+      className={clsx('fixed top-0 z-40 w-full transition transform', {
+        'translate-y-full': isScrollDown,
+        '-translate-y-full': isScrollDown,
+      })}
+      style={{
+        height: 'auto',
+      }}
     >
-      <div data-cy="navbar-logo">
-        <Link href="/">
-          <a>
-            <div>
-              <Logo />
-            </div>
-          </a>
-        </Link>
+      <div className="hidden lg:flex justify-between items-center">
+        <div data-cy="navbar-logo">
+          <Link href="/">
+            <a>
+              <div>
+                <Logo />
+              </div>
+            </a>
+          </Link>
+        </div>
+        {unLoggedMenu && unLoggedMenu.length > 0 && (
+          <MenuLinks links={unLoggedMenu} />
+        )}
+        {loggedMenu && loggedMenu.length > 0 && (
+          <MenuLinks links={loggedMenu} />
+        )}
       </div>
-      {unLoggedMenu && unLoggedMenu.length > 0 && (
-        <MenuLinks links={unLoggedMenu} />
-      )}
-      {loggedMenu && loggedMenu.length > 0 && <MenuLinks links={loggedMenu} />}
-      <MobileMenu />
-    </NavbarStyled>
+      <div className="w-full lg:hidden">
+        <MobileMenu />
+      </div>
+    </Header>
   );
 };
 
