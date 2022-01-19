@@ -1,5 +1,6 @@
 import { routes } from 'src/routes/routes';
 import { getSession, signOut } from 'next-auth/react';
+import dayjs from 'dayjs';
 
 export const request = async (
   query: string,
@@ -23,7 +24,10 @@ export const request = async (
       },
       body: JSON.stringify({
         query,
-        variables,
+        variables: {
+          clientDate: dayjs().unix(),
+          ...variables,
+        },
       }),
     });
 

@@ -41,6 +41,7 @@ query Events(
   $after: String
   $state: String
   $type: Float
+  $clientDate: Float
 ) {
   events(
     first: $first
@@ -50,6 +51,7 @@ query Events(
     state: $state
     after: $after
     type: $type
+    clientDate: $clientDate
   ) {
     page {
       edges {
@@ -144,6 +146,7 @@ query RecommendedUserEvents(
   $first: Float
   $state: String
   $orderSort: String
+  $clientDate: Float
 ) {
   events(
     userId: $userId
@@ -151,6 +154,7 @@ query RecommendedUserEvents(
     first: $first
     state: $state
     orderSort: $orderSort
+    clientDate: $clientDate
   ) {
     page {
       edges {
@@ -161,6 +165,7 @@ query RecommendedUserEvents(
           startDate
           endDate
           type
+          state
         }
       }
     }

@@ -318,6 +318,7 @@ export type QueryEventArgs = {
 export type QueryEventsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
+  clientDate?: Maybe<Scalars['Float']>;
   distance?: Maybe<Scalars['Float']>;
   first?: Maybe<Scalars['Float']>;
   last?: Maybe<Scalars['Float']>;
@@ -588,6 +589,7 @@ export type EventsQueryVariables = Exact<{
   after?: Maybe<Scalars['String']>;
   state?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['Float']>;
+  clientDate?: Maybe<Scalars['Float']>;
 }>;
 
 
@@ -619,10 +621,11 @@ export type RecommendedUserEventsQueryVariables = Exact<{
   first?: Maybe<Scalars['Float']>;
   state?: Maybe<Scalars['String']>;
   orderSort?: Maybe<Scalars['String']>;
+  clientDate?: Maybe<Scalars['Float']>;
 }>;
 
 
-export type RecommendedUserEventsQuery = { __typename?: 'Query', events: { __typename?: 'EventResponse', page: { __typename?: 'EventConnection', edges?: Array<{ __typename?: 'EventEdge', node?: { __typename?: 'Event', id: string, title: string, description: string, startDate: any, endDate: any, type: number } | null | undefined }> | null | undefined } } };
+export type RecommendedUserEventsQuery = { __typename?: 'Query', events: { __typename?: 'EventResponse', page: { __typename?: 'EventConnection', edges?: Array<{ __typename?: 'EventEdge', node?: { __typename?: 'Event', id: string, title: string, description: string, startDate: any, endDate: any, type: number, state?: string | null | undefined } | null | undefined }> | null | undefined } } };
 
 export type EventsSuggestionsQueryVariables = Exact<{
   query: Scalars['String'];
@@ -799,7 +802,7 @@ export const useSingleEventPageQuery = <
 useSingleEventPageQuery.getKey = (variables: SingleEventPageQueryVariables) => ['SingleEventPage', variables];
 
 export const EventsDocument = `
-    query Events($first: Float!, $query: String!, $orderField: String, $orderSort: String, $after: String, $state: String, $type: Float) {
+    query Events($first: Float!, $query: String!, $orderField: String, $orderSort: String, $after: String, $state: String, $type: Float, $clientDate: Float) {
   events(
     first: $first
     query: $query
@@ -808,6 +811,7 @@ export const EventsDocument = `
     state: $state
     after: $after
     type: $type
+    clientDate: $clientDate
   ) {
     page {
       edges {
@@ -933,13 +937,14 @@ export const useFindUserEventsQuery = <
 useFindUserEventsQuery.getKey = (variables: FindUserEventsQueryVariables) => ['FindUserEvents', variables];
 
 export const RecommendedUserEventsDocument = `
-    query RecommendedUserEvents($userId: String!, $first: Float, $state: String, $orderSort: String) {
+    query RecommendedUserEvents($userId: String!, $first: Float, $state: String, $orderSort: String, $clientDate: Float) {
   events(
     userId: $userId
     orderField: "score"
     first: $first
     state: $state
     orderSort: $orderSort
+    clientDate: $clientDate
   ) {
     page {
       edges {
@@ -950,6 +955,7 @@ export const RecommendedUserEventsDocument = `
           startDate
           endDate
           type
+          state
         }
       }
     }
