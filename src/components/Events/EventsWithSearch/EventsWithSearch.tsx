@@ -52,7 +52,7 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
       setOrderSort('ASC');
     }
 
-    if (value === 'PAST') {
+    if (value === 'PAST' || value === 'DURING') {
       setOrderSort('DESC');
     }
 
@@ -101,6 +101,7 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
 
       if (state === 'DURING' && events.length == 0) {
         setEventState('FUTURE');
+        setOrderSort('ASC');
       }
 
       if (eventsFromApi?.length === 0) {
