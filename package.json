@@ -54,6 +54,7 @@
     "react-leaflet-markercluster": "^3.0.0-rc1",
     "react-loading-skeleton": "^3.0.1",
     "react-query": "^3.28.0",
+    "react-rating-stars-component": "^2.2.0",
     "react-redux": "^7.2.6",
     "redaxios": "^0.4.1",
     "styled-components": "^5.3.3",
