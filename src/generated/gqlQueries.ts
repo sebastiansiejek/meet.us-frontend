@@ -579,7 +579,7 @@ export type SingleEventPageQueryVariables = Exact<{
 }>;
 
 
-export type SingleEventPageQuery = { __typename?: 'Query', event: { __typename?: 'Event', id: string, title: string, description: string, startDate: any, endDate: any, maxParticipants?: number | null | undefined, type: number, lat: number, lng: number, goingCount?: number | null | undefined, interestedCount?: number | null | undefined, loggedInParticipants?: { __typename?: 'Participant', type: number } | null | undefined, eventAddress?: { __typename?: 'EventAddress', city?: string | null | undefined, state?: string | null | undefined, postalCode?: string | null | undefined, countryCode?: string | null | undefined, countryName?: string | null | undefined, county?: string | null | undefined, district?: string | null | undefined, label?: string | null | undefined } | null | undefined, user: { __typename?: 'User', id: string, firstName?: string | null | undefined, lastname?: string | null | undefined, nickname?: string | null | undefined } } };
+export type SingleEventPageQuery = { __typename?: 'Query', event: { __typename?: 'Event', id: string, title: string, description: string, startDate: any, endDate: any, maxParticipants?: number | null | undefined, type: number, lat: number, lng: number, goingCount?: number | null | undefined, interestedCount?: number | null | undefined, rate?: number | null | undefined, loggedInParticipants?: { __typename?: 'Participant', type: number } | null | undefined, eventAddress?: { __typename?: 'EventAddress', city?: string | null | undefined, state?: string | null | undefined, postalCode?: string | null | undefined, countryCode?: string | null | undefined, countryName?: string | null | undefined, county?: string | null | undefined, district?: string | null | undefined, label?: string | null | undefined } | null | undefined, user: { __typename?: 'User', id: string, firstName?: string | null | undefined, lastname?: string | null | undefined, nickname?: string | null | undefined } } };
 
 export type EventsQueryVariables = Exact<{
   first: Scalars['Float'];
@@ -689,6 +689,14 @@ export type ParticipateInEventMutationVariables = Exact<{
 
 export type ParticipateInEventMutation = { __typename?: 'Mutation', participateInEvent: { __typename?: 'Participant', type: number } };
 
+export type RateEventMutationVariables = Exact<{
+  eventId: Scalars['String'];
+  rate: Scalars['Float'];
+}>;
+
+
+export type RateEventMutation = { __typename?: 'Mutation', rateEvent: { __typename?: 'Rating', rate: number, event: { __typename?: 'Event', title: string } } };
+
 export type SingleUserQueryVariables = Exact<{
   id: Scalars['String'];
   first?: Maybe<Scalars['Float']>;
@@ -768,6 +776,7 @@ export const SingleEventPageDocument = `
     loggedInParticipants {
       type
     }
+    rate
     eventAddress {
       city
       state
@@ -1093,6 +1102,24 @@ export const useParticipateInEventMutation = <
     >(options?: UseMutationOptions<ParticipateInEventMutation, TError, ParticipateInEventMutationVariables, TContext>) => 
     useMutation<ParticipateInEventMutation, TError, ParticipateInEventMutationVariables, TContext>(
       useFetchData<ParticipateInEventMutation, ParticipateInEventMutationVariables>(ParticipateInEventDocument),
+      options
+    );
+export const RateEventDocument = `
+    mutation rateEvent($eventId: String!, $rate: Float!) {
+  rateEvent(rateEvent: {eventId: $eventId, rate: $rate}) {
+    rate
+    event {
+      title
+    }
+  }
+}
+    `;
+export const useRateEventMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<RateEventMutation, TError, RateEventMutationVariables, TContext>) => 
+    useMutation<RateEventMutation, TError, RateEventMutationVariables, TContext>(
+      useFetchData<RateEventMutation, RateEventMutationVariables>(RateEventDocument),
       options
     );
 export const SingleUserDocument = `

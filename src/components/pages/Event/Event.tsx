@@ -24,6 +24,8 @@ import dynamic from 'next/dynamic';
 import { google } from 'calendar-link';
 import { IEventParticipant } from 'src/types/IEvent';
 import useFormattedBetweenDate from 'src/hooks/useFormattedBetweenDate';
+import EventRating from './EventRating';
+import { isNil } from 'lodash';
 
 export interface EventProps {
   data: SingleEventPageQuery;
@@ -34,7 +36,6 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
   const { t, i18n } = useTranslation();
   const session = useSession();
   const isLogged = session.data;
-
   const {
     event: {
       title,
@@ -50,6 +51,7 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
       loggedInParticipants,
       goingCount,
       interestedCount,
+      rate,
     },
   } = data;
 
@@ -80,6 +82,9 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
       }),
     [],
   );
+
+  const isShowRating =
+    (!isActive && !!loggedInParticipants?.type) || (!isNil(rate) && rate > 0);
 
   return (
     <Container>
@@ -191,6 +196,16 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
       {lat > 0 && lng > 0 && (
         <div className="mt-10">
           <SingleEventMap {...data.event} />
+        </div>
+      )}
+      {/* TODO: Check if user rated event */}
+      {isShowRating && (
+        <div className="mt-10">
+          <EventRating
+            rate={rate || 0}
+            eventId={id}
+            showInput={!isActive && !!loggedInParticipants?.type}
+          />
         </div>
       )}
     </Container>

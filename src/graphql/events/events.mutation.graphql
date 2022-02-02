@@ -82,3 +82,12 @@ mutation participateInEvent($eventId: String!, $type: Float!) {
     type
   }
 }
+
+mutation rateEvent($eventId: String!, $rate: Float!) {
+  rateEvent(rateEvent: { eventId: $eventId, rate: $rate }) {
+    rate
+    event {
+      title
+    }
+  }
+}
