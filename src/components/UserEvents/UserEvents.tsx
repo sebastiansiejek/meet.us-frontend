@@ -17,8 +17,9 @@ import {
 } from 'src/generated/gqlQueries';
 import { useTranslation } from 'react-i18next';
 import EventModal from '../Events/EventModal';
-import { useQueryClient } from 'react-query';
 import { routes } from 'src/routes/routes';
+import useInvalidateEventQueries from 'src/hooks/useInvalidateEventQueries';
+import EventStatistics from 'src/components/EventStatistics';
 
 export interface UserEventsProps {
   userId: string;
@@ -29,19 +30,18 @@ const UserEvents: React.FunctionComponent<UserEventsProps> = ({ userId }) => {
     userId,
   });
   const { t, i18n } = useTranslation();
-
-  const queryClient = useQueryClient();
+  const invalidationEventQueries = useInvalidateEventQueries();
 
   const deleteEventMutation = useDeleteEventMutation({
     onSuccess: () => {
-      queryClient.invalidateQueries('FindUserEvents');
+      invalidationEventQueries.invalidate();
       notification.success({
         message: t('Event has been removed'),
       });
     },
   });
 
-  const events = data && data.events.page.edges?.map((edge) => edge.node);
+  const events = data && data.userEvents?.page?.edges?.map((edge) => edge.node);
 
   return (
     <>
@@ -121,6 +121,11 @@ const UserEvents: React.FunctionComponent<UserEventsProps> = ({ userId }) => {
                     <Button danger>{t('Remove')}</Button>
                   </Popconfirm>
                 ),
+              },
+              {
+                title: t('Statistics'),
+                dataIndex: 'id',
+                render: (id: string) => <EventStatistics eventId={id} />,
               },
             ]}
           />

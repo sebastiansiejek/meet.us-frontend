@@ -8,6 +8,9 @@ interface IUserPage {
 const User: React.FC<IUserPage> = ({ id }) => {
   const { data } = useSingleUserQuery({
     id,
+    first: 6,
+    orderSort: 'DESC',
+    orderField: 'endDate',
   });
 
   return <>{data && <SingleUser data={data} />}</>;

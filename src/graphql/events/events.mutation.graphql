@@ -4,6 +4,17 @@ mutation DeleteEvent($id: String!) {
   }
 }
 
+input CreateEventAddressInput {
+  city: String!
+  countryCode: String!
+  countryName: String!
+  county: String!
+  district: String!
+  label: String!
+  postalCode: String!
+  state: String!
+}
+
 mutation UpdateEvent(
   $id: String!
   $title: String!
@@ -12,6 +23,9 @@ mutation UpdateEvent(
   $endDate: DateTime!
   $maxParticipants: Int!
   $type: Float
+  $lat: Float!
+  $lng: Float!
+  $eventAddress: CreateEventAddressInput!
 ) {
   updateEvent(
     updateEventInput: {
@@ -22,21 +36,13 @@ mutation UpdateEvent(
       endDate: $endDate
       maxParticipants: $maxParticipants
       type: $type
+      lat: $lat
+      lng: $lng
+      eventAddress: $eventAddress
     }
   ) {
     id
   }
-}
-
-input CreateEventAddressInput {
-  city: String!
-  countryCode: String!
-  countryName: String!
-  county: String!
-  district: String!
-  label: String!
-  postalCode: String!
-  state: String!
 }
 
 mutation CreateEvent(
@@ -71,13 +77,17 @@ mutation CreateEvent(
   }
 }
 
-mutation participateInEvent($eventId: String! $type: Float!) {
-    participateInEvent(participateInEvent: {
-        eventId: $eventId
-        type: $type
-    }) {
-        event {
-            id
-        }
+mutation participateInEvent($eventId: String!, $type: Float!) {
+  participateInEvent(participateInEvent: { eventId: $eventId, type: $type }) {
+    type
+  }
+}
+
+mutation rateEvent($eventId: String!, $rate: Float!) {
+  rateEvent(rateEvent: { eventId: $eventId, rate: $rate }) {
+    rate
+    event {
+      title
     }
+  }
 }

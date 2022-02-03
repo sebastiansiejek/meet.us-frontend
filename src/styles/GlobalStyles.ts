@@ -19,15 +19,25 @@ const GlobalStyles = createGlobalStyle`
     font-size: 1.6rem;
   }
 
-  .anticon path {
+  .anticon {
+    > svg {
+      vertical-align: baseline;
+    }
+
+    path {
     fill: #2A9D8F;
 
-    &[fill="#e6f7ff"] {
-      fill: #beefe9;
+      &[fill="#e6f7ff"] {
+        fill: #beefe9;
+      }
     }
   }
 
-  form .anticon.anticon-loading path {
+  [data-icon="search"] path {
+    fill: #fff;
+  }
+
+   .ant-btn-primary .anticon.anticon-loading path {
     fill: #fff;
   }
 
@@ -44,6 +54,10 @@ const GlobalStyles = createGlobalStyle`
 
   .ant-table-content {
     overflow-x: scroll;
+  }
+
+  .splide__pagination__page.is-active {
+    background: #2A9D8F;
   }
 `;
 

@@ -3,13 +3,13 @@ import React from 'react';
 import HeroSearchBanner, { HeroSearchBannerProps } from './HeroSearchBanner';
 
 describe('HeroSearchBanner', () => {
-    const defaultProps: HeroSearchBannerProps = {};
+  const defaultProps: HeroSearchBannerProps = {};
 
-    it('should render', () => {
-        const props = { ...defaultProps };
-        const { asFragment, queryByText } = render(<HeroSearchBanner {...props} />);
+  it('should render', () => {
+    const props = { ...defaultProps };
+    const { asFragment, queryByText } = render(<HeroSearchBanner {...props} />);
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('HeroSearchBanner')).toBeTruthy();
-    });
+    expect(asFragment()).toMatchSnapshot();
+    expect(queryByText('HeroSearchBanner')).toBeTruthy();
+  });
 });

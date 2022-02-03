@@ -1,40 +1,58 @@
-import { Form, Input, Button, DatePicker, notification, Select } from 'antd';
+import {
+  Form,
+  Input,
+  Button,
+  DatePicker,
+  notification,
+  Select,
+  Spin,
+} from 'antd';
 import dayjs from 'dayjs';
-import React from 'react';
+import { debounce } from 'lodash';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useQueryClient } from 'react-query';
 import FormOutput from 'src/components/Form/FormOutput';
 import {
   SingleEventPageQuery,
   useCreateEventMutation,
   useUpdateEventMutation,
 } from 'src/generated/gqlQueries';
+import useInvalidateEventQueries from 'src/hooks/useInvalidateEventQueries';
+import useGeocodeSearchQuery from 'src/queries/useGeocodeSearchQuery';
+import { IGeocodeSearchApiGetItem } from 'src/services/api/here/GeocodeSearchApi';
 import { IApiError } from 'src/types/IApiError';
 import { getMapEventTypes } from 'src/types/IEvent';
 
 export interface EventFormProps {
   setOpen: Function;
-  initialValues: SingleEventPageQuery['event'];
+  initialValues: SingleEventPageQuery['event'] | any;
 }
 
 const EventForm: React.FunctionComponent<EventFormProps> = ({
   setOpen,
   initialValues,
 }) => {
-  const queryClient = useQueryClient();
+  const invalidationEventQueries = useInvalidateEventQueries();
   const [form] = Form.useForm();
   const { TextArea } = Input;
   const { t } = useTranslation();
+  const [searchPlaceString, setSearchPlaceString] = useState();
+  const [place, setPlace] = useState<IGeocodeSearchApiGetItem>({
+    address: initialValues.eventAddress,
+  } as any);
+
+  const onSuccessHandler = () => {
+    invalidationEventQueries.invalidate();
+    setOpen(false);
+  };
 
   const createEventMutation = useCreateEventMutation({
     onSuccess: () => {
+      form.resetFields();
       notification.success({
         message: t('Event has been created'),
       });
-      form.resetFields();
-      setOpen(false);
-      queryClient.invalidateQueries('FindUserEvents');
-      queryClient.invalidateQueries('SearchEvents');
+      onSuccessHandler();
     },
   });
 
@@ -43,51 +61,53 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
       notification.success({
         message: t('Event has been updated'),
       });
-      form.resetFields();
-      setOpen(false);
-      queryClient.invalidateQueries('FindUserEvents');
+      onSuccessHandler();
     },
   });
 
   const Option = Select.Option;
+
+  const geocodeSearchQuery = useGeocodeSearchQuery(
+    {
+      q: searchPlaceString,
+    },
+    {
+      enabled: !!searchPlaceString,
+    },
+  );
 
   return (
     <Form
       form={form}
       initialValues={initialValues}
       onFinish={({ title, description, dates, maxParticipants, type }) => {
-        if (initialValues.id) {
-          updateEventMutation.mutate({
-            id: initialValues.id,
+        if (place) {
+          const params = {
             title,
             description,
             startDate: dates[0].format('YYYY-MM-DD HH:mm'),
             endDate: dates[1].format('YYYY-MM-DD HH:mm'),
             maxParticipants: parseInt(maxParticipants, 10),
             type,
-          });
-        } else {
-          createEventMutation.mutate({
-            title,
-            description,
-            startDate: dates[0].format('YYYY-MM-DD HH:mm'),
-            endDate: dates[1].format('YYYY-MM-DD HH:mm'),
-            maxParticipants: parseInt(maxParticipants, 10),
-            type,
-            // TODO: set lat and lng from API
-            lat: 0,
-            lng: 0,
+            lat: place?.position?.lat || initialValues.lat,
+            lng: place?.position?.lng || initialValues.lng,
             eventAddress: {
-              city: '',
-              state: '',
-              postalCode: '',
-              countryCode: '',
-              countryName: '',
-              county: '',
-              district: '',
-              label: '',
+              city: place.address.city || '',
+              state: place.address.state || '',
+              postalCode: place.address.postalCode || '',
+              countryCode: place.address.countryCode || '',
+              countryName: place.address.countryName || '',
+              county: place.address.county || '',
+              district: place.address.district || '',
+              label: place.address.label,
             },
-          });
+          };
+
+          if (initialValues.id) {
+            updateEventMutation.mutate({ id: initialValues.id, ...params });
+          } else {
+            createEventMutation.mutate(params);
+          }
         }
       }}
     >
@@ -137,6 +157,45 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
         </Select>
       </Form.Item>
       <Form.Item
+        name="placeLabel"
+        rules={[
+          {
+            required: true,
+            message: t('Select event place'),
+          },
+        ]}
+      >
+        <Select
+          options={geocodeSearchQuery.data?.data.items.map((place: any) => {
+            const { title } = place;
+
+            return {
+              label: title,
+              value: title,
+            };
+          })}
+          filterOption={false}
+          showSearch
+          notFoundContent={
+            geocodeSearchQuery.isLoading ? <Spin size="small" /> : null
+          }
+          onSelect={(value: any) => {
+            const selectedPlace = geocodeSearchQuery.data?.data.items.find(
+              (item) => item.title === value,
+            );
+
+            if (selectedPlace) {
+              setPlace(selectedPlace);
+            }
+          }}
+          loading={geocodeSearchQuery.isLoading}
+          placeholder={t('Event place')}
+          onSearch={debounce((value) => {
+            setSearchPlaceString(value);
+          }, 300)}
+        />
+      </Form.Item>
+      <Form.Item
         name="maxParticipants"
         rules={[
           {
@@ -155,7 +214,7 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
       <Button
         type="primary"
         htmlType="submit"
-        loading={createEventMutation.isLoading}
+        loading={createEventMutation.isLoading || updateEventMutation.isLoading}
       >
         {t('Save')}
       </Button>

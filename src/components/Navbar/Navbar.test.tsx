@@ -3,13 +3,13 @@ import React from 'react';
 import Navbar, { NavbarProps } from './Navbar';
 
 describe('Navbar', () => {
-    const defaultProps: NavbarProps = {};
+  const defaultProps: NavbarProps = {};
 
-    it('should render', () => {
-        const props = { ...defaultProps };
-        const { asFragment, queryByText } = render(<Navbar {...props} />);
+  it('should render', () => {
+    const props = { ...defaultProps };
+    const { asFragment, queryByText } = render(<Navbar {...props} />);
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('Navbar')).toBeTruthy();
-    });
+    expect(asFragment()).toMatchSnapshot();
+    expect(queryByText('Navbar')).toBeTruthy();
+  });
 });

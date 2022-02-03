@@ -11,3 +11,5 @@ generates:
       fetcher:
         isReactHook: true
         func: '../utils/useFetchData#useFetchData'
+      exposeQueryKeys: true
+      exposeFetcher: true

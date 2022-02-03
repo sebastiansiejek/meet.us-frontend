@@ -1,39 +1,19 @@
 import Link from 'next/link';
 import Logo from '../Logo';
+import MenuLinks from './Menu';
 import MobileMenu from '../MobileMenu';
 import React from 'react';
-import UserSettings from '../UserSettings';
-import styled from 'styled-components';
 import { Layout } from 'antd';
-import { Menu } from 'antd';
 import { routes } from 'src/routes/routes';
-import { useTranslation } from 'react-i18next';
 import { useSession } from 'next-auth/react';
+import useWindowScrollDirection from 'src/hooks/useWindowScrollDirection';
+import clsx from 'clsx';
 
 const { Header } = Layout;
 
 export interface NavbarProps {}
 
-const NavbarStyled = styled(Header)`
-  @media (max-width: 992px) {
-    padding: 0 2rem;
-  }
-
-  .navbar__desktop-navigation {
-    @media (max-width: 992px) {
-      display: none;
-    }
-  }
-
-  .hamburger-react {
-    @media (min-width: 992px) {
-      display: none;
-    }
-  }
-`;
-
 const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
-  const { t } = useTranslation();
   const session = useSession();
   const isLogged = !!session.data;
   const unLoggedMenu =
@@ -41,57 +21,39 @@ const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
   const loggedMenu =
     isLogged && Object.values(routes).filter((val) => val.display.logged);
 
+  const { isScrollDown } = useWindowScrollDirection();
+
   return (
-    <NavbarStyled className="flex items-center justify-between">
-      <div>
-        <Link href="/">
-          <a>
-            <div>
-              <Logo />
-            </div>
-          </a>
-        </Link>
+    <Header
+      className={clsx('fixed top-0 z-40 w-full transition transform', {
+        'translate-y-full': isScrollDown,
+        '-translate-y-full': isScrollDown,
+      })}
+      style={{
+        height: 'auto',
+      }}
+    >
+      <div className="hidden lg:flex justify-between items-center">
+        <div data-cy="navbar-logo">
+          <Link href="/">
+            <a>
+              <div>
+                <Logo />
+              </div>
+            </a>
+          </Link>
+        </div>
+        {unLoggedMenu && unLoggedMenu.length > 0 && (
+          <MenuLinks links={unLoggedMenu} />
+        )}
+        {loggedMenu && loggedMenu.length > 0 && (
+          <MenuLinks links={loggedMenu} />
+        )}
       </div>
-      {unLoggedMenu && unLoggedMenu.length > 0 && (
-        <Menu
-          className="flex navbar__desktop-navigation flex-1 justify-end"
-          theme="dark"
-          mode="horizontal"
-        >
-          {unLoggedMenu.map(({ href, title, display }) => {
-            const key = `${href}-${display}`;
-            return (
-              <Menu.Item key={key}>
-                <Link href={href}>{t(title)}</Link>
-              </Menu.Item>
-            );
-          })}
-          <Menu.Item key="settings" style={{ padding: '0', display: 'flex' }}>
-            <UserSettings />
-          </Menu.Item>
-        </Menu>
-      )}
-      {loggedMenu && loggedMenu.length > 0 && (
-        <Menu
-          className="flex navbar__desktop-navigation flex-1 justify-end"
-          theme="dark"
-          mode="horizontal"
-        >
-          {loggedMenu.map(({ href, title, display }) => {
-            const key = `${href}-${display}`;
-            return (
-              <Menu.Item key={key}>
-                <Link href={href}>{t(title)}</Link>
-              </Menu.Item>
-            );
-          })}
-          <Menu.Item key="settings" style={{ padding: '0', display: 'flex' }}>
-            <UserSettings />
-          </Menu.Item>
-        </Menu>
-      )}
-      <MobileMenu />
-    </NavbarStyled>
+      <div className="w-full lg:hidden">
+        <MobileMenu />
+      </div>
+    </Header>
   );
 };
 

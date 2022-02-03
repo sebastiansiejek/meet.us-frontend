@@ -3,13 +3,13 @@ import React from 'react';
 import Event, { EventProps } from './Event';
 
 describe('Event', () => {
-    const defaultProps: EventProps = {};
+  const defaultProps: EventProps = {};
 
-    it('should render', () => {
-        const props = { ...defaultProps };
-        const { asFragment, queryByText } = render(<Event {...props} />);
+  it('should render', () => {
+    const props = { ...defaultProps };
+    const { asFragment, queryByText } = render(<Event {...props} />);
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('Event')).toBeTruthy();
-    });
+    expect(asFragment()).toMatchSnapshot();
+    expect(queryByText('Event')).toBeTruthy();
+  });
 });

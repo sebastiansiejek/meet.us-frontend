@@ -3,13 +3,15 @@ import React from 'react';
 import EventCardSkeleton, { EventCardSkeletonProps } from './EventCardSkeleton';
 
 describe('EventCardSkeleton', () => {
-    const defaultProps: EventCardSkeletonProps = {};
+  const defaultProps: EventCardSkeletonProps = {};
 
-    it('should render', () => {
-        const props = { ...defaultProps };
-        const { asFragment, queryByText } = render(<EventCardSkeleton {...props} />);
+  it('should render', () => {
+    const props = { ...defaultProps };
+    const { asFragment, queryByText } = render(
+      <EventCardSkeleton {...props} />,
+    );
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('EventCardSkeleton')).toBeTruthy();
-    });
+    expect(asFragment()).toMatchSnapshot();
+    expect(queryByText('EventCardSkeleton')).toBeTruthy();
+  });
 });

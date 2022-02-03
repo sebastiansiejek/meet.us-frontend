@@ -3,13 +3,13 @@ import React from 'react';
 import EventCards, { EventCardsProps } from './EventCards';
 
 describe('EventCards', () => {
-    const defaultProps: EventCardsProps = {};
+  const defaultProps: EventCardsProps = {};
 
-    it('should render', () => {
-        const props = { ...defaultProps };
-        const { asFragment, queryByText } = render(<EventCards {...props} />);
+  it('should render', () => {
+    const props = { ...defaultProps };
+    const { asFragment, queryByText } = render(<EventCards {...props} />);
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('EventCards')).toBeTruthy();
-    });
+    expect(asFragment()).toMatchSnapshot();
+    expect(queryByText('EventCards')).toBeTruthy();
+  });
 });

@@ -1,5 +1,5 @@
-query SingleEventPage($id: String!) {
-  event(id: $id) {
+query SingleEventPage($id: String!, $userId: String) {
+  event(id: $id, userId: $userId) {
     id
     title
     description
@@ -7,6 +7,27 @@ query SingleEventPage($id: String!) {
     endDate
     maxParticipants
     type
+    lat
+    lng
+    goingCount
+    interestedCount
+    loggedInParticipants {
+      type
+    }
+    rate
+    participantRate {
+      id
+    }
+    eventAddress {
+      city
+      state
+      postalCode
+      countryCode
+      countryName
+      county
+      district
+      label
+    }
     user {
       id
       firstName
@@ -23,6 +44,8 @@ query Events(
   $orderSort: String
   $after: String
   $state: String
+  $type: Float
+  $clientDate: Float
 ) {
   events(
     first: $first
@@ -31,6 +54,8 @@ query Events(
     orderSort: $orderSort
     state: $state
     after: $after
+    type: $type
+    clientDate: $clientDate
   ) {
     page {
       edges {
@@ -105,7 +130,7 @@ query EventsOnMap(
 }
 
 query FindUserEvents($userId: String!) {
-  events(userId: $userId) {
+  userEvents(userId: $userId) {
     page {
       edges {
         node {
@@ -117,5 +142,57 @@ query FindUserEvents($userId: String!) {
         }
       }
     }
+  }
+}
+
+query RecommendedUserEvents(
+  $userId: String!
+  $first: Float
+  $state: String
+  $orderSort: String
+  $clientDate: Float
+) {
+  events(
+    userId: $userId
+    orderField: "score"
+    first: $first
+    state: $state
+    orderSort: $orderSort
+    clientDate: $clientDate
+  ) {
+    page {
+      edges {
+        node {
+          id
+          title
+          description
+          startDate
+          endDate
+          type
+          state
+        }
+      }
+    }
+  }
+}
+
+query EventsSuggestions($query: String!, $first: Float, $state: String) {
+  events(query: $query, first: $first, state: $state) {
+    page {
+      edges {
+        node {
+          id
+          title
+          type
+        }
+      }
+    }
+  }
+}
+
+query ParticipantsByDate($eventId: String!) {
+  participantsByDate(eventId: $eventId) {
+    count
+    date
   }
 }

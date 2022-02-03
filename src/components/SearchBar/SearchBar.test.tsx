@@ -3,13 +3,13 @@ import React from 'react';
 import SearchBar, { SearchBarProps } from './SearchBar';
 
 describe('SearchBar', () => {
-    const defaultProps: SearchBarProps = {};
+  const defaultProps: SearchBarProps = {};
 
-    it('should render', () => {
-        const props = { ...defaultProps };
-        const { asFragment, queryByText } = render(<SearchBar {...props} />);
+  it('should render', () => {
+    const props = { ...defaultProps };
+    const { asFragment, queryByText } = render(<SearchBar {...props} />);
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('SearchBar')).toBeTruthy();
-    });
+    expect(asFragment()).toMatchSnapshot();
+    expect(queryByText('SearchBar')).toBeTruthy();
+  });
 });

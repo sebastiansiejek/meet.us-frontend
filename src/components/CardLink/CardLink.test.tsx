@@ -3,13 +3,13 @@ import React from 'react';
 import CardLink, { CardLinkProps } from './CardLink';
 
 describe('CardLink', () => {
-    const defaultProps: CardLinkProps = {};
+  const defaultProps: CardLinkProps = {};
 
-    it('should render', () => {
-        const props = { ...defaultProps };
-        const { asFragment, queryByText } = render(<CardLink {...props} />);
+  it('should render', () => {
+    const props = { ...defaultProps };
+    const { asFragment, queryByText } = render(<CardLink {...props} />);
 
-        expect(asFragment()).toMatchSnapshot();
-        expect(queryByText('CardLink')).toBeTruthy();
-    });
+    expect(asFragment()).toMatchSnapshot();
+    expect(queryByText('CardLink')).toBeTruthy();
+  });
 });

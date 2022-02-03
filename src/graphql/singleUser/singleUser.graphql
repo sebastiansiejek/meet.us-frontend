@@ -1,9 +1,35 @@
-query singleUser($id: String!) {
+query singleUser(
+  $id: String!
+  $first: Float
+  $orderSort: String
+  $orderField: String
+) {
   user(id: $id) {
     lastname
     firstName
     email
     nickname
+    description
+  }
+  userEvents(
+    userId: $id
+    first: $first
+    orderSort: $orderSort
+    orderField: $orderField
+  ) {
+    page {
+      edges {
+        node {
+          id
+          title
+          description
+          startDate
+          endDate
+          type
+          state
+        }
+      }
+    }
   }
 }
 
@@ -13,6 +39,8 @@ query CurrentUser {
     firstName
     email
     nickname
+    description
+    sex
   }
 }
 

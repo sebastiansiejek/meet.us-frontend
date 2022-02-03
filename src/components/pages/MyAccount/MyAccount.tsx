@@ -1,5 +1,4 @@
 import React from 'react';
-import ActivateUser from 'src/components/ActivateUser';
 import Container from 'src/components/Container';
 import UserEvents from 'src/components/UserEvents';
 import PageHeader from 'src/components/PageHeader';
@@ -8,6 +7,7 @@ import { Collapse } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { ContactsTwoTone } from '@ant-design/icons';
 import { useCurrentUserIdQuery } from 'src/generated/gqlQueries';
+import EventModal from 'src/components/Events/EventModal';
 
 export interface MyAccountProps {}
 
@@ -36,8 +36,12 @@ const MyAccount: React.FunctionComponent<MyAccountProps> = ({}) => {
           </Panel>
         </Collapse>
       </div>
-      <ActivateUser />
-      {userId && <UserEvents userId={userId} />}
+      {userId && (
+        <div>
+          <UserEvents userId={userId} />
+          <EventModal />
+        </div>
+      )}
     </Container>
   );
 };
