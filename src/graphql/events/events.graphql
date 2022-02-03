@@ -15,6 +15,9 @@ query SingleEventPage($id: String!, $userId: String) {
       type
     }
     rate
+    participantRate {
+      id
+    }
     eventAddress {
       city
       state

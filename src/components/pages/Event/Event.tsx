@@ -52,6 +52,7 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
       goingCount,
       interestedCount,
       rate,
+      participantRate,
     },
   } = data;
 
@@ -198,13 +199,16 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
           <SingleEventMap {...data.event} />
         </div>
       )}
-      {/* TODO: Check if user rated event */}
       {isShowRating && (
         <div className="mt-10">
           <EventRating
             rate={rate || 0}
             eventId={id}
-            showInput={!isActive && !!loggedInParticipants?.type}
+            showInput={
+              !isActive &&
+              !!loggedInParticipants?.type &&
+              !!participantRate === false
+            }
           />
         </div>
       )}
