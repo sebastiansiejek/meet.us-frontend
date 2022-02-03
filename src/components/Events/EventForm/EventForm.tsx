@@ -16,6 +16,7 @@ import {
   SingleEventPageQuery,
   useCreateEventMutation,
   useUpdateEventMutation,
+  useTagsQuery,
 } from 'src/generated/gqlQueries';
 import useInvalidateEventQueries from 'src/hooks/useInvalidateEventQueries';
 import useGeocodeSearchQuery from 'src/queries/useGeocodeSearchQuery';
@@ -36,6 +37,7 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
   const [form] = Form.useForm();
   const { TextArea } = Input;
   const { t } = useTranslation();
+  const [eventTypeId, setEventTypeId] = useState();
   const [searchPlaceString, setSearchPlaceString] = useState();
   const [place, setPlace] = useState<IGeocodeSearchApiGetItem>({
     address: initialValues.eventAddress,
@@ -45,6 +47,13 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
     invalidationEventQueries.invalidate();
     setOpen(false);
   };
+
+  const tagsQuery = useTagsQuery(
+    { type: eventTypeId },
+    {
+      enabled: !!eventTypeId,
+    },
+  );
 
   const createEventMutation = useCreateEventMutation({
     onSuccess: () => {
@@ -80,7 +89,14 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
     <Form
       form={form}
       initialValues={initialValues}
-      onFinish={({ title, description, dates, maxParticipants, type }) => {
+      onFinish={({
+        title,
+        description,
+        dates,
+        maxParticipants,
+        type,
+        tags,
+      }) => {
         if (place) {
           const params = {
             title,
@@ -101,6 +117,7 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
               district: place.address.district || '',
               label: place.address.label,
             },
+            tags: JSON.stringify(tags),
           };
 
           if (initialValues.id) {
@@ -146,7 +163,13 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
           },
         ]}
       >
-        <Select placeholder={t('Event type')} className="ml-auto">
+        <Select
+          placeholder={t('Event type')}
+          className="ml-auto"
+          onChange={(val) => {
+            setEventTypeId(val);
+          }}
+        >
           {getMapEventTypes.map((el, index) => {
             return (
               <Option key={index} value={index}>
@@ -155,6 +178,19 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
             );
           })}
         </Select>
+      </Form.Item>
+      <Form.Item name="tags">
+        <Select
+          disabled={!eventTypeId}
+          mode="tags"
+          placeholder="Please select tags"
+          options={tagsQuery.data?.tags.map((tag) => {
+            return {
+              value: tag,
+              label: tag.name,
+            };
+          })}
+        />
       </Form.Item>
       <Form.Item
         name="placeLabel"

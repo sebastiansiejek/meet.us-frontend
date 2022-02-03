@@ -64,6 +64,7 @@ export type CreateEventInput = {
   lng: Scalars['Float'];
   maxParticipants?: Maybe<Scalars['Int']>;
   startDate: Scalars['DateTime'];
+  tags: Scalars['String'];
   title: Scalars['String'];
   type?: Maybe<Scalars['Float']>;
 };
@@ -92,6 +93,7 @@ export type Event = {
   score?: Maybe<Scalars['Float']>;
   startDate: Scalars['DateTime'];
   state?: Maybe<Scalars['String']>;
+  tags?: Maybe<Scalars['String']>;
   title: Scalars['String'];
   type: Scalars['Float'];
   user: User;
@@ -300,6 +302,7 @@ export type Query = {
   participantsByDate: Array<ParticipantByDateResponse>;
   participantsEvents: ParticipantListResponse;
   ratingsEvents: RatingListResponse;
+  tags: Array<Tag>;
   tokenIsValid: IsValid;
   user: User;
   userEvents: EventResponse;
@@ -373,6 +376,11 @@ export type QueryRatingsEventsArgs = {
   orderSort?: Maybe<Scalars['String']>;
   query?: Maybe<Scalars['String']>;
   userId?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryTagsArgs = {
+  type?: Maybe<Scalars['Float']>;
 };
 
 
@@ -497,6 +505,13 @@ export type ResetResponse = {
   message: Scalars['String'];
 };
 
+export type Tag = {
+  __typename?: 'Tag';
+  id: Scalars['String'];
+  name: Scalars['String'];
+  type: Scalars['Float'];
+};
+
 export type UpdateCompanyInput = {
   address?: Maybe<Scalars['String']>;
   city?: Maybe<Scalars['String']>;
@@ -514,6 +529,7 @@ export type UpdateEventInput = {
   lng?: Maybe<Scalars['Float']>;
   maxParticipants?: Maybe<Scalars['Int']>;
   startDate?: Maybe<Scalars['DateTime']>;
+  tags?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['Float']>;
 };
@@ -676,6 +692,7 @@ export type CreateEventMutationVariables = Exact<{
   lat: Scalars['Float'];
   lng: Scalars['Float'];
   eventAddress: CreateEventAddressInput;
+  tags: Scalars['String'];
 }>;
 
 
@@ -708,6 +725,13 @@ export type CurrentUserIdQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type CurrentUserIdQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', id: string } };
+
+export type TagsQueryVariables = Exact<{
+  type?: Maybe<Scalars['Float']>;
+}>;
+
+
+export type TagsQuery = { __typename?: 'Query', tags: Array<{ __typename?: 'Tag', id: string, name: string }> };
 
 export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1060,9 +1084,9 @@ export const useUpdateEventMutation = <
       options
     );
 export const CreateEventDocument = `
-    mutation CreateEvent($title: String!, $description: String!, $startDate: DateTime!, $endDate: DateTime!, $maxParticipants: Int!, $type: Float, $lat: Float!, $lng: Float!, $eventAddress: CreateEventAddressInput!) {
+    mutation CreateEvent($title: String!, $description: String!, $startDate: DateTime!, $endDate: DateTime!, $maxParticipants: Int!, $type: Float, $lat: Float!, $lng: Float!, $eventAddress: CreateEventAddressInput!, $tags: String!) {
   createEvent(
-    createEventInput: {title: $title, description: $description, startDate: $startDate, endDate: $endDate, maxParticipants: $maxParticipants, type: $type, lat: $lat, lng: $lng, eventAddress: $eventAddress}
+    createEventInput: {title: $title, description: $description, startDate: $startDate, endDate: $endDate, maxParticipants: $maxParticipants, type: $type, lat: $lat, lng: $lng, eventAddress: $eventAddress, tags: $tags}
   ) {
     id
     title
@@ -1186,6 +1210,28 @@ export const useCurrentUserIdQuery = <
       options
     );
 useCurrentUserIdQuery.getKey = (variables?: CurrentUserIdQueryVariables) => variables === undefined ? ['CurrentUserId'] : ['CurrentUserId', variables];
+
+export const TagsDocument = `
+    query Tags($type: Float) {
+  tags(type: $type) {
+    id
+    name
+  }
+}
+    `;
+export const useTagsQuery = <
+      TData = TagsQuery,
+      TError = unknown
+    >(
+      variables?: TagsQueryVariables, 
+      options?: UseQueryOptions<TagsQuery, TError, TData>
+    ) => 
+    useQuery<TagsQuery, TError, TData>(
+      variables === undefined ? ['Tags'] : ['Tags', variables],
+      useFetchData<TagsQuery, TagsQueryVariables>(TagsDocument).bind(null, variables),
+      options
+    );
+useTagsQuery.getKey = (variables?: TagsQueryVariables) => variables === undefined ? ['Tags'] : ['Tags', variables];
 
 export const UsersDocument = `
     query Users {

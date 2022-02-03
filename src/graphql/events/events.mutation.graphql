@@ -55,6 +55,7 @@ mutation CreateEvent(
   $lat: Float!
   $lng: Float!
   $eventAddress: CreateEventAddressInput!
+  $tags: String!
 ) {
   createEvent(
     createEventInput: {
@@ -67,6 +68,7 @@ mutation CreateEvent(
       lat: $lat
       lng: $lng
       eventAddress: $eventAddress
+      tags: $tags
     }
   ) {
     id
