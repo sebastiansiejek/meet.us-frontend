@@ -309,6 +309,7 @@ export type Query = {
   tokenIsValid: IsValid;
   user: User;
   userEvents: EventResponse;
+  userEventsCalendar: EventResponse;
   userParticipation: ParticipantListResponse;
   userRates: RatingListResponse;
   users: UserResponse;
@@ -404,6 +405,24 @@ export type QueryUserEventsArgs = {
   orderSort?: Maybe<Scalars['String']>;
   query?: Maybe<Scalars['String']>;
   state?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['Float']>;
+  userId: Scalars['String'];
+};
+
+
+export type QueryUserEventsCalendarArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  distance?: Maybe<Scalars['Float']>;
+  endDate: Scalars['DateTime'];
+  first?: Maybe<Scalars['Float']>;
+  last?: Maybe<Scalars['Float']>;
+  latitude?: Maybe<Scalars['Float']>;
+  longitude?: Maybe<Scalars['Float']>;
+  orderField?: Maybe<Scalars['String']>;
+  orderSort?: Maybe<Scalars['String']>;
+  query?: Maybe<Scalars['String']>;
+  startDate: Scalars['DateTime'];
   type?: Maybe<Scalars['Float']>;
   userId: Scalars['String'];
 };
@@ -776,6 +795,15 @@ export type UpdateUserMutationVariables = Exact<{
 
 
 export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', id: string } };
+
+export type UserEventsCalendarQueryVariables = Exact<{
+  startDate: Scalars['DateTime'];
+  endDate: Scalars['DateTime'];
+  userId: Scalars['String'];
+}>;
+
+
+export type UserEventsCalendarQuery = { __typename?: 'Query', userEventsCalendar: { __typename?: 'EventResponse', page: { __typename?: 'EventConnection', edges?: Array<{ __typename?: 'EventEdge', node?: { __typename?: 'Event', id: string, title: string, type: number, startDate: any, endDate: any } | null | undefined }> | null | undefined } } };
 
 
 export const SingleEventPageDocument = `
@@ -1332,3 +1360,33 @@ export const useUpdateUserMutation = <
       useFetchData<UpdateUserMutation, UpdateUserMutationVariables>(UpdateUserDocument),
       options
     );
+export const UserEventsCalendarDocument = `
+    query UserEventsCalendar($startDate: DateTime!, $endDate: DateTime!, $userId: String!) {
+  userEventsCalendar(startDate: $startDate, endDate: $endDate, userId: $userId) {
+    page {
+      edges {
+        node {
+          id
+          title
+          type
+          startDate
+          endDate
+        }
+      }
+    }
+  }
+}
+    `;
+export const useUserEventsCalendarQuery = <
+      TData = UserEventsCalendarQuery,
+      TError = unknown
+    >(
+      variables: UserEventsCalendarQueryVariables, 
+      options?: UseQueryOptions<UserEventsCalendarQuery, TError, TData>
+    ) => 
+    useQuery<UserEventsCalendarQuery, TError, TData>(
+      ['UserEventsCalendar', variables],
+      useFetchData<UserEventsCalendarQuery, UserEventsCalendarQueryVariables>(UserEventsCalendarDocument).bind(null, variables),
+      options
+    );
+useUserEventsCalendarQuery.getKey = (variables: UserEventsCalendarQueryVariables) => ['UserEventsCalendar', variables];
