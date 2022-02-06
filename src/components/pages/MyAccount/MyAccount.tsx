@@ -8,13 +8,13 @@ import { useTranslation } from 'react-i18next';
 import { ContactsTwoTone } from '@ant-design/icons';
 import { useCurrentUserIdQuery } from 'src/generated/gqlQueries';
 import EventModal from 'src/components/Events/EventModal';
+import UserEventsCalendar from 'src/components/UserEventsCalendar';
 
 export interface MyAccountProps {}
 
 const MyAccount: React.FunctionComponent<MyAccountProps> = ({}) => {
   const { Panel } = Collapse;
   const { t } = useTranslation();
-
   const currentUserIdQuery = useCurrentUserIdQuery();
   const userId = currentUserIdQuery.data?.currentUser.id;
 
@@ -40,6 +40,7 @@ const MyAccount: React.FunctionComponent<MyAccountProps> = ({}) => {
         <div>
           <UserEvents userId={userId} />
           <EventModal />
+          <UserEventsCalendar userId={userId} />
         </div>
       )}
     </Container>

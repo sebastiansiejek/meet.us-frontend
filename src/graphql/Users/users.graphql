@@ -56,3 +56,27 @@ mutation UpdateUser(
     id
   }
 }
+
+query UserEventsCalendar(
+  $startDate: DateTime!
+  $endDate: DateTime!
+  $userId: String!
+) {
+  userEventsCalendar(
+    startDate: $startDate
+    endDate: $endDate
+    userId: $userId
+  ) {
+    page {
+      edges {
+        node {
+          id
+          title
+          type
+          startDate
+          endDate
+        }
+      }
+    }
+  }
+}
