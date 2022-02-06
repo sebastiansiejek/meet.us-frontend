@@ -24,6 +24,7 @@ query SingleEventPage($id: String!, $userId: String) {
       district
       label
     }
+    tags
     user {
       id
       firstName

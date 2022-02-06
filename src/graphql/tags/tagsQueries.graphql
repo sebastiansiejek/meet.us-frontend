@@ -2,5 +2,6 @@ query Tags($type: Float) {
   tags(type: $type) {
     id
     name
+    type
   }
 }

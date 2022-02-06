@@ -13,6 +13,8 @@ export type Scalars = {
   Float: number;
   /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
   DateTime: any;
+  /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
+  JSON: any;
 };
 
 export type AccessToken = {
@@ -64,7 +66,7 @@ export type CreateEventInput = {
   lng: Scalars['Float'];
   maxParticipants?: Maybe<Scalars['Int']>;
   startDate: Scalars['DateTime'];
-  tags: Scalars['String'];
+  tags?: Maybe<Scalars['JSON']>;
   title: Scalars['String'];
   type?: Maybe<Scalars['Float']>;
 };
@@ -88,12 +90,13 @@ export type Event = {
   lng: Scalars['Float'];
   loggedInParticipants?: Maybe<Participant>;
   maxParticipants?: Maybe<Scalars['Int']>;
+  participantRate?: Maybe<Rating>;
   participants?: Maybe<Array<Participant>>;
   rate?: Maybe<Scalars['Float']>;
   score?: Maybe<Scalars['Float']>;
   startDate: Scalars['DateTime'];
   state?: Maybe<Scalars['String']>;
-  tags?: Maybe<Scalars['String']>;
+  tags?: Maybe<Scalars['JSON']>;
   title: Scalars['String'];
   type: Scalars['Float'];
   user: User;
@@ -529,7 +532,7 @@ export type UpdateEventInput = {
   lng?: Maybe<Scalars['Float']>;
   maxParticipants?: Maybe<Scalars['Int']>;
   startDate?: Maybe<Scalars['DateTime']>;
-  tags?: Maybe<Scalars['String']>;
+  tags?: Maybe<Scalars['JSON']>;
   title?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['Float']>;
 };
@@ -595,7 +598,7 @@ export type SingleEventPageQueryVariables = Exact<{
 }>;
 
 
-export type SingleEventPageQuery = { __typename?: 'Query', event: { __typename?: 'Event', id: string, title: string, description: string, startDate: any, endDate: any, maxParticipants?: number | null | undefined, type: number, lat: number, lng: number, goingCount?: number | null | undefined, interestedCount?: number | null | undefined, loggedInParticipants?: { __typename?: 'Participant', type: number } | null | undefined, eventAddress?: { __typename?: 'EventAddress', city?: string | null | undefined, state?: string | null | undefined, postalCode?: string | null | undefined, countryCode?: string | null | undefined, countryName?: string | null | undefined, county?: string | null | undefined, district?: string | null | undefined, label?: string | null | undefined } | null | undefined, user: { __typename?: 'User', id: string, firstName?: string | null | undefined, lastname?: string | null | undefined, nickname?: string | null | undefined } } };
+export type SingleEventPageQuery = { __typename?: 'Query', event: { __typename?: 'Event', id: string, title: string, description: string, startDate: any, endDate: any, maxParticipants?: number | null | undefined, type: number, lat: number, lng: number, goingCount?: number | null | undefined, interestedCount?: number | null | undefined, tags?: any | null | undefined, loggedInParticipants?: { __typename?: 'Participant', type: number } | null | undefined, eventAddress?: { __typename?: 'EventAddress', city?: string | null | undefined, state?: string | null | undefined, postalCode?: string | null | undefined, countryCode?: string | null | undefined, countryName?: string | null | undefined, county?: string | null | undefined, district?: string | null | undefined, label?: string | null | undefined } | null | undefined, user: { __typename?: 'User', id: string, firstName?: string | null | undefined, lastname?: string | null | undefined, nickname?: string | null | undefined } } };
 
 export type EventsQueryVariables = Exact<{
   first: Scalars['Float'];
@@ -692,7 +695,7 @@ export type CreateEventMutationVariables = Exact<{
   lat: Scalars['Float'];
   lng: Scalars['Float'];
   eventAddress: CreateEventAddressInput;
-  tags: Scalars['String'];
+  tags?: Maybe<Scalars['JSON']>;
 }>;
 
 
@@ -731,7 +734,7 @@ export type TagsQueryVariables = Exact<{
 }>;
 
 
-export type TagsQuery = { __typename?: 'Query', tags: Array<{ __typename?: 'Tag', id: string, name: string }> };
+export type TagsQuery = { __typename?: 'Query', tags: Array<{ __typename?: 'Tag', id: string, name: string, type: number }> };
 
 export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -802,6 +805,7 @@ export const SingleEventPageDocument = `
       district
       label
     }
+    tags
     user {
       id
       firstName
@@ -1084,7 +1088,7 @@ export const useUpdateEventMutation = <
       options
     );
 export const CreateEventDocument = `
-    mutation CreateEvent($title: String!, $description: String!, $startDate: DateTime!, $endDate: DateTime!, $maxParticipants: Int!, $type: Float, $lat: Float!, $lng: Float!, $eventAddress: CreateEventAddressInput!, $tags: String!) {
+    mutation CreateEvent($title: String!, $description: String!, $startDate: DateTime!, $endDate: DateTime!, $maxParticipants: Int!, $type: Float, $lat: Float!, $lng: Float!, $eventAddress: CreateEventAddressInput!, $tags: JSON) {
   createEvent(
     createEventInput: {title: $title, description: $description, startDate: $startDate, endDate: $endDate, maxParticipants: $maxParticipants, type: $type, lat: $lat, lng: $lng, eventAddress: $eventAddress, tags: $tags}
   ) {
@@ -1216,6 +1220,7 @@ export const TagsDocument = `
   tags(type: $type) {
     id
     name
+    type
   }
 }
     `;
