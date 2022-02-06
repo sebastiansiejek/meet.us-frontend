@@ -3,7 +3,7 @@ import React, { useMemo, useState } from 'react';
 import UserCard from 'src/components/User/UserCard';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { Card, Col, Row, Typography, Spin, Button, Tooltip } from 'antd';
+import { Card, Col, Row, Typography, Spin, Button, Tooltip, Tag } from 'antd';
 import {
   ClockCircleTwoTone,
   UsergroupAddOutlined,
@@ -50,6 +50,7 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
       loggedInParticipants,
       goingCount,
       interestedCount,
+      tags,
     },
   } = data;
 
@@ -92,6 +93,13 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
               <ClockCircleTwoTone className="mr-3" />
               {fromNow}
             </Paragraph>
+            {tags && tags.length > 0 && (
+              <div>
+                {tags.map((tag: any, index: number) => (
+                  <Tag key={index + tag.name}>{tag.name}</Tag>
+                ))}
+              </div>
+            )}
             {interestedCountState !== 0 && (
               <Paragraph className="flex items-center">
                 <Tooltip title={t('Interested')}>
