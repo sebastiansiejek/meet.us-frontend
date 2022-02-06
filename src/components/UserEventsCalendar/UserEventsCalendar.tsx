@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import { Calendar, Tag } from 'antd';
 import { eventsTypes } from 'src/utils/events';
@@ -14,9 +14,13 @@ const UserEventsCalendar = ({ userId }: UserEventsCalendarProps) => {
   const format = 'YYYY-MM-DD HH:mm:ss';
   const startDate = dayjs().startOf('month');
   const endDate = dayjs().endOf('month');
-  const userEventsCalendarQuery = useUserEventsCalendarQuery({
+  const [dates, setDates] = useState({
     startDate: startDate.format(format),
     endDate: endDate.format(format),
+  });
+  const userEventsCalendarQuery = useUserEventsCalendarQuery({
+    startDate: dates.startDate,
+    endDate: dates.endDate,
     userId: userId,
   });
 
@@ -60,7 +64,12 @@ const UserEventsCalendar = ({ userId }: UserEventsCalendarProps) => {
 
         return <></>;
       }}
-      onPanelChange={(e) => console.log(e)}
+      onPanelChange={(date) => {
+        setDates({
+          startDate: date.startOf('month').format(format),
+          endDate: date.endOf('month').format(format),
+        });
+      }}
     />
   );
 };
