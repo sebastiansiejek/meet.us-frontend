@@ -32,7 +32,7 @@ export interface EventProps {
 const Event: React.FunctionComponent<EventProps> = ({ data }) => {
   const { Title, Paragraph } = Typography;
   const { t, i18n } = useTranslation();
-  const session = useSession();
+  const session: any = useSession();
   const isLogged = session.data;
 
   const {
@@ -118,7 +118,7 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
                 </Paragraph>
               )}
             </div>
-            {isLogged && isActive && (
+            {isLogged && isActive && user.id !== session.data.user?.id && (
               <div className="mt-10 mb-4">
                 <EventParticipateActions
                   setPeopleCount={setPeopleCountHandler}
