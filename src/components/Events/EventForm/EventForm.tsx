@@ -116,12 +116,17 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
               district: place.address.district || '',
               label: place.address.label,
             },
-            tags: JSON.stringify(
-              tags.map((tagId: any) => {
-                const tag = tagsQuery.data?.tags.find((t) => t.id === tagId);
-                return tag;
+            ...(tags &&
+              tags.length > 1 && {
+                tags: JSON.stringify(
+                  tags.map((tagId: any) => {
+                    const tag = tagsQuery.data?.tags.find(
+                      (t) => t.id === tagId,
+                    );
+                    return tag;
+                  }),
+                ),
               }),
-            ),
           };
 
           if (initialValues.id) {
