@@ -27,7 +27,7 @@ const UserEventsCalendar = ({ userId }: UserEventsCalendarProps) => {
   const { t } = useTranslation();
   const edges = userEventsCalendarQuery?.data?.userEventsCalendar.page.edges;
 
-  const getTagColor = (participateType: number): TagProps['color'] => {
+  const getTagColor = (participateType?: number | null): TagProps['color'] => {
     if (participateType === 0) return 'red';
     if (participateType === 1) return 'blue';
     if (participateType === 2) return 'green';
@@ -46,13 +46,13 @@ const UserEventsCalendar = ({ userId }: UserEventsCalendarProps) => {
           });
 
           if (event?.node) {
-            const { title, id, type } = event.node;
-            const eventType = eventsTypes[event.node.type];
+            const { title, id, type, loggedInParticipants } = event.node;
+            const eventType = eventsTypes[type];
 
             return (
               <Link href={routes.events.href + '/' + id} passHref>
                 <a className="block">
-                  <Tag color={getTagColor(type)}>
+                  <Tag color={getTagColor(loggedInParticipants?.type) || ''}>
                     <div className="flex items-center">
                       {eventType && (
                         // eslint-disable-next-line @next/next/no-img-element

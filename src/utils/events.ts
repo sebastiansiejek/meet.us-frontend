@@ -24,8 +24,8 @@ export const eventsTypes = [
 
 export const participateTypes = [
   {
-    id: 0,
-    name: 'Canceled',
+    id: null,
+    name: 'Your event',
   },
   {
     id: 1,
