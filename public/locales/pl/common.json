@@ -87,6 +87,8 @@
   "Invalid password": "Nieprawidłowe hasło",
   "Follow": "Obserwuj",
   "Join": "Dołącz",
+  "Following": "Obserwujesz",
+  "Participating": "Uczestniczysz",
   "Token is incorrect": "Token jest niepoprawny",
   "You are following event": "Obserwujesz wydarzenie",
   "You joined to event": "Uczestnicznysz w wydarzeniu",
@@ -108,5 +110,6 @@
   "Number of participants in days": "Liczba uczestników w dniach",
   "Woman": "Kobieta",
   "Man": "Mężczyzna",
-  "Please select tags": "Wybierz tagi"
+  "Please select tags": "Wybierz tagi",
+  "Canceled": "Anulowany"
 }

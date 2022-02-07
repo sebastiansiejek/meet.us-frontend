@@ -21,3 +21,18 @@ export const eventsTypes = [
     icon: eventCategoryIcons[2],
   },
 ];
+
+export const participateTypes = [
+  {
+    id: 0,
+    name: 'Canceled',
+  },
+  {
+    id: 1,
+    name: 'Following',
+  },
+  {
+    id: 2,
+    name: 'Participating',
+  },
+];

@@ -803,7 +803,7 @@ export type UserEventsCalendarQueryVariables = Exact<{
 }>;
 
 
-export type UserEventsCalendarQuery = { __typename?: 'Query', userEventsCalendar: { __typename?: 'EventResponse', page: { __typename?: 'EventConnection', edges?: Array<{ __typename?: 'EventEdge', node?: { __typename?: 'Event', id: string, title: string, type: number, startDate: any, endDate: any } | null | undefined }> | null | undefined } } };
+export type UserEventsCalendarQuery = { __typename?: 'Query', userEventsCalendar: { __typename?: 'EventResponse', page: { __typename?: 'EventConnection', edges?: Array<{ __typename?: 'EventEdge', node?: { __typename?: 'Event', id: string, title: string, type: number, startDate: any, endDate: any, loggedInParticipants?: { __typename?: 'Participant', type: number } | null | undefined } | null | undefined }> | null | undefined } } };
 
 
 export const SingleEventPageDocument = `
@@ -1371,6 +1371,9 @@ export const UserEventsCalendarDocument = `
           type
           startDate
           endDate
+          loggedInParticipants {
+            type
+          }
         }
       }
     }

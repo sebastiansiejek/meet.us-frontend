@@ -1,10 +1,11 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
 import dayjs from 'dayjs';
-import { Calendar, Tag } from 'antd';
-import { eventsTypes } from 'src/utils/events';
+import { Calendar, Tag, TagProps } from 'antd';
+import { eventsTypes, participateTypes } from 'src/utils/events';
 import { routes } from 'src/routes/routes';
 import { useUserEventsCalendarQuery } from 'src/generated/gqlQueries';
+import { useTranslation } from 'next-i18next';
 
 export interface UserEventsCalendarProps {
   userId: string;
@@ -23,54 +24,70 @@ const UserEventsCalendar = ({ userId }: UserEventsCalendarProps) => {
     endDate: dates.endDate,
     userId: userId,
   });
-
+  const { t } = useTranslation();
   const edges = userEventsCalendarQuery?.data?.userEventsCalendar.page.edges;
 
+  const getTagColor = (participateType: number): TagProps['color'] => {
+    if (participateType === 0) return 'red';
+    if (participateType === 1) return 'blue';
+    if (participateType === 2) return 'green';
+    return '';
+  };
+
   return (
-    <Calendar
-      dateCellRender={(value) => {
-        const event = edges?.find(({ node }) => {
-          if (node) {
-            const startDate = dayjs(node.startDate);
-            return startDate.isSame(dayjs(value.format(format)), 'day');
+    <div>
+      <Calendar
+        dateCellRender={(value) => {
+          const event = edges?.find(({ node }) => {
+            if (node) {
+              const startDate = dayjs(node.startDate);
+              return startDate.isSame(dayjs(value.format(format)), 'day');
+            }
+          });
+
+          if (event?.node) {
+            const { title, id, type } = event.node;
+            const eventType = eventsTypes[event.node.type];
+
+            return (
+              <Link href={routes.events.href + '/' + id} passHref>
+                <a className="block">
+                  <Tag color={getTagColor(type)}>
+                    <div className="flex items-center">
+                      {eventType && (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={eventType.icon}
+                          alt={eventType.name}
+                          width={15}
+                          height={15}
+                        />
+                      )}
+                      <span>{title}</span>
+                    </div>
+                  </Tag>
+                </a>
+              </Link>
+            );
           }
-        });
 
-        if (event?.node) {
-          const { title, id } = event.node;
-          const eventType = eventsTypes[event.node.type];
-
-          return (
-            <Link href={routes.events.href + '/' + id} passHref>
-              <a className="block">
-                <Tag>
-                  <div className="flex items-center">
-                    {eventType && (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={eventType.icon}
-                        alt={eventType.name}
-                        width={15}
-                        height={15}
-                      />
-                    )}
-                    <span> {title}</span>
-                  </div>
-                </Tag>
-              </a>
-            </Link>
-          );
-        }
-
-        return <></>;
-      }}
-      onPanelChange={(date) => {
-        setDates({
-          startDate: date.startOf('month').format(format),
-          endDate: date.endOf('month').format(format),
-        });
-      }}
-    />
+          return <></>;
+        }}
+        onPanelChange={(date) => {
+          setDates({
+            startDate: date.startOf('month').format(format),
+            endDate: date.endOf('month').format(format),
+          });
+        }}
+      />
+      <div>
+        {participateTypes.map(({ id, name }) => (
+          <Tag key={id} color={getTagColor(id)}>
+            {t(name)}
+          </Tag>
+        ))}
+      </div>
+    </div>
   );
 };
 
