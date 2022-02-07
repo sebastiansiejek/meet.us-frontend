@@ -100,22 +100,24 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
                 ))}
               </div>
             )}
-            {interestedCountState !== 0 && (
-              <Paragraph className="flex items-center">
-                <Tooltip title={t('Interested')}>
-                  <TeamOutlined className="mr-3" />
-                  {interestedCountState}
-                </Tooltip>
-              </Paragraph>
-            )}
-            {goingCountState !== 0 && (
-              <Paragraph className="flex items-center">
-                <Tooltip title={t('Participants')}>
-                  <UsergroupAddOutlined className="mr-3" />
-                  {goingCountState}
-                </Tooltip>
-              </Paragraph>
-            )}
+            <div className="inline-grid grid-cols-2 gap-4 mt-5">
+              {interestedCountState !== 0 && (
+                <Paragraph className="flex items-center">
+                  <Tooltip title={t('Interested')}>
+                    <TeamOutlined className="mr-1" />
+                    {interestedCountState}
+                  </Tooltip>
+                </Paragraph>
+              )}
+              {goingCountState !== 0 && (
+                <Paragraph className="flex items-center">
+                  <Tooltip title={t('Participants')}>
+                    <UsergroupAddOutlined className="mr-1" />
+                    {goingCountState}
+                  </Tooltip>
+                </Paragraph>
+              )}
+            </div>
             {isLogged && isActive && (
               <div className="mt-10 mb-4">
                 <EventParticipateActions
