@@ -42,7 +42,7 @@ const EventsMap: React.FunctionComponent = () => {
 
   const events = eventsOnMapData?.events.page.edges;
 
-  if (events) {
+  if (events && events.length > 0) {
     return (
       <MapContainer
         center={[centerCoords.lat, centerCoords.lng]}
