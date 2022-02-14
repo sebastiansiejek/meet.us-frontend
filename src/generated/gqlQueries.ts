@@ -1,5 +1,6 @@
+import { RequestInit } from 'graphql-request/dist/types.dom';
 import { useQuery, UseQueryOptions, useMutation, UseMutationOptions } from 'react-query';
-import { useFetchData } from '../utils/useFetchData';
+import { fetcher } from '../utils/fetcher';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
@@ -847,16 +848,19 @@ export const useSingleEventPageQuery = <
       TData = SingleEventPageQuery,
       TError = unknown
     >(
-      variables: SingleEventPageQueryVariables, 
+      variables: SingleEventPageQueryVariables,
       options?: UseQueryOptions<SingleEventPageQuery, TError, TData>
-    ) => 
+    ) =>
     useQuery<SingleEventPageQuery, TError, TData>(
       ['SingleEventPage', variables],
-      useFetchData<SingleEventPageQuery, SingleEventPageQueryVariables>(SingleEventPageDocument).bind(null, variables),
+      fetcher<SingleEventPageQuery, SingleEventPageQueryVariables>(SingleEventPageDocument, variables),
       options
     );
-useSingleEventPageQuery.getKey = (variables: SingleEventPageQueryVariables) => ['SingleEventPage', variables];
 
+useSingleEventPageQuery.getKey = (variables: SingleEventPageQueryVariables) => ['SingleEventPage', variables];
+;
+
+useSingleEventPageQuery.fetcher = (variables: SingleEventPageQueryVariables, options?: RequestInit['headers']) => fetcher<SingleEventPageQuery, SingleEventPageQueryVariables>(SingleEventPageDocument, variables, options);
 export const EventsDocument = `
     query Events($first: Float!, $query: String!, $orderField: String, $orderSort: String, $after: String, $state: String, $type: Float, $clientDate: Float) {
   events(
@@ -902,16 +906,19 @@ export const useEventsQuery = <
       TData = EventsQuery,
       TError = unknown
     >(
-      variables: EventsQueryVariables, 
+      variables: EventsQueryVariables,
       options?: UseQueryOptions<EventsQuery, TError, TData>
-    ) => 
+    ) =>
     useQuery<EventsQuery, TError, TData>(
       ['Events', variables],
-      useFetchData<EventsQuery, EventsQueryVariables>(EventsDocument).bind(null, variables),
+      fetcher<EventsQuery, EventsQueryVariables>(EventsDocument, variables),
       options
     );
-useEventsQuery.getKey = (variables: EventsQueryVariables) => ['Events', variables];
 
+useEventsQuery.getKey = (variables: EventsQueryVariables) => ['Events', variables];
+;
+
+useEventsQuery.fetcher = (variables: EventsQueryVariables, options?: RequestInit['headers']) => fetcher<EventsQuery, EventsQueryVariables>(EventsDocument, variables, options);
 export const EventsOnMapDocument = `
     query EventsOnMap($first: Float!, $state: String, $latitude: Float, $longitude: Float, $distance: Float, $orderField: String, $after: String, $orderSort: String) {
   events(
@@ -951,16 +958,19 @@ export const useEventsOnMapQuery = <
       TData = EventsOnMapQuery,
       TError = unknown
     >(
-      variables: EventsOnMapQueryVariables, 
+      variables: EventsOnMapQueryVariables,
       options?: UseQueryOptions<EventsOnMapQuery, TError, TData>
-    ) => 
+    ) =>
     useQuery<EventsOnMapQuery, TError, TData>(
       ['EventsOnMap', variables],
-      useFetchData<EventsOnMapQuery, EventsOnMapQueryVariables>(EventsOnMapDocument).bind(null, variables),
+      fetcher<EventsOnMapQuery, EventsOnMapQueryVariables>(EventsOnMapDocument, variables),
       options
     );
-useEventsOnMapQuery.getKey = (variables: EventsOnMapQueryVariables) => ['EventsOnMap', variables];
 
+useEventsOnMapQuery.getKey = (variables: EventsOnMapQueryVariables) => ['EventsOnMap', variables];
+;
+
+useEventsOnMapQuery.fetcher = (variables: EventsOnMapQueryVariables, options?: RequestInit['headers']) => fetcher<EventsOnMapQuery, EventsOnMapQueryVariables>(EventsOnMapDocument, variables, options);
 export const FindUserEventsDocument = `
     query FindUserEvents($userId: String!) {
   userEvents(userId: $userId) {
@@ -982,16 +992,19 @@ export const useFindUserEventsQuery = <
       TData = FindUserEventsQuery,
       TError = unknown
     >(
-      variables: FindUserEventsQueryVariables, 
+      variables: FindUserEventsQueryVariables,
       options?: UseQueryOptions<FindUserEventsQuery, TError, TData>
-    ) => 
+    ) =>
     useQuery<FindUserEventsQuery, TError, TData>(
       ['FindUserEvents', variables],
-      useFetchData<FindUserEventsQuery, FindUserEventsQueryVariables>(FindUserEventsDocument).bind(null, variables),
+      fetcher<FindUserEventsQuery, FindUserEventsQueryVariables>(FindUserEventsDocument, variables),
       options
     );
-useFindUserEventsQuery.getKey = (variables: FindUserEventsQueryVariables) => ['FindUserEvents', variables];
 
+useFindUserEventsQuery.getKey = (variables: FindUserEventsQueryVariables) => ['FindUserEvents', variables];
+;
+
+useFindUserEventsQuery.fetcher = (variables: FindUserEventsQueryVariables, options?: RequestInit['headers']) => fetcher<FindUserEventsQuery, FindUserEventsQueryVariables>(FindUserEventsDocument, variables, options);
 export const RecommendedUserEventsDocument = `
     query RecommendedUserEvents($userId: String!, $first: Float, $state: String, $orderSort: String, $clientDate: Float) {
   events(
@@ -1022,16 +1035,19 @@ export const useRecommendedUserEventsQuery = <
       TData = RecommendedUserEventsQuery,
       TError = unknown
     >(
-      variables: RecommendedUserEventsQueryVariables, 
+      variables: RecommendedUserEventsQueryVariables,
       options?: UseQueryOptions<RecommendedUserEventsQuery, TError, TData>
-    ) => 
+    ) =>
     useQuery<RecommendedUserEventsQuery, TError, TData>(
       ['RecommendedUserEvents', variables],
-      useFetchData<RecommendedUserEventsQuery, RecommendedUserEventsQueryVariables>(RecommendedUserEventsDocument).bind(null, variables),
+      fetcher<RecommendedUserEventsQuery, RecommendedUserEventsQueryVariables>(RecommendedUserEventsDocument, variables),
       options
     );
-useRecommendedUserEventsQuery.getKey = (variables: RecommendedUserEventsQueryVariables) => ['RecommendedUserEvents', variables];
 
+useRecommendedUserEventsQuery.getKey = (variables: RecommendedUserEventsQueryVariables) => ['RecommendedUserEvents', variables];
+;
+
+useRecommendedUserEventsQuery.fetcher = (variables: RecommendedUserEventsQueryVariables, options?: RequestInit['headers']) => fetcher<RecommendedUserEventsQuery, RecommendedUserEventsQueryVariables>(RecommendedUserEventsDocument, variables, options);
 export const EventsSuggestionsDocument = `
     query EventsSuggestions($query: String!, $first: Float, $state: String) {
   events(query: $query, first: $first, state: $state) {
@@ -1051,16 +1067,19 @@ export const useEventsSuggestionsQuery = <
       TData = EventsSuggestionsQuery,
       TError = unknown
     >(
-      variables: EventsSuggestionsQueryVariables, 
+      variables: EventsSuggestionsQueryVariables,
       options?: UseQueryOptions<EventsSuggestionsQuery, TError, TData>
-    ) => 
+    ) =>
     useQuery<EventsSuggestionsQuery, TError, TData>(
       ['EventsSuggestions', variables],
-      useFetchData<EventsSuggestionsQuery, EventsSuggestionsQueryVariables>(EventsSuggestionsDocument).bind(null, variables),
+      fetcher<EventsSuggestionsQuery, EventsSuggestionsQueryVariables>(EventsSuggestionsDocument, variables),
       options
     );
-useEventsSuggestionsQuery.getKey = (variables: EventsSuggestionsQueryVariables) => ['EventsSuggestions', variables];
 
+useEventsSuggestionsQuery.getKey = (variables: EventsSuggestionsQueryVariables) => ['EventsSuggestions', variables];
+;
+
+useEventsSuggestionsQuery.fetcher = (variables: EventsSuggestionsQueryVariables, options?: RequestInit['headers']) => fetcher<EventsSuggestionsQuery, EventsSuggestionsQueryVariables>(EventsSuggestionsDocument, variables, options);
 export const ParticipantsByDateDocument = `
     query ParticipantsByDate($eventId: String!) {
   participantsByDate(eventId: $eventId) {
@@ -1073,16 +1092,19 @@ export const useParticipantsByDateQuery = <
       TData = ParticipantsByDateQuery,
       TError = unknown
     >(
-      variables: ParticipantsByDateQueryVariables, 
+      variables: ParticipantsByDateQueryVariables,
       options?: UseQueryOptions<ParticipantsByDateQuery, TError, TData>
-    ) => 
+    ) =>
     useQuery<ParticipantsByDateQuery, TError, TData>(
       ['ParticipantsByDate', variables],
-      useFetchData<ParticipantsByDateQuery, ParticipantsByDateQueryVariables>(ParticipantsByDateDocument).bind(null, variables),
+      fetcher<ParticipantsByDateQuery, ParticipantsByDateQueryVariables>(ParticipantsByDateDocument, variables),
       options
     );
-useParticipantsByDateQuery.getKey = (variables: ParticipantsByDateQueryVariables) => ['ParticipantsByDate', variables];
 
+useParticipantsByDateQuery.getKey = (variables: ParticipantsByDateQueryVariables) => ['ParticipantsByDate', variables];
+;
+
+useParticipantsByDateQuery.fetcher = (variables: ParticipantsByDateQueryVariables, options?: RequestInit['headers']) => fetcher<ParticipantsByDateQuery, ParticipantsByDateQueryVariables>(ParticipantsByDateDocument, variables, options);
 export const DeleteEventDocument = `
     mutation DeleteEvent($id: String!) {
   removeEvent(id: $id) {
@@ -1093,11 +1115,13 @@ export const DeleteEventDocument = `
 export const useDeleteEventMutation = <
       TError = unknown,
       TContext = unknown
-    >(options?: UseMutationOptions<DeleteEventMutation, TError, DeleteEventMutationVariables, TContext>) => 
+    >(options?: UseMutationOptions<DeleteEventMutation, TError, DeleteEventMutationVariables, TContext>) =>
     useMutation<DeleteEventMutation, TError, DeleteEventMutationVariables, TContext>(
-      useFetchData<DeleteEventMutation, DeleteEventMutationVariables>(DeleteEventDocument),
+      ['DeleteEvent'],
+      (variables?: DeleteEventMutationVariables) => fetcher<DeleteEventMutation, DeleteEventMutationVariables>(DeleteEventDocument, variables)(),
       options
     );
+useDeleteEventMutation.fetcher = (variables: DeleteEventMutationVariables, options?: RequestInit['headers']) => fetcher<DeleteEventMutation, DeleteEventMutationVariables>(DeleteEventDocument, variables, options);
 export const UpdateEventDocument = `
     mutation UpdateEvent($id: String!, $title: String!, $description: String!, $startDate: DateTime!, $endDate: DateTime!, $maxParticipants: Int!, $type: Float, $lat: Float!, $lng: Float!, $eventAddress: CreateEventAddressInput!) {
   updateEvent(
@@ -1110,11 +1134,13 @@ export const UpdateEventDocument = `
 export const useUpdateEventMutation = <
       TError = unknown,
       TContext = unknown
-    >(options?: UseMutationOptions<UpdateEventMutation, TError, UpdateEventMutationVariables, TContext>) => 
+    >(options?: UseMutationOptions<UpdateEventMutation, TError, UpdateEventMutationVariables, TContext>) =>
     useMutation<UpdateEventMutation, TError, UpdateEventMutationVariables, TContext>(
-      useFetchData<UpdateEventMutation, UpdateEventMutationVariables>(UpdateEventDocument),
+      ['UpdateEvent'],
+      (variables?: UpdateEventMutationVariables) => fetcher<UpdateEventMutation, UpdateEventMutationVariables>(UpdateEventDocument, variables)(),
       options
     );
+useUpdateEventMutation.fetcher = (variables: UpdateEventMutationVariables, options?: RequestInit['headers']) => fetcher<UpdateEventMutation, UpdateEventMutationVariables>(UpdateEventDocument, variables, options);
 export const CreateEventDocument = `
     mutation CreateEvent($title: String!, $description: String!, $startDate: DateTime!, $endDate: DateTime!, $maxParticipants: Int!, $type: Float, $lat: Float!, $lng: Float!, $eventAddress: CreateEventAddressInput!, $tags: JSON) {
   createEvent(
@@ -1131,11 +1157,13 @@ export const CreateEventDocument = `
 export const useCreateEventMutation = <
       TError = unknown,
       TContext = unknown
-    >(options?: UseMutationOptions<CreateEventMutation, TError, CreateEventMutationVariables, TContext>) => 
+    >(options?: UseMutationOptions<CreateEventMutation, TError, CreateEventMutationVariables, TContext>) =>
     useMutation<CreateEventMutation, TError, CreateEventMutationVariables, TContext>(
-      useFetchData<CreateEventMutation, CreateEventMutationVariables>(CreateEventDocument),
+      ['CreateEvent'],
+      (variables?: CreateEventMutationVariables) => fetcher<CreateEventMutation, CreateEventMutationVariables>(CreateEventDocument, variables)(),
       options
     );
+useCreateEventMutation.fetcher = (variables: CreateEventMutationVariables, options?: RequestInit['headers']) => fetcher<CreateEventMutation, CreateEventMutationVariables>(CreateEventDocument, variables, options);
 export const ParticipateInEventDocument = `
     mutation participateInEvent($eventId: String!, $type: Float!) {
   participateInEvent(participateInEvent: {eventId: $eventId, type: $type}) {
@@ -1146,11 +1174,13 @@ export const ParticipateInEventDocument = `
 export const useParticipateInEventMutation = <
       TError = unknown,
       TContext = unknown
-    >(options?: UseMutationOptions<ParticipateInEventMutation, TError, ParticipateInEventMutationVariables, TContext>) => 
+    >(options?: UseMutationOptions<ParticipateInEventMutation, TError, ParticipateInEventMutationVariables, TContext>) =>
     useMutation<ParticipateInEventMutation, TError, ParticipateInEventMutationVariables, TContext>(
-      useFetchData<ParticipateInEventMutation, ParticipateInEventMutationVariables>(ParticipateInEventDocument),
+      ['participateInEvent'],
+      (variables?: ParticipateInEventMutationVariables) => fetcher<ParticipateInEventMutation, ParticipateInEventMutationVariables>(ParticipateInEventDocument, variables)(),
       options
     );
+useParticipateInEventMutation.fetcher = (variables: ParticipateInEventMutationVariables, options?: RequestInit['headers']) => fetcher<ParticipateInEventMutation, ParticipateInEventMutationVariables>(ParticipateInEventDocument, variables, options);
 export const SingleUserDocument = `
     query singleUser($id: String!, $first: Float, $orderSort: String, $orderField: String) {
   user(id: $id) {
@@ -1186,16 +1216,19 @@ export const useSingleUserQuery = <
       TData = SingleUserQuery,
       TError = unknown
     >(
-      variables: SingleUserQueryVariables, 
+      variables: SingleUserQueryVariables,
       options?: UseQueryOptions<SingleUserQuery, TError, TData>
-    ) => 
+    ) =>
     useQuery<SingleUserQuery, TError, TData>(
       ['singleUser', variables],
-      useFetchData<SingleUserQuery, SingleUserQueryVariables>(SingleUserDocument).bind(null, variables),
+      fetcher<SingleUserQuery, SingleUserQueryVariables>(SingleUserDocument, variables),
       options
     );
-useSingleUserQuery.getKey = (variables: SingleUserQueryVariables) => ['singleUser', variables];
 
+useSingleUserQuery.getKey = (variables: SingleUserQueryVariables) => ['singleUser', variables];
+;
+
+useSingleUserQuery.fetcher = (variables: SingleUserQueryVariables, options?: RequestInit['headers']) => fetcher<SingleUserQuery, SingleUserQueryVariables>(SingleUserDocument, variables, options);
 export const CurrentUserDocument = `
     query CurrentUser {
   currentUser {
@@ -1212,16 +1245,19 @@ export const useCurrentUserQuery = <
       TData = CurrentUserQuery,
       TError = unknown
     >(
-      variables?: CurrentUserQueryVariables, 
+      variables?: CurrentUserQueryVariables,
       options?: UseQueryOptions<CurrentUserQuery, TError, TData>
-    ) => 
+    ) =>
     useQuery<CurrentUserQuery, TError, TData>(
       variables === undefined ? ['CurrentUser'] : ['CurrentUser', variables],
-      useFetchData<CurrentUserQuery, CurrentUserQueryVariables>(CurrentUserDocument).bind(null, variables),
+      fetcher<CurrentUserQuery, CurrentUserQueryVariables>(CurrentUserDocument, variables),
       options
     );
-useCurrentUserQuery.getKey = (variables?: CurrentUserQueryVariables) => variables === undefined ? ['CurrentUser'] : ['CurrentUser', variables];
 
+useCurrentUserQuery.getKey = (variables?: CurrentUserQueryVariables) => variables === undefined ? ['CurrentUser'] : ['CurrentUser', variables];
+;
+
+useCurrentUserQuery.fetcher = (variables?: CurrentUserQueryVariables, options?: RequestInit['headers']) => fetcher<CurrentUserQuery, CurrentUserQueryVariables>(CurrentUserDocument, variables, options);
 export const CurrentUserIdDocument = `
     query CurrentUserId {
   currentUser {
@@ -1233,16 +1269,19 @@ export const useCurrentUserIdQuery = <
       TData = CurrentUserIdQuery,
       TError = unknown
     >(
-      variables?: CurrentUserIdQueryVariables, 
+      variables?: CurrentUserIdQueryVariables,
       options?: UseQueryOptions<CurrentUserIdQuery, TError, TData>
-    ) => 
+    ) =>
     useQuery<CurrentUserIdQuery, TError, TData>(
       variables === undefined ? ['CurrentUserId'] : ['CurrentUserId', variables],
-      useFetchData<CurrentUserIdQuery, CurrentUserIdQueryVariables>(CurrentUserIdDocument).bind(null, variables),
+      fetcher<CurrentUserIdQuery, CurrentUserIdQueryVariables>(CurrentUserIdDocument, variables),
       options
     );
-useCurrentUserIdQuery.getKey = (variables?: CurrentUserIdQueryVariables) => variables === undefined ? ['CurrentUserId'] : ['CurrentUserId', variables];
 
+useCurrentUserIdQuery.getKey = (variables?: CurrentUserIdQueryVariables) => variables === undefined ? ['CurrentUserId'] : ['CurrentUserId', variables];
+;
+
+useCurrentUserIdQuery.fetcher = (variables?: CurrentUserIdQueryVariables, options?: RequestInit['headers']) => fetcher<CurrentUserIdQuery, CurrentUserIdQueryVariables>(CurrentUserIdDocument, variables, options);
 export const TagsDocument = `
     query Tags($type: Float) {
   tags(type: $type) {
@@ -1256,16 +1295,19 @@ export const useTagsQuery = <
       TData = TagsQuery,
       TError = unknown
     >(
-      variables?: TagsQueryVariables, 
+      variables?: TagsQueryVariables,
       options?: UseQueryOptions<TagsQuery, TError, TData>
-    ) => 
+    ) =>
     useQuery<TagsQuery, TError, TData>(
       variables === undefined ? ['Tags'] : ['Tags', variables],
-      useFetchData<TagsQuery, TagsQueryVariables>(TagsDocument).bind(null, variables),
+      fetcher<TagsQuery, TagsQueryVariables>(TagsDocument, variables),
       options
     );
-useTagsQuery.getKey = (variables?: TagsQueryVariables) => variables === undefined ? ['Tags'] : ['Tags', variables];
 
+useTagsQuery.getKey = (variables?: TagsQueryVariables) => variables === undefined ? ['Tags'] : ['Tags', variables];
+;
+
+useTagsQuery.fetcher = (variables?: TagsQueryVariables, options?: RequestInit['headers']) => fetcher<TagsQuery, TagsQueryVariables>(TagsDocument, variables, options);
 export const UsersDocument = `
     query Users {
   users {
@@ -1287,16 +1329,19 @@ export const useUsersQuery = <
       TData = UsersQuery,
       TError = unknown
     >(
-      variables?: UsersQueryVariables, 
+      variables?: UsersQueryVariables,
       options?: UseQueryOptions<UsersQuery, TError, TData>
-    ) => 
+    ) =>
     useQuery<UsersQuery, TError, TData>(
       variables === undefined ? ['Users'] : ['Users', variables],
-      useFetchData<UsersQuery, UsersQueryVariables>(UsersDocument).bind(null, variables),
+      fetcher<UsersQuery, UsersQueryVariables>(UsersDocument, variables),
       options
     );
-useUsersQuery.getKey = (variables?: UsersQueryVariables) => variables === undefined ? ['Users'] : ['Users', variables];
 
+useUsersQuery.getKey = (variables?: UsersQueryVariables) => variables === undefined ? ['Users'] : ['Users', variables];
+;
+
+useUsersQuery.fetcher = (variables?: UsersQueryVariables, options?: RequestInit['headers']) => fetcher<UsersQuery, UsersQueryVariables>(UsersDocument, variables, options);
 export const LoginDocument = `
     mutation Login($email: String!, $password: String!) {
   login(loginUserInput: {email: $email, password: $password}) {
@@ -1307,11 +1352,13 @@ export const LoginDocument = `
 export const useLoginMutation = <
       TError = unknown,
       TContext = unknown
-    >(options?: UseMutationOptions<LoginMutation, TError, LoginMutationVariables, TContext>) => 
+    >(options?: UseMutationOptions<LoginMutation, TError, LoginMutationVariables, TContext>) =>
     useMutation<LoginMutation, TError, LoginMutationVariables, TContext>(
-      useFetchData<LoginMutation, LoginMutationVariables>(LoginDocument),
+      ['Login'],
+      (variables?: LoginMutationVariables) => fetcher<LoginMutation, LoginMutationVariables>(LoginDocument, variables)(),
       options
     );
+useLoginMutation.fetcher = (variables: LoginMutationVariables, options?: RequestInit['headers']) => fetcher<LoginMutation, LoginMutationVariables>(LoginDocument, variables, options);
 export const CreateUserDocument = `
     mutation CreateUser($email: String!, $password: String!) {
   createUser(createUserInput: {email: $email, password: $password}) {
@@ -1322,11 +1369,13 @@ export const CreateUserDocument = `
 export const useCreateUserMutation = <
       TError = unknown,
       TContext = unknown
-    >(options?: UseMutationOptions<CreateUserMutation, TError, CreateUserMutationVariables, TContext>) => 
+    >(options?: UseMutationOptions<CreateUserMutation, TError, CreateUserMutationVariables, TContext>) =>
     useMutation<CreateUserMutation, TError, CreateUserMutationVariables, TContext>(
-      useFetchData<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument),
+      ['CreateUser'],
+      (variables?: CreateUserMutationVariables) => fetcher<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument, variables)(),
       options
     );
+useCreateUserMutation.fetcher = (variables: CreateUserMutationVariables, options?: RequestInit['headers']) => fetcher<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument, variables, options);
 export const ActivateUserDocument = `
     mutation ActivateUser($token: String!) {
   activateUser(activateUser: {token: $token}) {
@@ -1338,11 +1387,13 @@ export const ActivateUserDocument = `
 export const useActivateUserMutation = <
       TError = unknown,
       TContext = unknown
-    >(options?: UseMutationOptions<ActivateUserMutation, TError, ActivateUserMutationVariables, TContext>) => 
+    >(options?: UseMutationOptions<ActivateUserMutation, TError, ActivateUserMutationVariables, TContext>) =>
     useMutation<ActivateUserMutation, TError, ActivateUserMutationVariables, TContext>(
-      useFetchData<ActivateUserMutation, ActivateUserMutationVariables>(ActivateUserDocument),
+      ['ActivateUser'],
+      (variables?: ActivateUserMutationVariables) => fetcher<ActivateUserMutation, ActivateUserMutationVariables>(ActivateUserDocument, variables)(),
       options
     );
+useActivateUserMutation.fetcher = (variables: ActivateUserMutationVariables, options?: RequestInit['headers']) => fetcher<ActivateUserMutation, ActivateUserMutationVariables>(ActivateUserDocument, variables, options);
 export const UpdateUserDocument = `
     mutation UpdateUser($password: String, $email: String, $firstName: String, $lastname: String, $nickname: String, $description: String, $sex: Float!) {
   updateUser(
@@ -1355,11 +1406,13 @@ export const UpdateUserDocument = `
 export const useUpdateUserMutation = <
       TError = unknown,
       TContext = unknown
-    >(options?: UseMutationOptions<UpdateUserMutation, TError, UpdateUserMutationVariables, TContext>) => 
+    >(options?: UseMutationOptions<UpdateUserMutation, TError, UpdateUserMutationVariables, TContext>) =>
     useMutation<UpdateUserMutation, TError, UpdateUserMutationVariables, TContext>(
-      useFetchData<UpdateUserMutation, UpdateUserMutationVariables>(UpdateUserDocument),
+      ['UpdateUser'],
+      (variables?: UpdateUserMutationVariables) => fetcher<UpdateUserMutation, UpdateUserMutationVariables>(UpdateUserDocument, variables)(),
       options
     );
+useUpdateUserMutation.fetcher = (variables: UpdateUserMutationVariables, options?: RequestInit['headers']) => fetcher<UpdateUserMutation, UpdateUserMutationVariables>(UpdateUserDocument, variables, options);
 export const UserEventsCalendarDocument = `
     query UserEventsCalendar($startDate: DateTime!, $endDate: DateTime!, $userId: String!) {
   userEventsCalendar(startDate: $startDate, endDate: $endDate, userId: $userId) {
@@ -1384,12 +1437,16 @@ export const useUserEventsCalendarQuery = <
       TData = UserEventsCalendarQuery,
       TError = unknown
     >(
-      variables: UserEventsCalendarQueryVariables, 
+      variables: UserEventsCalendarQueryVariables,
       options?: UseQueryOptions<UserEventsCalendarQuery, TError, TData>
-    ) => 
+    ) =>
     useQuery<UserEventsCalendarQuery, TError, TData>(
       ['UserEventsCalendar', variables],
-      useFetchData<UserEventsCalendarQuery, UserEventsCalendarQueryVariables>(UserEventsCalendarDocument).bind(null, variables),
+      fetcher<UserEventsCalendarQuery, UserEventsCalendarQueryVariables>(UserEventsCalendarDocument, variables),
       options
     );
+
 useUserEventsCalendarQuery.getKey = (variables: UserEventsCalendarQueryVariables) => ['UserEventsCalendar', variables];
+;
+
+useUserEventsCalendarQuery.fetcher = (variables: UserEventsCalendarQueryVariables, options?: RequestInit['headers']) => fetcher<UserEventsCalendarQuery, UserEventsCalendarQueryVariables>(UserEventsCalendarDocument, variables, options);
