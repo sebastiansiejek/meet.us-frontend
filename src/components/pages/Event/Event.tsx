@@ -24,6 +24,7 @@ import dynamic from 'next/dynamic';
 import { google } from 'calendar-link';
 import { IEventParticipant } from 'src/types/IEvent';
 import useFormattedBetweenDate from 'src/hooks/useFormattedBetweenDate';
+import useWindow from 'src/hooks/useWindow';
 
 export interface EventProps {
   data: SingleEventPageQuery;
@@ -62,6 +63,7 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
   dayjs.extend(relativeTime);
   const isActive = dayjs(endDate).diff(dayjs()) > 0 ? true : false;
   const fromNow = dayjs(startDate).locale(i18n.language).fromNow();
+  const windowState = useWindow();
 
   const [goingCountState, setGoingCountState] = useState(goingCount || 0);
   const [interestedCountState, setInterestedCountState] = useState(
@@ -162,7 +164,7 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
             <a
               href={google({
                 title,
-                description: `${description}\n\n${window.location.href}`,
+                description: `${description}\n\n${windowState?.location.href}`,
                 start: startDate,
                 end: endDate,
                 location: eventAddress?.label || '',
@@ -176,7 +178,7 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
               </Button>
             </a>
             <a
-              href={`https://www.facebook.com/sharer.php?u=${window.location.href}`}
+              href={`https://www.facebook.com/sharer.php?u=${windowState?.location.href}`}
               rel="nofollow noreferrer"
               target={'_blank'}
               className="block mt-4"
