@@ -5,6 +5,7 @@ import React from 'react';
 import Title from 'antd/lib/typography/Title';
 import { Card, Col, Row, Avatar, Typography } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
+import { dehydrate, QueryClient } from 'react-query';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useSingleUserQuery } from 'src/generated/gqlQueries';
 import { useTranslation } from 'react-i18next';
@@ -13,12 +14,16 @@ interface IUserPage {
   id: string;
 }
 
+const defaultUserArgs = {
+  first: 6,
+  orderSort: 'DESC',
+  orderField: 'endDate',
+};
+
 const User: React.FC<IUserPage> = ({ id }) => {
   const { data } = useSingleUserQuery({
     id,
-    first: 6,
-    orderSort: 'DESC',
-    orderField: 'endDate',
+    ...defaultUserArgs,
   });
 
   const { t } = useTranslation();
@@ -73,11 +78,25 @@ export const getServerSideProps = async ({
 }: {
   params: { id: string };
   locale: string;
-}) => ({
-  props: {
-    id: params.id,
-    ...(await serverSideTranslations(locale, ['common'])),
-  },
-});
+}) => {
+  const userId = params.id;
+  const queryClient = new QueryClient();
+  const userParams = {
+    id: userId,
+    ...defaultUserArgs,
+  };
+
+  await queryClient.prefetchQuery(useSingleUserQuery.getKey(userParams), () =>
+    useSingleUserQuery.fetcher(userParams).call(null),
+  );
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+      id: userId,
+      ...(await serverSideTranslations(locale, ['common'])),
+    },
+  };
+};
 
 export default User;
