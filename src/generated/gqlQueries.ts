@@ -680,7 +680,7 @@ export type ParticipantsByDateQueryVariables = Exact<{
 }>;
 
 
-export type ParticipantsByDateQuery = { __typename?: 'Query', participantsByDate: Array<{ __typename?: 'ParticipantByDateResponse', count?: number | null | undefined, date?: string | null | undefined }> };
+export type ParticipantsByDateQuery = { __typename?: 'Query', participantsByDate: Array<{ __typename?: 'ParticipantByDateResponse', count?: number | null | undefined, date?: string | null | undefined }>, event: { __typename?: 'Event', visitCount: number } };
 
 export type DeleteEventMutationVariables = Exact<{
   id: Scalars['String'];
@@ -1086,6 +1086,9 @@ export const ParticipantsByDateDocument = `
   participantsByDate(eventId: $eventId) {
     count
     date
+  }
+  event(id: $eventId) {
+    visitCount
   }
 }
     `;

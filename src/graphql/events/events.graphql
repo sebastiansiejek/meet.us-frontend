@@ -193,4 +193,7 @@ query ParticipantsByDate($eventId: String!) {
     count
     date
   }
+  event(id: $eventId) {
+    visitCount
+  }
 }
