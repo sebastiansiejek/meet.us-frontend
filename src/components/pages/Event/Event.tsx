@@ -160,7 +160,7 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
                 {t('Maximum members')}: {maxParticipants}
               </Paragraph>
             )}
-            {visitCount && <EventViewsCount visitCount={visitCount} />}
+            {visitCount > 0 && <EventViewsCount visitCount={visitCount} />}
             {eventAddress && (
               <Paragraph className="flex items-center">
                 <PushpinTwoTone className="mr-3" />
