@@ -26,6 +26,7 @@ import { google } from 'calendar-link';
 import { IEventParticipant } from 'src/types/IEvent';
 import useFormattedBetweenDate from 'src/hooks/useFormattedBetweenDate';
 import useWindow from 'src/hooks/useWindow';
+import EventViewsCount from 'src/components/EventViewsCount';
 
 export interface EventProps {
   data: SingleEventPageQuery;
@@ -157,12 +158,7 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
                 {t('Maximum members')}: {maxParticipants}
               </Paragraph>
             )}
-            {visitCount && (
-              <Paragraph className="flex items-center">
-                <EyeOutlined className="mr-3 mb-0" />
-                {t('Views')}: {visitCount}
-              </Paragraph>
-            )}
+            {visitCount && <EventViewsCount visitCount={visitCount} />}
             {eventAddress && (
               <Paragraph className="flex items-center">
                 <PushpinTwoTone className="mr-3" />
