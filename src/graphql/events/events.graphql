@@ -188,7 +188,7 @@ query EventsSuggestions($query: String!, $first: Float, $state: String) {
   }
 }
 
-query ParticipantsByDate($eventId: String!) {
+query EventStatistics($eventId: String!) {
   participantsByDate(eventId: $eventId) {
     count
     date

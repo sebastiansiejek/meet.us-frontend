@@ -675,12 +675,12 @@ export type EventsSuggestionsQueryVariables = Exact<{
 
 export type EventsSuggestionsQuery = { __typename?: 'Query', events: { __typename?: 'EventResponse', page: { __typename?: 'EventConnection', edges?: Array<{ __typename?: 'EventEdge', node?: { __typename?: 'Event', id: string, title: string, type: number } | null | undefined }> | null | undefined } } };
 
-export type ParticipantsByDateQueryVariables = Exact<{
+export type EventStatisticsQueryVariables = Exact<{
   eventId: Scalars['String'];
 }>;
 
 
-export type ParticipantsByDateQuery = { __typename?: 'Query', participantsByDate: Array<{ __typename?: 'ParticipantByDateResponse', count?: number | null | undefined, date?: string | null | undefined }>, event: { __typename?: 'Event', visitCount: number } };
+export type EventStatisticsQuery = { __typename?: 'Query', participantsByDate: Array<{ __typename?: 'ParticipantByDateResponse', count?: number | null | undefined, date?: string | null | undefined }>, event: { __typename?: 'Event', visitCount: number } };
 
 export type DeleteEventMutationVariables = Exact<{
   id: Scalars['String'];
@@ -1081,8 +1081,8 @@ useEventsSuggestionsQuery.getKey = (variables: EventsSuggestionsQueryVariables) 
 ;
 
 useEventsSuggestionsQuery.fetcher = (variables: EventsSuggestionsQueryVariables, options?: RequestInit['headers']) => fetcher<EventsSuggestionsQuery, EventsSuggestionsQueryVariables>(EventsSuggestionsDocument, variables, options);
-export const ParticipantsByDateDocument = `
-    query ParticipantsByDate($eventId: String!) {
+export const EventStatisticsDocument = `
+    query EventStatistics($eventId: String!) {
   participantsByDate(eventId: $eventId) {
     count
     date
@@ -1092,23 +1092,23 @@ export const ParticipantsByDateDocument = `
   }
 }
     `;
-export const useParticipantsByDateQuery = <
-      TData = ParticipantsByDateQuery,
+export const useEventStatisticsQuery = <
+      TData = EventStatisticsQuery,
       TError = unknown
     >(
-      variables: ParticipantsByDateQueryVariables,
-      options?: UseQueryOptions<ParticipantsByDateQuery, TError, TData>
+      variables: EventStatisticsQueryVariables,
+      options?: UseQueryOptions<EventStatisticsQuery, TError, TData>
     ) =>
-    useQuery<ParticipantsByDateQuery, TError, TData>(
-      ['ParticipantsByDate', variables],
-      fetcher<ParticipantsByDateQuery, ParticipantsByDateQueryVariables>(ParticipantsByDateDocument, variables),
+    useQuery<EventStatisticsQuery, TError, TData>(
+      ['EventStatistics', variables],
+      fetcher<EventStatisticsQuery, EventStatisticsQueryVariables>(EventStatisticsDocument, variables),
       options
     );
 
-useParticipantsByDateQuery.getKey = (variables: ParticipantsByDateQueryVariables) => ['ParticipantsByDate', variables];
+useEventStatisticsQuery.getKey = (variables: EventStatisticsQueryVariables) => ['EventStatistics', variables];
 ;
 
-useParticipantsByDateQuery.fetcher = (variables: ParticipantsByDateQueryVariables, options?: RequestInit['headers']) => fetcher<ParticipantsByDateQuery, ParticipantsByDateQueryVariables>(ParticipantsByDateDocument, variables, options);
+useEventStatisticsQuery.fetcher = (variables: EventStatisticsQueryVariables, options?: RequestInit['headers']) => fetcher<EventStatisticsQuery, EventStatisticsQueryVariables>(EventStatisticsDocument, variables, options);
 export const DeleteEventDocument = `
     mutation DeleteEvent($id: String!) {
   removeEvent(id: $id) {
