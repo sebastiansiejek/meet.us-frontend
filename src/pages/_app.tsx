@@ -21,7 +21,13 @@ const MyApp: React.FC<AppProps> = ({
   Router.events.on('routeChangeComplete', () => NProgress.done());
   Router.events.on('routeChangeError', () => NProgress.done());
 
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: process.env.NODE_ENV === 'development' ? Infinity : 10000,
+      },
+    },
+  });
 
   return (
     <SessionProvider session={session}>
