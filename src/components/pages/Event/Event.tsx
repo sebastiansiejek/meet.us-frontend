@@ -12,6 +12,7 @@ import {
   FacebookFilled,
   GoogleSquareFilled,
   TeamOutlined,
+  EyeOutlined,
 } from '@ant-design/icons';
 import { SingleEventPageQuery } from 'src/generated/gqlQueries';
 import { useTranslation } from 'react-i18next';
@@ -52,6 +53,7 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
       goingCount,
       interestedCount,
       tags,
+      visitCount,
     },
   } = data;
 
@@ -153,6 +155,12 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
               <Paragraph className="flex items-center">
                 <UsergroupAddOutlined className="mr-3 mb-0" />
                 {t('Maximum members')}: {maxParticipants}
+              </Paragraph>
+            )}
+            {visitCount && (
+              <Paragraph className="flex items-center">
+                <EyeOutlined className="mr-3 mb-0" />
+                {t('Views')}: {visitCount}
               </Paragraph>
             )}
             {eventAddress && (
