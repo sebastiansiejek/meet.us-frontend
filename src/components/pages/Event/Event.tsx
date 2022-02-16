@@ -12,7 +12,6 @@ import {
   FacebookFilled,
   GoogleSquareFilled,
   TeamOutlined,
-  EyeOutlined,
 } from '@ant-design/icons';
 import { SingleEventPageQuery } from 'src/generated/gqlQueries';
 import { useTranslation } from 'react-i18next';
@@ -92,6 +91,9 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
       <Row gutter={16}>
         <Col span={24} md={16} className="mt-7">
           <Card className="h-full">
+            <Tag color={isActive ? 'green' : 'red'}>
+              {isActive ? t('Active') : t('Archive')}
+            </Tag>
             <Title>{title}</Title>
             <Paragraph>{description}</Paragraph>
             <Paragraph className="flex items-center">
