@@ -23,3 +23,14 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('antdSelect', (selector, text) => {
+  cy.get(`.ant-select${selector} .ant-select-selector`).click();
+  cy.get(`.ant-select${selector} input[type="search"]`)
+    .invoke('attr', 'aria-owns')
+    .then(($selector) => {
+      cy.get(
+        `[role="listbox"]#${$selector} + .rc-virtual-list .ant-select-item[title="${text}"]`,
+      ).click();
+    });
+});
