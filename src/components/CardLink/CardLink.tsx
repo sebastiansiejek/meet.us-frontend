@@ -31,7 +31,9 @@ const CardLink: React.FunctionComponent<CardLinkProps> = ({
   return (
     <Link {...linkProps}>
       <CardLinkStyled>
-        <Card {...cardProps}>{children}</Card>
+        <Card data-cy="event-card" {...cardProps}>
+          {children}
+        </Card>
       </CardLinkStyled>
     </Link>
   );

@@ -157,6 +157,7 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
               loading={isLoading}
               defaultValue={state}
               value={state}
+              data-cy="select-event-type"
             >
               <Option value="FUTURE">{t('Upcoming')}</Option>
               <Option value="DURING">{t('During')}</Option>
