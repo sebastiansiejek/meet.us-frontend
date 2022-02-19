@@ -36,7 +36,11 @@ const UserSettings: React.FunctionComponent<UserSettingsProps> = ({}) => {
   return (
     <Dropdown
       overlay={
-        <Menu selectable defaultSelectedKeys={[i18n.language]}>
+        <Menu
+          selectable
+          defaultSelectedKeys={[i18n.language]}
+          data-cy="navbar-user-settings"
+        >
           <Menu.ItemGroup title={t('Languages')}>
             {Object.keys(availableLanguages).map((key) => (
               <Menu.Item key={key}>
