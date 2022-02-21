@@ -14,6 +14,7 @@ import { eventsTypes } from 'src/utils/events';
 import { IEventIdTypes } from 'src/types/IEvent';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import useCurrentLocation from 'src/hooks/useCurrentLocation';
 
 export interface EventsWithSearchProps {
   initSearchQuery: string;
@@ -31,9 +32,11 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
   const [state, setEventState] = useState('DURING');
   const [type, setType] = useState<IEventIdTypes | -1>(-1);
   const [layout, setLayout] = useState<'list' | 'grid'>('grid');
+  const [distance, setDistance] = useState<string>('');
   const [endCursor, setEndCursor] = useState('');
   const [isNextPage, setIsNextPage] = useState(true);
   const [events, setEvents] = useState<Array<any>>([]);
+  const currentLocation = useCurrentLocation();
 
   const { data, isLoading } = useEventsQuery({
     first: 12,
@@ -42,6 +45,12 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
     orderSort,
     state,
     after: endCursor,
+    ...(distance &&
+      currentLocation.coords && {
+        distance: Number(distance),
+        latitude: currentLocation.coords.latitude,
+        longitude: currentLocation.coords.longitude,
+      }),
     ...(type > -1 && { type }),
   });
 
@@ -163,6 +172,23 @@ const EventsWithSearch: React.FunctionComponent<EventsWithSearchProps> = ({
               <Option value="DURING">{t('During')}</Option>
               <Option value="PAST">{t('Past')}</Option>
             </Select>
+            {currentLocation.coords && (
+              <Select
+                onChange={(value) => {
+                  setDistance(value);
+                }}
+                placeholder={t('Distance')}
+                className="ml-auto w-full md:max-w-md"
+                loading={isLoading}
+                defaultValue={distance}
+                value={distance}
+              >
+                <Option value="25">{t('Up to')} 25km</Option>
+                <Option value="50">{t('Up to')} 50km</Option>
+                <Option value="100">{t('Up to')} 100km</Option>
+                <Option value="">{t('No distance limit')}</Option>
+              </Select>
+            )}
             <Select
               onChange={sortChangeHandler}
               placeholder={t('Sort')}

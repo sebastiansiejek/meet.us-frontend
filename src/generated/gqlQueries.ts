@@ -629,6 +629,9 @@ export type EventsQueryVariables = Exact<{
   state?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['Float']>;
   clientDate?: Maybe<Scalars['Float']>;
+  distance?: Maybe<Scalars['Float']>;
+  latitude?: Maybe<Scalars['Float']>;
+  longitude?: Maybe<Scalars['Float']>;
 }>;
 
 
@@ -863,7 +866,7 @@ useSingleEventPageQuery.getKey = (variables: SingleEventPageQueryVariables) => [
 
 useSingleEventPageQuery.fetcher = (variables: SingleEventPageQueryVariables, options?: RequestInit['headers']) => fetcher<SingleEventPageQuery, SingleEventPageQueryVariables>(SingleEventPageDocument, variables, options);
 export const EventsDocument = `
-    query Events($first: Float!, $query: String!, $orderField: String, $orderSort: String, $after: String, $state: String, $type: Float, $clientDate: Float) {
+    query Events($first: Float!, $query: String!, $orderField: String, $orderSort: String, $after: String, $state: String, $type: Float, $clientDate: Float, $distance: Float, $latitude: Float, $longitude: Float) {
   events(
     first: $first
     query: $query
@@ -873,6 +876,9 @@ export const EventsDocument = `
     after: $after
     type: $type
     clientDate: $clientDate
+    distance: $distance
+    latitude: $latitude
+    longitude: $longitude
   ) {
     page {
       edges {

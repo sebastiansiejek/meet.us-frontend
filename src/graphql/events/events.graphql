@@ -44,6 +44,9 @@ query Events(
   $state: String
   $type: Float
   $clientDate: Float
+  $distance: Float
+  $latitude: Float
+  $longitude: Float
 ) {
   events(
     first: $first
@@ -54,6 +57,9 @@ query Events(
     after: $after
     type: $type
     clientDate: $clientDate
+    distance: $distance
+    latitude: $latitude
+    longitude: $longitude
   ) {
     page {
       edges {
