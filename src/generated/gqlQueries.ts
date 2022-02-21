@@ -809,6 +809,13 @@ export type UserEventsCalendarQueryVariables = Exact<{
 
 export type UserEventsCalendarQuery = { __typename?: 'Query', userEventsCalendar: { __typename?: 'EventResponse', page: { __typename?: 'EventConnection', edges?: Array<{ __typename?: 'EventEdge', node?: { __typename?: 'Event', id: string, title: string, type: number, startDate: any, endDate: any, loggedInParticipants?: { __typename?: 'Participant', type: number } | null | undefined } | null | undefined }> | null | undefined } } };
 
+export type ResetPasswordMutationVariables = Exact<{
+  email: Scalars['String'];
+}>;
+
+
+export type ResetPasswordMutation = { __typename?: 'Mutation', resetPassword: { __typename?: 'ResetResponse', message: string } };
+
 
 export const SingleEventPageDocument = `
     query SingleEventPage($id: String!, $userId: String) {
@@ -1460,3 +1467,20 @@ useUserEventsCalendarQuery.getKey = (variables: UserEventsCalendarQueryVariables
 ;
 
 useUserEventsCalendarQuery.fetcher = (variables: UserEventsCalendarQueryVariables, options?: RequestInit['headers']) => fetcher<UserEventsCalendarQuery, UserEventsCalendarQueryVariables>(UserEventsCalendarDocument, variables, options);
+export const ResetPasswordDocument = `
+    mutation resetPassword($email: String!) {
+  resetPassword(resetPasswordInput: {email: $email}) {
+    message
+  }
+}
+    `;
+export const useResetPasswordMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<ResetPasswordMutation, TError, ResetPasswordMutationVariables, TContext>) =>
+    useMutation<ResetPasswordMutation, TError, ResetPasswordMutationVariables, TContext>(
+      ['resetPassword'],
+      (variables?: ResetPasswordMutationVariables) => fetcher<ResetPasswordMutation, ResetPasswordMutationVariables>(ResetPasswordDocument, variables)(),
+      options
+    );
+useResetPasswordMutation.fetcher = (variables: ResetPasswordMutationVariables, options?: RequestInit['headers']) => fetcher<ResetPasswordMutation, ResetPasswordMutationVariables>(ResetPasswordDocument, variables, options);

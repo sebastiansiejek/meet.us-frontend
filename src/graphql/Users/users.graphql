@@ -83,3 +83,9 @@ query UserEventsCalendar(
     }
   }
 }
+
+mutation resetPassword($email: String!) {
+  resetPassword(resetPasswordInput: { email: $email }) {
+    message
+  }
+}

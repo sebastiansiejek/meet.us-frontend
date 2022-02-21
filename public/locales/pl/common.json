@@ -118,5 +118,8 @@
   "Archive": "Archiwalne",
   "Distance": "Dystans",
   "No distance limit": "Bez limtu dystansu",
-  "Up to": "Do"
+  "Up to": "Do",
+  "Remind me password": "Przypomnij hasło",
+  "Invalid email": "Niepoprawny email",
+  "Have you forgotten your password?": "Czy zapomniałeś hasła?"
 }
