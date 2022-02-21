@@ -816,6 +816,15 @@ export type ResetPasswordMutationVariables = Exact<{
 
 export type ResetPasswordMutation = { __typename?: 'Mutation', resetPassword: { __typename?: 'ResetResponse', message: string } };
 
+export type ConfirmResetPasswordMutationVariables = Exact<{
+  confirmPassword: Scalars['String'];
+  newPassword: Scalars['String'];
+  token: Scalars['String'];
+}>;
+
+
+export type ConfirmResetPasswordMutation = { __typename?: 'Mutation', confirmResetPassword: { __typename?: 'ResetResponse', message: string } };
+
 
 export const SingleEventPageDocument = `
     query SingleEventPage($id: String!, $userId: String) {
@@ -1484,3 +1493,22 @@ export const useResetPasswordMutation = <
       options
     );
 useResetPasswordMutation.fetcher = (variables: ResetPasswordMutationVariables, options?: RequestInit['headers']) => fetcher<ResetPasswordMutation, ResetPasswordMutationVariables>(ResetPasswordDocument, variables, options);
+export const ConfirmResetPasswordDocument = `
+    mutation confirmResetPassword($confirmPassword: String!, $newPassword: String!, $token: String!) {
+  confirmResetPassword(
+    confirmResetPassword: {confirmPassword: $confirmPassword, newPassword: $newPassword, token: $token}
+  ) {
+    message
+  }
+}
+    `;
+export const useConfirmResetPasswordMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<ConfirmResetPasswordMutation, TError, ConfirmResetPasswordMutationVariables, TContext>) =>
+    useMutation<ConfirmResetPasswordMutation, TError, ConfirmResetPasswordMutationVariables, TContext>(
+      ['confirmResetPassword'],
+      (variables?: ConfirmResetPasswordMutationVariables) => fetcher<ConfirmResetPasswordMutation, ConfirmResetPasswordMutationVariables>(ConfirmResetPasswordDocument, variables)(),
+      options
+    );
+useConfirmResetPasswordMutation.fetcher = (variables: ConfirmResetPasswordMutationVariables, options?: RequestInit['headers']) => fetcher<ConfirmResetPasswordMutation, ConfirmResetPasswordMutationVariables>(ConfirmResetPasswordDocument, variables, options);

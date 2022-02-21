@@ -89,3 +89,19 @@ mutation resetPassword($email: String!) {
     message
   }
 }
+
+mutation confirmResetPassword(
+  $confirmPassword: String!
+  $newPassword: String!
+  $token: String!
+) {
+  confirmResetPassword(
+    confirmResetPassword: {
+      confirmPassword: $confirmPassword
+      newPassword: $newPassword
+      token: $token
+    }
+  ) {
+    message
+  }
+}

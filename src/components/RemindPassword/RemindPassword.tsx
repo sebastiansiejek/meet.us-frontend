@@ -1,8 +1,8 @@
 import FormOutput from '../Form/FormOutput';
-import React, { useState } from 'react';
+import React from 'react';
 import { Form, Input, Button, notification } from 'antd';
 import { IApiError } from 'src/types/IApiError';
-import { MailTwoTone, LockTwoTone } from '@ant-design/icons';
+import { MailTwoTone } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 import { useResetPasswordMutation } from 'src/generated/gqlQueries';
 
