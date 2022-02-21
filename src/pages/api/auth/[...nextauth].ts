@@ -34,10 +34,10 @@ const AuthHandler = (req: NextApiRequest, res: NextApiResponse) =>
           const { login } = user;
 
           token = { ...token, ...login };
-          token.exp = login.accessTokenExpires;
+          token.expires = login.accessTokenExpires;
         }
 
-        if (Date.now() > token.exp) {
+        if (Date.now() > token.expires) {
           return token;
         }
 
