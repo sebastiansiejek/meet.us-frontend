@@ -192,7 +192,7 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
         <Form.Item name="tags">
           <Select
             disabled={isNil(eventTypeId)}
-            mode="tags"
+            mode="multiple"
             loading={tagsQuery.isLoading}
             placeholder={t('Please select tags')}
             options={tagsQuery.data?.tags.map((tag) => {
