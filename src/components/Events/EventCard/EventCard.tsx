@@ -8,9 +8,9 @@ import { Card, Divider } from 'antd';
 import { Event } from 'src/generated/gqlQueries';
 import { getExcerpt } from 'src/utils/excerpt';
 import { useTranslation } from 'react-i18next';
-import Party from '../../../assets/images/party.svg';
-import Sport from '../../../assets/images/sport.svg';
-import Conversation from '../../../assets/images/conversation.svg';
+import Party from 'src/assets/images/Party';
+import Sport from 'src/assets/images/Sport';
+import Conversation from 'src/assets/images/Conversation';
 import { routes } from 'src/routes/routes';
 
 export interface EventCardProps {
