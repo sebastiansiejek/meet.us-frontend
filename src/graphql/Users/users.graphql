@@ -56,3 +56,52 @@ mutation UpdateUser(
     id
   }
 }
+
+query UserEventsCalendar(
+  $startDate: DateTime!
+  $endDate: DateTime!
+  $userId: String!
+) {
+  userEventsCalendar(
+    startDate: $startDate
+    endDate: $endDate
+    userId: $userId
+  ) {
+    page {
+      edges {
+        node {
+          id
+          title
+          type
+          startDate
+          endDate
+          loggedInParticipants {
+            type
+          }
+        }
+      }
+    }
+  }
+}
+
+mutation resetPassword($email: String!) {
+  resetPassword(resetPasswordInput: { email: $email }) {
+    message
+  }
+}
+
+mutation confirmResetPassword(
+  $confirmPassword: String!
+  $newPassword: String!
+  $token: String!
+) {
+  confirmResetPassword(
+    confirmResetPassword: {
+      confirmPassword: $confirmPassword
+      newPassword: $newPassword
+      token: $token
+    }
+  ) {
+    message
+  }
+}

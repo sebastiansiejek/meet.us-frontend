@@ -11,6 +11,7 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { appWithTranslation } from 'next-i18next';
 import { SessionProvider } from 'next-auth/react';
 import Favicon from 'src/components/Favicon';
+import useLogoutIfAuthTokenExpired from 'src/hooks/useLogoutIfAuthTokenExpired';
 
 const MyApp: React.FC<AppProps> = ({
   Component,
@@ -21,7 +22,13 @@ const MyApp: React.FC<AppProps> = ({
   Router.events.on('routeChangeComplete', () => NProgress.done());
   Router.events.on('routeChangeError', () => NProgress.done());
 
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: process.env.NODE_ENV === 'development' ? Infinity : 10000,
+      },
+    },
+  });
 
   return (
     <SessionProvider session={session}>
@@ -29,12 +36,19 @@ const MyApp: React.FC<AppProps> = ({
         <Hydrate state={pageProps.dehydratedState}>
           <Favicon />
           <GlobalStyles />
+          <Inner />
           <Main Component={Component} pageProps={pageProps} />
         </Hydrate>
         <ReactQueryDevtools />
       </QueryClientProvider>
     </SessionProvider>
   );
+};
+
+const Inner = () => {
+  useLogoutIfAuthTokenExpired();
+
+  return <></>;
 };
 
 export default appWithTranslation(MyApp);

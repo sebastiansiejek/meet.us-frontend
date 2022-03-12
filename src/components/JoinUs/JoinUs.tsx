@@ -15,11 +15,11 @@ const JoinUs: React.FunctionComponent<JoinUsProps> = ({}) => {
   return (
     <Container>
       <Row gutter={[32, 32]} justify="center">
-        <Col lg={12}>
+        <Col lg={12} className="w-full">
           <Title level={2}>{t('Sign in')}</Title>
           <Login />
         </Col>
-        <Col lg={12}>
+        <Col lg={12} className="w-full">
           <Title level={2}>{t('Sign up')}</Title>
           <Register />
         </Col>

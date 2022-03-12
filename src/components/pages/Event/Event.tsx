@@ -3,7 +3,7 @@ import React, { useMemo, useState } from 'react';
 import UserCard from 'src/components/User/UserCard';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { Card, Col, Row, Typography, Spin, Button, Tooltip } from 'antd';
+import { Card, Col, Row, Typography, Spin, Button, Tooltip, Tag } from 'antd';
 import {
   ClockCircleTwoTone,
   UsergroupAddOutlined,
@@ -26,6 +26,8 @@ import { IEventParticipant } from 'src/types/IEvent';
 import useFormattedBetweenDate from 'src/hooks/useFormattedBetweenDate';
 import EventRating from './EventRating';
 import { isNil } from 'lodash';
+import useWindow from 'src/hooks/useWindow';
+import EventViewsCount from 'src/components/EventViewsCount';
 
 export interface EventProps {
   data: SingleEventPageQuery;
@@ -34,7 +36,7 @@ export interface EventProps {
 const Event: React.FunctionComponent<EventProps> = ({ data }) => {
   const { Title, Paragraph } = Typography;
   const { t, i18n } = useTranslation();
-  const session = useSession();
+  const session: any = useSession();
   const isLogged = session.data;
   const {
     event: {
@@ -53,6 +55,8 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
       interestedCount,
       rate,
       participantRate,
+      tags,
+      visitCount,
     },
   } = data;
 
@@ -64,6 +68,7 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
   dayjs.extend(relativeTime);
   const isActive = dayjs(endDate).diff(dayjs()) > 0 ? true : false;
   const fromNow = dayjs(startDate).locale(i18n.language).fromNow();
+  const windowState = useWindow();
 
   const [goingCountState, setGoingCountState] = useState(goingCount || 0);
   const [interestedCountState, setInterestedCountState] = useState(
@@ -92,29 +97,41 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
       <Row gutter={16}>
         <Col span={24} md={16} className="mt-7">
           <Card className="h-full">
+            <Tag color={isActive ? 'green' : 'red'}>
+              {isActive ? t('Active') : t('Archive')}
+            </Tag>
             <Title>{title}</Title>
             <Paragraph>{description}</Paragraph>
             <Paragraph className="flex items-center">
               <ClockCircleTwoTone className="mr-3" />
               {fromNow}
             </Paragraph>
-            {interestedCountState !== 0 && (
-              <Paragraph className="flex items-center">
-                <Tooltip title={t('Interested')}>
-                  <TeamOutlined className="mr-3" />
-                  {interestedCountState}
-                </Tooltip>
-              </Paragraph>
+            {tags && tags.length > 0 && (
+              <div>
+                {tags.map((tag: any, index: number) => (
+                  <Tag key={index + tag.name}>{tag.name}</Tag>
+                ))}
+              </div>
             )}
-            {goingCountState !== 0 && (
-              <Paragraph className="flex items-center">
-                <Tooltip title={t('Participants')}>
-                  <UsergroupAddOutlined className="mr-3" />
-                  {goingCountState}
-                </Tooltip>
-              </Paragraph>
-            )}
-            {isLogged && isActive && (
+            <div className="inline-grid grid-cols-2 gap-4 mt-5">
+              {interestedCountState !== 0 && (
+                <Paragraph className="flex items-center">
+                  <Tooltip title={t('Interested')}>
+                    <TeamOutlined className="mr-1" />
+                    {interestedCountState}
+                  </Tooltip>
+                </Paragraph>
+              )}
+              {goingCountState !== 0 && (
+                <Paragraph className="flex items-center">
+                  <Tooltip title={t('Participants')}>
+                    <UsergroupAddOutlined className="mr-1" />
+                    {goingCountState}
+                  </Tooltip>
+                </Paragraph>
+              )}
+            </div>
+            {isLogged && isActive && user.id !== session.data.user?.id && (
               <div className="mt-10 mb-4">
                 <EventParticipateActions
                   setPeopleCount={setPeopleCountHandler}
@@ -149,6 +166,7 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
                 {t('Maximum members')}: {maxParticipants}
               </Paragraph>
             )}
+            {visitCount > 0 && <EventViewsCount visitCount={visitCount} />}
             {eventAddress && (
               <Paragraph className="flex items-center">
                 <PushpinTwoTone className="mr-3" />
@@ -158,7 +176,7 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
             <a
               href={google({
                 title,
-                description: `${description}\n\n${window.location.href}`,
+                description: `${description}\n\n${windowState?.location.href}`,
                 start: startDate,
                 end: endDate,
                 location: eventAddress?.label || '',
@@ -172,7 +190,7 @@ const Event: React.FunctionComponent<EventProps> = ({ data }) => {
               </Button>
             </a>
             <a
-              href={`https://www.facebook.com/sharer.php?u=${window.location.href}`}
+              href={`https://www.facebook.com/sharer.php?u=${windowState?.location.href}`}
               rel="nofollow noreferrer"
               target={'_blank'}
               className="block mt-4"

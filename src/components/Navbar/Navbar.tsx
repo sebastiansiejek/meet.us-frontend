@@ -34,9 +34,9 @@ const Navbar: React.FunctionComponent<NavbarProps> = ({}) => {
       }}
     >
       <div className="hidden lg:flex justify-between items-center">
-        <div data-cy="navbar-logo">
+        <div>
           <Link href="/">
-            <a>
+            <a data-cy="navbar-logo">
               <div>
                 <Logo />
               </div>

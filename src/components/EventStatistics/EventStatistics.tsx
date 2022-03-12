@@ -11,9 +11,10 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { useParticipantsByDateQuery } from 'src/generated/gqlQueries';
+import { useEventStatisticsQuery } from 'src/generated/gqlQueries';
 import { Bar } from 'react-chartjs-2';
 import randomcolor from 'randomcolor';
+import EventViewsCount from '../EventViewsCount';
 
 ChartJS.register(
   CategoryScale,
@@ -34,14 +35,17 @@ const EventStatistics: React.FunctionComponent<EventStatisticsProps> = ({
   const { t } = useTranslation();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const participantsByDateQueryData = useParticipantsByDateQuery(
+  const eventStatisticsQuery = useEventStatisticsQuery(
     {
       eventId,
     },
     {
       enabled: isModalVisible,
     },
-  ).data?.participantsByDate;
+  );
+
+  const participantsByDateQueryData =
+    eventStatisticsQuery.data?.participantsByDate;
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -81,6 +85,11 @@ const EventStatistics: React.FunctionComponent<EventStatisticsProps> = ({
         onOk={handleOk}
         onCancel={handleCancel}
       >
+        {eventStatisticsQuery.data?.event.visitCount && (
+          <EventViewsCount
+            visitCount={eventStatisticsQuery.data.event.visitCount}
+          />
+        )}
         {participantsByDateQueryData && participantsByDateQueryData.length > 0 && (
           <Bar
             data={{

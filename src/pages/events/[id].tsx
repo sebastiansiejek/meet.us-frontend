@@ -1,7 +1,8 @@
-import { useSingleEventPageQuery } from 'src/generated/gqlQueries';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Event from 'src/components/pages/Event';
+import { dehydrate, QueryClient } from 'react-query';
 import { getSession, useSession } from 'next-auth/react';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useSingleEventPageQuery } from 'src/generated/gqlQueries';
 
 interface IEventPage {
   id: string;
@@ -28,10 +29,23 @@ export const getServerSideProps = async (ctx: any) => {
   const { params, locale } = ctx;
   const session: any = await getSession(ctx);
   const userId = session?.user?.id || false;
+  const eventId = params.id;
+  const queryClient = new QueryClient();
+
+  const eventParams = {
+    id: eventId,
+    ...(userId && { userId }),
+  };
+
+  await queryClient.prefetchQuery(
+    useSingleEventPageQuery.getKey(eventParams),
+    () => useSingleEventPageQuery.fetcher(eventParams).call(null),
+  );
 
   return {
     props: {
-      id: params.id,
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+      id: eventId,
       userId,
       ...(await serverSideTranslations(locale, ['common'])),
     },

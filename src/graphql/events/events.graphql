@@ -28,12 +28,14 @@ query SingleEventPage($id: String!, $userId: String) {
       district
       label
     }
+    tags
     user {
       id
       firstName
       lastname
       nickname
     }
+    visitCount
   }
 }
 
@@ -46,6 +48,9 @@ query Events(
   $state: String
   $type: Float
   $clientDate: Float
+  $distance: Float
+  $latitude: Float
+  $longitude: Float
 ) {
   events(
     first: $first
@@ -56,6 +61,9 @@ query Events(
     after: $after
     type: $type
     clientDate: $clientDate
+    distance: $distance
+    latitude: $latitude
+    longitude: $longitude
   ) {
     page {
       edges {
@@ -190,9 +198,12 @@ query EventsSuggestions($query: String!, $first: Float, $state: String) {
   }
 }
 
-query ParticipantsByDate($eventId: String!) {
+query EventStatistics($eventId: String!) {
   participantsByDate(eventId: $eventId) {
     count
     date
+  }
+  event(id: $eventId) {
+    visitCount
   }
 }

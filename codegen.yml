@@ -9,7 +9,6 @@ generates:
       - 'typescript-react-query'
     config:
       fetcher:
-        isReactHook: true
-        func: '../utils/useFetchData#useFetchData'
+        func: '../utils/fetcher#fetcher'
       exposeQueryKeys: true
       exposeFetcher: true

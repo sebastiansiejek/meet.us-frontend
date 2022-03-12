@@ -25,6 +25,7 @@ const EventModal: React.FunctionComponent<EventModalProps> = ({
   );
 
   const title = isEdit ? t('Edit event') : t('Add event');
+  const tags = eventQuery?.data?.event?.tags || [];
 
   return (
     <>
@@ -43,6 +44,12 @@ const EventModal: React.FunctionComponent<EventModalProps> = ({
                 formatResponse({
                   ...eventQuery.data.event,
                   placeLabel: eventQuery.data.event?.eventAddress?.label,
+                  tags: tags.map((tag: any) => {
+                    return {
+                      label: tag.name,
+                      value: tag.id,
+                    };
+                  }),
                 } as any)) as any),
             }}
             setOpen={setOpen}

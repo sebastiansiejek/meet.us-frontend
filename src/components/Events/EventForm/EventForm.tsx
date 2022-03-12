@@ -8,7 +8,7 @@ import {
   Spin,
 } from 'antd';
 import dayjs from 'dayjs';
-import { debounce } from 'lodash';
+import { debounce, isNil } from 'lodash';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import FormOutput from 'src/components/Form/FormOutput';
@@ -16,6 +16,7 @@ import {
   SingleEventPageQuery,
   useCreateEventMutation,
   useUpdateEventMutation,
+  useTagsQuery,
 } from 'src/generated/gqlQueries';
 import useInvalidateEventQueries from 'src/hooks/useInvalidateEventQueries';
 import useGeocodeSearchQuery from 'src/queries/useGeocodeSearchQuery';
@@ -36,15 +37,22 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
   const [form] = Form.useForm();
   const { TextArea } = Input;
   const { t } = useTranslation();
+  const [eventTypeId, setEventTypeId] = useState(initialValues.type);
   const [searchPlaceString, setSearchPlaceString] = useState();
   const [place, setPlace] = useState<IGeocodeSearchApiGetItem>({
     address: initialValues.eventAddress,
   } as any);
-
   const onSuccessHandler = () => {
     invalidationEventQueries.invalidate();
     setOpen(false);
   };
+
+  const tagsQuery = useTagsQuery(
+    { type: eventTypeId },
+    {
+      enabled: eventTypeId >= 0,
+    },
+  );
 
   const createEventMutation = useCreateEventMutation({
     onSuccess: () => {
@@ -80,7 +88,14 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
     <Form
       form={form}
       initialValues={initialValues}
-      onFinish={({ title, description, dates, maxParticipants, type }) => {
+      onFinish={({
+        title,
+        description,
+        dates,
+        maxParticipants,
+        type,
+        tags,
+      }) => {
         if (place) {
           const params = {
             title,
@@ -101,6 +116,17 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
               district: place.address.district || '',
               label: place.address.label,
             },
+            ...(tags &&
+              tags.length > 1 && {
+                tags: JSON.stringify(
+                  tags.map((tagId: any) => {
+                    const tag = tagsQuery.data?.tags.find(
+                      (t) => t.id === tagId,
+                    );
+                    return tag;
+                  }),
+                ),
+              }),
           };
 
           if (initialValues.id) {
@@ -146,7 +172,13 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
           },
         ]}
       >
-        <Select placeholder={t('Event type')} className="ml-auto">
+        <Select
+          placeholder={t('Event type')}
+          className="ml-auto"
+          onChange={(val) => {
+            setEventTypeId(val);
+          }}
+        >
           {getMapEventTypes.map((el, index) => {
             return (
               <Option key={index} value={index}>
@@ -156,6 +188,22 @@ const EventForm: React.FunctionComponent<EventFormProps> = ({
           })}
         </Select>
       </Form.Item>
+      {!!tagsQuery.data?.tags.length && (
+        <Form.Item name="tags">
+          <Select
+            disabled={isNil(eventTypeId)}
+            mode="multiple"
+            loading={tagsQuery.isLoading}
+            placeholder={t('Please select tags')}
+            options={tagsQuery.data?.tags.map((tag) => {
+              return {
+                value: tag.id,
+                label: tag.name,
+              };
+            })}
+          />
+        </Form.Item>
+      )}
       <Form.Item
         name="placeLabel"
         rules={[

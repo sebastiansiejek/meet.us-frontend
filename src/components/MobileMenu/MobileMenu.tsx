@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { Menu } from 'antd';
+import { Button, Menu } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { routes } from 'src/routes/routes';
 import Hamburger from 'hamburger-react';
@@ -9,6 +9,7 @@ import Logo from '../Logo';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import availableLanguages from 'src/data/availableLanguage';
+import { signOut, useSession } from 'next-auth/react';
 
 export interface MobileMenuProps {}
 
@@ -42,6 +43,8 @@ const MobileMenu: React.FunctionComponent<MobileMenuProps> = ({}) => {
   const handleClick = () => setOpen(false);
   const { pathname } = useRouter();
   const menuRef = useRef<HTMLDivElement>(null);
+  const session = useSession();
+  const isLogged = session && session?.data;
 
   useEffect(() => {
     setTimeout(() => {
@@ -112,6 +115,24 @@ const MobileMenu: React.FunctionComponent<MobileMenuProps> = ({}) => {
                 </div>
               ))}
             </div>
+            {isLogged && (
+              <Menu.Item
+                style={{
+                  padding: '0',
+                }}
+              >
+                <Button
+                  onClick={() => {
+                    signOut({
+                      redirect: true,
+                      callbackUrl: routes.joinToUs.href,
+                    });
+                  }}
+                >
+                  {t('Logout')}
+                </Button>
+              </Menu.Item>
+            )}
           </Menu>
         </div>
       </div>

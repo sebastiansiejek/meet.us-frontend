@@ -1,3 +1,4 @@
+import { RequestInit } from 'graphql-request/dist/types.dom';
 import { routes } from 'src/routes/routes';
 import { getSession, signOut } from 'next-auth/react';
 import dayjs from 'dayjs';
@@ -5,6 +6,7 @@ import dayjs from 'dayjs';
 export const request = async (
   query: string,
   variables = {},
+  options?: RequestInit['headers'],
   locale?: string,
 ) => {
   try {
@@ -29,6 +31,7 @@ export const request = async (
           ...variables,
         },
       }),
+      ...options,
     });
 
     const json = await res.json();
@@ -43,7 +46,7 @@ export const request = async (
 
     return json.data;
   } catch (error: any) {
-    if (error.error.message === 'Unauthorized') {
+    if (error?.error?.message === 'Unauthorized') {
       signOut({
         redirect: true,
         callbackUrl: routes.joinToUs.href,

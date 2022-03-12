@@ -27,7 +27,11 @@ const MenuLinks: React.FunctionComponent<MenuLinksProps> = ({ links }) => {
           </Menu.Item>
         );
       })}
-      <Menu.Item key="settings" style={{ padding: '0', display: 'flex' }}>
+      <Menu.Item
+        key="settings"
+        style={{ padding: '0', display: 'flex' }}
+        data-cy="navbar-user-settings-button"
+      >
         <UserSettings />
       </Menu.Item>
     </Menu>

@@ -35,6 +35,7 @@ const EventCard: React.FunctionComponent<EventCardProps> = ({ event }) => {
 
   return (
     <CardLink
+      data-cy="event-card"
       linkProps={{
         href: `${routes.events.href}/${id}`,
         passHref: true,

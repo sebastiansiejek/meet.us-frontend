@@ -87,6 +87,8 @@
   "Invalid password": "Nieprawidłowe hasło",
   "Follow": "Obserwuj",
   "Join": "Dołącz",
+  "Following": "Obserwujesz",
+  "Participating": "Uczestniczysz",
   "Token is incorrect": "Token jest niepoprawny",
   "You are following event": "Obserwujesz wydarzenie",
   "You joined to event": "Uczestnicznysz w wydarzeniu",
@@ -111,5 +113,18 @@
   "Rate event": "Oceń wydarzenie",
   "Event rating": "Ocena wydarzenia",
   "You rating has been added": "Twoja ocena została zapisana",
-  "Your rating": "Twoja ocena"
+  "Your rating": "Twoja ocena",
+  "Please select tags": "Wybierz tagi",
+  "Canceled": "Anulowany",
+  "Your event": "Twój event",
+  "Views": "Wyświetlenia",
+  "Active": "Aktywne",
+  "Archive": "Archiwalne",
+  "Distance": "Dystans",
+  "No distance limit": "Bez limtu dystansu",
+  "Up to": "Do",
+  "Remind me password": "Przypomnij hasło",
+  "Invalid email": "Niepoprawny email",
+  "Have you forgotten your password?": "Czy zapomniałeś hasła?",
+  "Reset password": "Resetuj hasło"
 }
